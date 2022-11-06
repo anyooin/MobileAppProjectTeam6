@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "MobileAppProject"
-include ':app', ':uin', 'qadridin'
+include ':app', ':uin', 'qadridin', 'sooyoung'
