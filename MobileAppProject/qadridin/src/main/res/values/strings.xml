@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MobileAppProject</string>
+    <string name="menu_item_open">Opened menu item</string>
+    <string name="menu_item_clos">Closed menu item</string>
 </resources>
