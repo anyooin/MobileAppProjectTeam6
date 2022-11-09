@@ -8,6 +8,7 @@
     android:orientation="vertical"
     >
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -95,41 +96,55 @@
 
 
         <TextView
-            android:id="@+id/txt_remainMinutes"
+            android:id="@+id/remainMinutesTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="150dp"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="150dp"
-            android:text="00"
-            android:textSize="40sp"
+            android:text="00:"
+            android:textColor="@color/black"
+            android:textSize="70sp"
+            android:textStyle="bold"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintRight_toLeftOf="@id/txt_remainSeconds"
-            tools:ignore="HardcodedText"
-            android:visibility="visible"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/remainSecondsTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
 
         <TextView
-            android:id="@+id/txt_remainSeconds"
+            android:id="@+id/remainSecondsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="200dp"
             android:layout_marginTop="150dp"
             android:text="00"
-            android:textSize="40sp"
-            app:layout_constraintBottom_toBottomOf="@id/txt_remainMinutes"
-            app:layout_constraintLeft_toRightOf="@id/txt_remainMinutes"
+            android:textColor="@color/black"
+            android:textSize="70sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/remainMinutesTextView"
+            app:layout_constraintLeft_toRightOf="@id/remainMinutesTextView"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/txt_remainMinutes"
             tools:ignore="HardcodedText"
             android:visibility="visible"/>
 
         <SeekBar
             android:id="@+id/seekBar"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginLeft="100dp"
             android:layout_marginTop="250dp"
             android:max="60"
+            android:thumb="@drawable/ic_thumb"
+            app:tickMark="@drawable/drawable_tick_mark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/remainMinutesTextView"
+
+
             android:visibility="visible"/>
 
 
