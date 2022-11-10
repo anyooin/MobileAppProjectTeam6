@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.SystemClock
+import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.SeekBar
@@ -15,17 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mobileappproject.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-
-    private val remainMinutesTextView: TextView by lazy {
-        findViewById(R.id.remainMinutesTextView)
-    }
-    private val remainSecondsTextView: TextView by lazy {
-        findViewById(R.id.remainSecondsTextView)
-    }
-    private val seekBar: SeekBar by lazy {
-        findViewById(R.id.seekBar)
-    }
+class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     private val soundPool = SoundPool.Builder().build()
 
@@ -36,19 +27,29 @@ class MainActivity : AppCompatActivity() {
     var initTime = 0L
     var pauseTime = 0L
 
+    lateinit private var remainHourTextView: TextView
+    lateinit private var remainMinutesTextView: TextView
+    lateinit private var remainSecondsTextView: TextView
+    lateinit private var seekBar: SeekBar
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //<<pomodoro 하면서 추가
-        setContentView(R.layout.activity_main)
-        bindViews()
         initSounds()
-        //pomodoro 하면서 추가>>
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        remainHourTextView = binding.remainHourTextView
+        remainMinutesTextView = binding.remainMinutesTextView
+        remainSecondsTextView = binding.remainSecondsTextView
+        seekBar = binding.seekBar
+
         setSupportActionBar(binding.toolbar)
+
+        //seekbar event handler
+        binding.seekBar.setOnSeekBarChangeListener(this)
 
         //TimerMode
         binding.basicTimer.setOnClickListener {
@@ -58,6 +59,7 @@ class MainActivity : AppCompatActivity() {
             binding.pomodoroBtn.visibility = View.INVISIBLE
             binding.timeboxScreen.visibility = View.INVISIBLE
             binding.timeboxBtn.visibility = View.INVISIBLE
+            binding.remainHourTextView.visibility = View.INVISIBLE
             binding.remainMinutesTextView.visibility = View.INVISIBLE
             binding.remainSecondsTextView.visibility = View.INVISIBLE
             binding.seekBar.visibility = View.INVISIBLE
@@ -71,10 +73,13 @@ class MainActivity : AppCompatActivity() {
             binding.pomodoroBtn.visibility = View.VISIBLE
             binding.timeboxScreen.visibility = View.INVISIBLE
             binding.timeboxBtn.visibility = View.INVISIBLE
+            binding.remainHourTextView.visibility = View.VISIBLE
             binding.remainMinutesTextView.visibility = View.VISIBLE
             binding.remainSecondsTextView.visibility = View.VISIBLE
             binding.seekBar.visibility = View.VISIBLE
             binding.chronometer.visibility = View.INVISIBLE
+            updateRemainTime(60*30*1000L)
+            updateSeekBar(60*30*1000L)
 
         }
         binding.timebox.setOnClickListener {
@@ -84,10 +89,13 @@ class MainActivity : AppCompatActivity() {
             binding.pomodoroBtn.visibility = View.INVISIBLE
             binding.timeboxScreen.visibility = View.VISIBLE
             binding.timeboxBtn.visibility = View.VISIBLE
-            binding.remainMinutesTextView.visibility = View.INVISIBLE
-            binding.remainSecondsTextView.visibility = View.INVISIBLE
-            binding.seekBar.visibility = View.INVISIBLE
+            binding.remainHourTextView.visibility = View.VISIBLE
+            binding.remainMinutesTextView.visibility = View.VISIBLE
+            binding.remainSecondsTextView.visibility = View.VISIBLE
+            binding.seekBar.visibility = View.VISIBLE
             binding.chronometer.visibility = View.INVISIBLE
+            updateRemainTime(3*60*60*1000L)
+            updateSeekBar(3*60*60*1000L)
         }
 
 
@@ -96,26 +104,46 @@ class MainActivity : AppCompatActivity() {
             binding.chronometer.base = SystemClock.elapsedRealtime() + pauseTime
             binding.chronometer.start()
         }
-
         binding.basictimerstopBtn.setOnClickListener {
             binding.chronometer.base - SystemClock.elapsedRealtime()
             binding.chronometer.stop()
         }
-
         binding.basictimerresetBtn.setOnClickListener {
             pauseTime = 0L
             binding.chronometer.base = SystemClock.elapsedRealtime()
             binding.chronometer.stop()
         }
 
-        //POMODORO
 
+        //POMODORO
+        binding.pomodorostartBtn.setOnClickListener {
+            if(seekBar.progress != 0) {
+                startCountDown()
+            }
+        }
+        binding.pomodorostopBtn.setOnClickListener {
+            stopCountDown()
+        }
+        binding.pomodororesetBtn.setOnClickListener {
+            seekBar.progress = 0
+            updateRemainTime(0)
+            updateSeekBar(0)
+        }
 
         //TIMEBOX
-
-
-
-
+        binding.timeboxstartBtn.setOnClickListener {
+            if(seekBar.progress != 0) {
+                startCountDown()
+            }
+        }
+        binding.timeboxstopBtn.setOnClickListener {
+            stopCountDown()
+        }
+        binding.timeboxresetBtn.setOnClickListener {
+            seekBar.progress = 0
+            updateRemainTime(0)
+            updateSeekBar(0)
+        }
         // LIST
         val datas = mutableListOf<String>()
         for(i in 1..5) {
@@ -144,50 +172,46 @@ class MainActivity : AppCompatActivity() {
         soundPool.release()
     }
 
-    private fun bindViews() {
-        seekBar.setOnSeekBarChangeListener(
-            object : SeekBar.OnSeekBarChangeListener{
-                override fun onProgressChanged(
-                    seekBar: SeekBar?,
-                    progress: Int,
-                    fromUser: Boolean
-                ) {
-                    // 사용자가 seek바를 변경한 경우 시간 변경.
-                    if (fromUser){
-                        updateRemainTime(progress*60*1000L)
-                    }
-                }
 
-                override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                    // 스크롤을 통해 다시 타이머를 시작하는 경우
-                    // 현재 카운트 다운을 멈춘다.
-                    stopCountDown()
-
-                }
-
-                override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                    seekBar?:return
-                    // TrackingTouch가 멈췄을 때 카운트 다운을 시작한다.
-                    if (seekBar.progress ==0){
-                        stopCountDown()
-                    }else{
-                        startCountDown()
-                    }
-                }
-
-            }
-        )
+    //Seekbar event listener
+    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+        // seekbar 값 변경될 때마다 호출
+        if(p2) {
+            Log.d("Lee", "seekBar changed -- true progress : ${seekBar.progress}")
+            updateRemainTime(seekBar.progress*1000L)
+        }
+        Log.d("Lee", "seekBar changed")
+    }
+    override fun onStartTrackingTouch(p0: SeekBar?) {
+        // seekbar 첫 눌림에 호출
+        stopCountDown()
+        Log.d("Lee", "seekBar pressed")
+    }
+    override fun onStopTrackingTouch(p0: SeekBar?) {
+        // seekbar 드래그 떼면 호출
+        seekBar?:return
+        Log.d("Lee", "seekBar exited. seekBar.progress = ${seekBar.progress}")
+        if(seekBar.progress == 0) { // 0분이면 시작안함
+            stopCountDown()
+        }
+        else { //  0분이 아닌경우
+            startCountDown()
+        }
     }
 
+
     private fun stopCountDown() {
-        currentCountDownTimer?.cancel()
+        Log.d("Lee", "timer stop")
+        currentCountDownTimer?.cancel() // timer 멈추기
         currentCountDownTimer = null
         soundPool.autoPause()
     }
 
     private fun startCountDown(){
-        currentCountDownTimer = createCountDownTimer(seekBar.progress*60*1000L)
-        currentCountDownTimer?.start()
+        Log.d("Lee", "timer start")
+        currentCountDownTimer = createCountDownTimer(seekBar.progress*1000L)
+        currentCountDownTimer?.start()  // timer 시작하기
+
 
         tickingSoundId?.let {soundId->
             soundPool.play(soundId,1F,1F,0,-1,1F)
@@ -198,11 +222,14 @@ class MainActivity : AppCompatActivity() {
         // 1초 마다 호출되도록 함
         object : CountDownTimer(initialMills, 1000L){
             override fun onTick(millisUntilFinished: Long) {
+                Log.d("Lee", "called timer")
+                //countDownInterval 마다 호출됨
                 updateRemainTime(millisUntilFinished)
                 updateSeekBar(millisUntilFinished)
             }
 
             override fun onFinish() {
+                //timer가 종료되면 호출
                 completeCountDown()
             }
 
@@ -225,8 +252,9 @@ class MainActivity : AppCompatActivity() {
         // 총 남은 초
         val remainSeconds = remainMillis/1000
 
-        // 분만 보여줌, 초만 보여줌
-        remainMinutesTextView.text = "%02d:".format(remainSeconds/60)
+        // 시만 보여줌, 분만 보여줌, 초만 보여줌
+        remainHourTextView.text = "%02d:".format(remainSeconds/60/60)
+        remainMinutesTextView.text = "%02d:".format(remainSeconds/60%60)
         remainSecondsTextView.text= "%02d".format(remainSeconds%60)
 
     }
@@ -239,7 +267,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateSeekBar(remainMillis: Long) {
         // 밀리 세컨드를 분(정수)으로 바꿔서 보여줌
-        seekBar.progress = (remainMillis / 1000 / 60).toInt()
+        seekBar.progress = (remainMillis / 1000).toInt()
     }
 
 
