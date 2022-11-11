@@ -12,15 +12,8 @@ import java.time.LocalDate
 
 class CalendarViewHolder(val binding: DaysCellBinding):
     RecyclerView.ViewHolder(binding.root)
-class CalendarAdapter(private val days: MutableList<String>) :
+class CalendarAdapter(private val days: MutableList<LocalDate?>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    var selectedDate: LocalDate =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        LocalDate.now()
-    } else {
-        TODO("VERSION.SDK_INT < O")
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -41,21 +34,25 @@ class CalendarAdapter(private val days: MutableList<String>) :
     }
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as CalendarViewHolder).binding
-        binding.cellDayText.text = days[position]
-        binding.cellRoot.setOnClickListener {
-            Log.d("onCalendarBindView", "$position day was clicked!")
-        }
 
-        val day : String = days.get(position)
+        val day : LocalDate? = days[position]
 
         if (day == null) {
-            binding.cellDayText.setText("")
+            binding.cellDayText.text = ""
         } else {
-            if (day.equals(selectedDate)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                binding.cellDayText.text = day.dayOfMonth.toString()
+            }
+            if (day.equals(CalendarUtil.today)) {
                 binding.cellDayText.setBackgroundColor(Color.LTGRAY)
             }
         }
 
+        binding.cellRoot.setOnClickListener {
+            Log.d("onCalendarBindView", "$position day was clicked!")
+        }
+
+        // change weekend textColor
         if((position+1) % 7 == 0) {
             binding.cellDayText.setTextColor(Color.BLUE)
         } else if (position == 0 || position % 7 == 0) {
