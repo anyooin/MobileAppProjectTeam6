@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //Toolbar setting
         setSupportActionBar(binding.toolbar)
         toggle = ActionBarDrawerToggle(this, binding.drawer, R.string.menu_item_open, R.string.menu_item_clos)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -63,21 +65,34 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
         //       dateView.text = date
         //  })
 
-
-        binding.lA.setOnClickListener {
+        // prev month & year
+        binding.minusYear.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                selectedDate = selectedDate.minusMonths(12)
+            }
+            setMonthView()
+        }
+        binding.minusMonth.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             selectedDate = selectedDate.minusMonths(1)
              }
             setMonthView()
         }
 
-        binding.rA.setOnClickListener {
+        // next month & year
+        binding.plusMonth.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 selectedDate = selectedDate.plusMonths(1)
             }
             setMonthView()
-
         }
+        binding.plusYear.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                selectedDate = selectedDate.plusMonths(12)
+            }
+            setMonthView()
+        }
+
         //init widgets
         calendar = findViewById(R.id.daysView)
         monthYear = findViewById(R.id.monthYear)

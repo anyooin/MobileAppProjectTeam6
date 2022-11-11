@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue" />
+            android:background="@color/light_blue" />
 
         <!-- Year Month text -->
         <LinearLayout
@@ -25,13 +25,22 @@
             android:orientation="horizontal"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp">
+
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/lA"
+                android:id="@+id/minusYear"
                 android:layout_width="40dp"
                 android:layout_height="30dp"
                 android:gravity="center"
                 android:backgroundTint="@null"
-                android:background="@drawable/img_1" />
+                android:background="@drawable/prev_month" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/minusMonth"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:backgroundTint="@null"
+                android:background="@drawable/prev_month" />
 
             <TextView
                 android:id="@+id/monthYear"
@@ -43,12 +52,21 @@
                 android:textAlignment="center" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/rA"
+                android:id="@+id/plusMonth"
                 android:layout_width="40dp"
                 android:layout_height="30dp"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:background="@drawable/img" />
+                android:background="@drawable/next_month" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/plusYear"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:background="@drawable/next_month" />
+
         </LinearLayout>
 
         <!-- Weekday text -->
@@ -61,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="SUN"
-                android:textColor="@color/black"
+                android:textColor="@color/red"
                 android:textSize="16sp"
                 android:textAlignment="center"/>
             <TextView
@@ -109,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="SAT"
-                android:textColor="@color/black"
+                android:textColor="@color/blue"
                 android:textSize="16sp"
                 android:textAlignment="center"/>
 
