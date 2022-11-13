@@ -5,6 +5,11 @@
         android:id="@+id/menu_search"
         android:title="search"
         app:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_search"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+    <item
+        android:id="@+id/menu_etc"
+        android:title="etc" />
 
 </menu>

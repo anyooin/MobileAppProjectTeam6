@@ -1,19 +1,23 @@
 package com.example.mobileappproject
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobileappproject.CalendarUtil.Companion.selectedDate
 
 import com.example.mobileappproject.databinding.ActivityMainBinding
 import java.time.LocalDate
@@ -25,12 +29,13 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
     lateinit var toggle: ActionBarDrawerToggle
     lateinit var calendar: RecyclerView
     lateinit var monthYear: TextView
-    lateinit var selectedDate: LocalDate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //Toolbar setting
         setSupportActionBar(binding.toolbar)
         toggle = ActionBarDrawerToggle(this, binding.drawer, R.string.menu_item_open, R.string.menu_item_clos)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -54,43 +59,51 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
             )
         )
 
-        // default calendar
-        // calendar = findViewById(R.id.calendarView)
-        // dateView = findViewById(R.id.idTVDate)
 
-        //   calendar.setOnDateChangeListener(CalendarView.OnDateChangeListener {view, year, month, dayOfMonth ->
-        //       val date = "${dayOfMonth.toString()}-${month + 1}-$year"
-        //       dateView.text = date
-        //  })
-
-
-        binding.lA.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            selectedDate = selectedDate.minusMonths(1)
-             }
-            setMonthView()
-        }
-
-        binding.rA.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                selectedDate = selectedDate.plusMonths(1)
-            }
-            setMonthView()
-
-        }
         //init widgets
         calendar = findViewById(R.id.daysView)
         monthYear = findViewById(R.id.monthYear)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            selectedDate = LocalDate.now()
+            CalendarUtil.selectedDate = LocalDate.now()
         }
         setMonthView()
+
+        // prev month & year
+        binding.minusYear.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                CalendarUtil.selectedDate = CalendarUtil.selectedDate.minusYears(1)
+            }
+            setMonthView()
+        }
+        binding.minusMonth.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                CalendarUtil.selectedDate = CalendarUtil.selectedDate.minusMonths(1)
+             }
+            setMonthView()
+        }
+
+        // next month & year
+        binding.plusMonth.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                CalendarUtil.selectedDate = CalendarUtil.selectedDate.plusMonths(1)
+            }
+            setMonthView()
+        }
+        binding.plusYear.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                CalendarUtil.selectedDate = CalendarUtil.selectedDate.plusYears(1)
+            }
+            setMonthView()
+        }
+
+
     }
 
+
     private fun setMonthView() {
-        monthYear.text = monthYearFromDate(selectedDate)
-        val daysInMonth = daysInMonthArray(selectedDate)
-        val calendarAdapter= CalendarAdapter(daysInMonth)
+        monthYear.text = monthYearFromDate(CalendarUtil.selectedDate)
+        val daysInMonth = daysInMonthArray(CalendarUtil.selectedDate)
+        val calendarAdapter = CalendarAdapter(daysInMonth)
         println("CalendarAdapter size is ${calendarAdapter.itemCount}")
         val layoutManager = GridLayoutManager(applicationContext, 7)
         calendar.layoutManager = layoutManager
@@ -98,27 +111,28 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
 
     }
 
-    private fun daysInMonthArray(date: LocalDate): MutableList<String> {
+    private fun daysInMonthArray(date: LocalDate): MutableList<LocalDate?> {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val yearMonth = YearMonth.from(date)
             val daysInMonth = yearMonth.lengthOfMonth()
-            val firstOfMonth = selectedDate.withDayOfMonth(1)
+            val firstOfMonth = CalendarUtil.selectedDate.withDayOfMonth(1)
             val dayOfWeek = firstOfMonth.dayOfWeek.value
 
             println("day in month == $daysInMonth")
-            val daysInMonthArray: MutableList<String> = mutableListOf()
+            val daysInMonthArray: MutableList<LocalDate?> = mutableListOf()
             for (i in 1..42) {
                 //SHOULD BE DEVELOPED LATER
                 if(i <= dayOfWeek) {
                   //  daysInMonthArray.add((daysInMonth - dayOfWeek + i).toString())
-                    daysInMonthArray.add("")
+                    daysInMonthArray.add(null)
                 } else if (i > daysInMonth + dayOfWeek) {
               //      daysInMonthArray.add((i - daysInMonth + dayOfWeek).toString())
-                    daysInMonthArray.add("")
+                    daysInMonthArray.add(null)
                 }
                 else {
-                    daysInMonthArray.add((i - dayOfWeek).toString())
+                    daysInMonthArray.add(LocalDate.of(CalendarUtil.selectedDate.year,
+                        CalendarUtil.selectedDate.monthValue, i - dayOfWeek))
                 }
             }
             println(daysInMonthArray)
@@ -126,6 +140,7 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
         }
        return ArrayList()
     }
+
 
     private fun monthYearFromDate(date: LocalDate): String {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -137,7 +152,7 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
 
     override fun onItemClick(position: Int, dayText: String) {
         if (dayText != "") {
-            val message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate)
+            val message = "Selected Date " + dayText + " " + monthYearFromDate(CalendarUtil.selectedDate)
             Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         }
     }
@@ -165,4 +180,5 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
             return true
         return super.onOptionsItemSelected(item)
     }
+
 }

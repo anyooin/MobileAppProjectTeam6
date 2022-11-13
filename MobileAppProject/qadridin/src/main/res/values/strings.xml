@@ -2,4 +2,6 @@
     <string name="app_name">MobileAppProject</string>
     <string name="menu_item_open">Opened menu item</string>
     <string name="menu_item_clos">Closed menu item</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
