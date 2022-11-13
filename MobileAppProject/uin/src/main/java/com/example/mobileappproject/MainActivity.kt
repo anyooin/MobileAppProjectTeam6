@@ -1,15 +1,19 @@
 package com.example.mobileappproject
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +25,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
+class MainActivity : AppCompatActivity() {
 
     lateinit var toggle: ActionBarDrawerToggle
     lateinit var calendar: RecyclerView
@@ -55,15 +59,6 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
                 LinearLayoutManager.VERTICAL
             )
         )
-
-        // default calendar
-        // calendar = findViewById(R.id.calendarView)
-        // dateView = findViewById(R.id.idTVDate)
-
-        //   calendar.setOnDateChangeListener(CalendarView.OnDateChangeListener {view, year, month, dayOfMonth ->
-        //       val date = "${dayOfMonth.toString()}-${month + 1}-$year"
-        //       dateView.text = date
-        //  })
 
         //init widgets
         calendar = findViewById(R.id.daysView)
@@ -105,12 +100,22 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
     private fun setMonthView() {
         monthYear.text = monthYearFromDate(CalendarUtil.selectedDate)
         val daysInMonth = daysInMonthArray(CalendarUtil.selectedDate)
-        val calendarAdapter= CalendarAdapter(daysInMonth)
+        val calendarAdapter = CalendarAdapter(daysInMonth)
         println("CalendarAdapter size is ${calendarAdapter.itemCount}")
         val layoutManager = GridLayoutManager(applicationContext, 7)
         calendar.layoutManager = layoutManager
         calendar.adapter = calendarAdapter
 
+        calendarAdapter.setOnItemClickListener(object :
+            CalendarAdapter.OnItemClickListener {
+            override fun onItemClick(view: View, position: Int) {
+                Log.d("uin", "item click")
+
+                val popupFragment = PopupWindowFragment(position)
+                popupFragment.show(supportFragmentManager, "custom Dialog")
+            }
+            }
+        )
     }
 
     private fun daysInMonthArray(date: LocalDate): MutableList<LocalDate?> {
@@ -143,6 +148,7 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
        return ArrayList()
     }
 
+
     private fun monthYearFromDate(date: LocalDate): String {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
            val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
@@ -151,12 +157,19 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
        return "Error in monthYearFromDate Function"
     }
 
-    override fun onItemClick(position: Int, dayText: String) {
-        if (dayText != "") {
-            val message = "Selected Date " + dayText + " " + monthYearFromDate(CalendarUtil.selectedDate)
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-        }
-    }
+//    override fun onItemClick(position: Int, dayText: String) {
+//        if (dayText != "") {
+//            val message = "Selected Date " + dayText + " " + monthYearFromDate(CalendarUtil.selectedDate)
+//            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+//        }
+//    }
+
+//    override fun onItemClick(view: View, position: Int) {
+//            Log.d("uin", "item click")
+//
+//            val popupFragment = PopupWindowFragment(position)
+//            popupFragment.show(supportFragmentManager, "custom Dialog")
+//    }
 
 // Menu items part
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -181,4 +194,5 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
             return true
         return super.onOptionsItemSelected(item)
     }
+
 }

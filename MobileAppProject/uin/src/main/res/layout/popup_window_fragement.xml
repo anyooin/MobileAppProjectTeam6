@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/popWindow"
+    android:layout_width="300dp"
+    android:orientation="vertical"
+    android:layout_height="400dp">
+    <!-- 날짜를 누를 때 뙤어나야 하는 window의 ui -->
+
+    <!--  visibilyt
+    android:visibility="invisible" -->
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/cancelBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="X"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/nextBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:background="@color/white"
+            android:text=">"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/dateInPopup"
+            android:layout_width="124dp"
+            android:layout_height="34dp"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:text="15"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+    </GridLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/toDoListContext"
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <ImageView
+        android:id="@+id/addPopItem"
+        android:layout_width="85dp"
+        android:layout_height="60dp"
+        android:src="@android:drawable/ic_menu_add"
+        tools:layout_editor_absoluteX="208dp"
+        tools:layout_editor_absoluteY="324dp"
+        tools:ignore="MissingConstraints" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
