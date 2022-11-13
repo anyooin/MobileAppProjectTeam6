@@ -31,17 +31,14 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>) :
     class CalendarViewHolder(val binding: DaysCellBinding):
         RecyclerView.ViewHolder(binding.root)
 
-    interface OnItemClickListener{ //인터페이스
+    // cell clickListener interface
+    interface OnItemClickListener{
         fun onItemClick(view: View, position: Int)
     }
     var listener: OnItemClickListener? = null
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener
     }
-
-//    interface OnItemListener{
-//        fun onItemClick(position: Int, dayText: String)
-//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -56,22 +53,14 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as CalendarViewHolder).binding
 
-        //holder.bind(data!![position])
+        // itemClickListener 연결
         if (listener != null){
             binding.cellRoot.setOnClickListener(View.OnClickListener {
                 listener?.onItemClick(it, position)
             })
         }
-//        // Cell 누를 때 popup window 띄어야함
-//        binding.cellRoot.setOnClickListener {
-//            Log.d("onCalendarBindView", "$position day was clicked!")
-//
-//            val popupFragment = popupWindowFragement(position)
-//            // 여기 에 Fragment manager 이나 activity 접속 안돼서 연결 안됐서요.
-//
-//            //popupFragment.show((activity as FragmentActivity).supportFragmentManager, "custom Dialog")
-//        }
 
+        // 날짜표시 & 오늘날짜 바탕색
         val day : LocalDate? = days[position]
 
         if (day == null) {
@@ -87,7 +76,7 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>) :
 
         // change weekend textColor
         if((position+1) % 7 == 0) {
-            binding.cellDayText.setTextColor(Color.RED)
+            binding.cellDayText.setTextColor(Color.BLUE)
         } else if (position == 0 || position % 7 == 0) {
             binding.cellDayText.setTextColor(Color.RED)
         }

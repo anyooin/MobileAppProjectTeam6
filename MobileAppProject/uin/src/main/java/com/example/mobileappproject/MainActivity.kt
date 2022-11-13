@@ -9,16 +9,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mobileappproject.CalendarUtil.Companion.selectedDate
 
 import com.example.mobileappproject.databinding.ActivityMainBinding
 import java.time.LocalDate
@@ -106,6 +102,7 @@ class MainActivity : AppCompatActivity() {
         calendar.layoutManager = layoutManager
         calendar.adapter = calendarAdapter
 
+        // clickEvent
         calendarAdapter.setOnItemClickListener(object :
             CalendarAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
@@ -156,20 +153,6 @@ class MainActivity : AppCompatActivity() {
         }
        return "Error in monthYearFromDate Function"
     }
-
-//    override fun onItemClick(position: Int, dayText: String) {
-//        if (dayText != "") {
-//            val message = "Selected Date " + dayText + " " + monthYearFromDate(CalendarUtil.selectedDate)
-//            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-//        }
-//    }
-
-//    override fun onItemClick(view: View, position: Int) {
-//            Log.d("uin", "item click")
-//
-//            val popupFragment = PopupWindowFragment(position)
-//            popupFragment.show(supportFragmentManager, "custom Dialog")
-//    }
 
 // Menu items part
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
