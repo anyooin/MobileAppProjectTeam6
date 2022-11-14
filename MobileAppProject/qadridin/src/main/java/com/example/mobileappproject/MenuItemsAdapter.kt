@@ -30,8 +30,6 @@ class MenuItemsAdapter(val data: MutableList<String>): RecyclerView.Adapter<Recy
 
 }
 
-
-
 // To do list 의 adapter 에 menu item 에 들어갔던 layout 을 그대로 씀
 class TodoItemAdapter(val data: MutableList<String>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class TodoViewHolder(val binding: MemosItemRecyclerviewBinding): RecyclerView.ViewHolder(binding.root)
@@ -39,24 +37,25 @@ class TodoItemAdapter(val data: MutableList<String>): RecyclerView.Adapter<Recyc
     override fun getItemCount(): Int = data.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        TodoItemAdapter.TodoViewHolder(
+        TodoViewHolder(
             MemosItemRecyclerviewBinding.inflate(
                 LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+                parent, false)
         )
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d("kkang", "onBindViewHolder : $position")
-        val binding = (holder as TodoItemAdapter.TodoViewHolder).binding
+        val binding = (holder as TodoViewHolder).binding
         //print view data
         binding.todoListItemData.text = data[position]
 
         // popup window에 있는 to do list title 누르면 전제 내용 보기
         binding.todolistItem.setOnClickListener {
             Log.d("kkang", "item root click: $position")
+
+            //access excel file to read full context of clicked title with data[position] as key
+            // someFun =  getFullContext(data[position])
         }
     }
 

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileappproject.databinding.MemosItemRecyclerviewBinding
 
-
+/*
 class PopupWindowHolder(val binding: MemosItemRecyclerviewBinding): RecyclerView.ViewHolder(binding.root)
 
 class PopupWindowAdapter(val datas: MutableList<String>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -28,3 +28,5 @@ class PopupWindowAdapter(val datas: MutableList<String>): RecyclerView.Adapter<R
         binding.todoListItemData.text= datas[position]
     }
 }
+
+ */

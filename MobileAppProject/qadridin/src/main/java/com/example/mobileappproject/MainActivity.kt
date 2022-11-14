@@ -9,22 +9,19 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mobileappproject.CalendarUtil.Companion.selectedDate
 
 import com.example.mobileappproject.databinding.ActivityMainBinding
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
+class MainActivity : AppCompatActivity() {
 
     lateinit var toggle: ActionBarDrawerToggle
     lateinit var calendar: RecyclerView
@@ -58,7 +55,6 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
                 LinearLayoutManager.VERTICAL
             )
         )
-
 
         //init widgets
         calendar = findViewById(R.id.daysView)
@@ -95,10 +91,7 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
             }
             setMonthView()
         }
-
-
     }
-
 
     private fun setMonthView() {
         monthYear.text = monthYearFromDate(CalendarUtil.selectedDate)
@@ -109,6 +102,17 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
         calendar.layoutManager = layoutManager
         calendar.adapter = calendarAdapter
 
+        // clickEvent
+        calendarAdapter.setOnItemClickListener(object :
+            CalendarAdapter.OnItemClickListener {
+            override fun onItemClick(view: View, position: Int) {
+                Log.d("uin", "item click")
+
+                val popupFragment = PopupWindowFragment(position)
+                popupFragment.show(supportFragmentManager, "custom Dialog")
+            }
+            }
+        )
     }
 
     private fun daysInMonthArray(date: LocalDate): MutableList<LocalDate?> {
@@ -148,13 +152,6 @@ class MainActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
             return date.format(formatter)
         }
        return "Error in monthYearFromDate Function"
-    }
-
-    override fun onItemClick(position: Int, dayText: String) {
-        if (dayText != "") {
-            val message = "Selected Date " + dayText + " " + monthYearFromDate(CalendarUtil.selectedDate)
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-        }
     }
 
 // Menu items part
