@@ -5,15 +5,33 @@ import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobileappproject.MainActivity
 import com.example.mobileappproject.databinding.DaysCellBinding
+import com.example.mobileappproject.databinding.PopupWindowFragementBinding
+import kotlinx.coroutines.NonDisposableHandle.parent
 import java.time.LocalDate
+import kotlin.contracts.contract
 
-class CalendarViewHolder(val binding: DaysCellBinding):
-    RecyclerView.ViewHolder(binding.root)
+//class CalendarViewHolder(val binding: DaysCellBinding):
+//    RecyclerView.ViewHolder(binding.root)
+
 class CalendarAdapter(private val days: MutableList<LocalDate?>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    class CalendarViewHolder(val binding: DaysCellBinding):
+        RecyclerView.ViewHolder(binding.root)
+
+    // cell clickListener interface
+    interface OnItemClickListener{
+        fun onItemClick(view: View, position: Int)
+    }
+    var listener: OnItemClickListener? = null
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -23,18 +41,19 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>) :
         layoutParams.height = (parent.height * 0.166666666).toInt()
 
         return CalendarViewHolder(DaysCellBinding.bind(view))
-      /*  CalendarViewHolder(
-            DaysCellBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            ), onItemListener
-        )
-       */
     }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as CalendarViewHolder).binding
 
+        // itemClickListener 연결
+        if (listener != null){
+            binding.cellRoot.setOnClickListener(View.OnClickListener {
+                listener?.onItemClick(it, position)
+            })
+        }
+
+        // 날짜표시 & 오늘날짜 바탕색
         val day : LocalDate? = days[position]
 
         if (day == null) {
@@ -48,10 +67,6 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>) :
             }
         }
 
-        binding.cellRoot.setOnClickListener {
-            Log.d("onCalendarBindView", "$position day was clicked!")
-        }
-
         // change weekend textColor
         if((position+1) % 7 == 0) {
             binding.cellDayText.setTextColor(Color.BLUE)
@@ -61,9 +76,5 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>) :
     }
 
     override fun getItemCount(): Int = days.size
-
-    interface OnItemListener{
-        fun onItemClick(position: Int, dayText: String)
-    }
 
 }

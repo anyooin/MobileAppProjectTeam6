@@ -13,7 +13,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mobileappproject.databinding.PopupWindowFragementBinding
 
-class popupWindowFragement(private val position: Int) : DialogFragment() {
+class PopupWindowFragment(private val position: Int) : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +43,6 @@ class popupWindowFragement(private val position: Int) : DialogFragment() {
      */
         return binding.root
     }
-
 
     //popUp window items
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,6 +77,4 @@ class popupWindowFragement(private val position: Int) : DialogFragment() {
 
         }
     }
-
-
 }
