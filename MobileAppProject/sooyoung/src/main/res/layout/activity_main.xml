@@ -60,7 +60,7 @@
             android:text="basic"
             android:textSize="30sp"
             android:gravity="right|bottom"
-            android:visibility="invisible"/> <!-- 임의로 invisible 해둠-->
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/pomodoroScreen"
@@ -72,7 +72,7 @@
             android:text="pomodoro"
             android:textSize="30sp"
             android:gravity="right|bottom"
-            android:visibility="invisible" /> <!-- 임의로 invisible 해둠-->
+            android:visibility="invisible" />
         <TextView
             android:id="@+id/timeboxScreen"
             android:layout_width="200dp"
@@ -90,36 +90,63 @@
             android:id="@+id/chronometer"
             android:layout_width="match_parent"
             android:layout_height="400dp"
+            android:format="%s"
             android:gravity="center"
             android:textSize="60dp"
-            android:visibility="invisible"/> <!-- 임의로 invisible 해둠-->
+            android:visibility="visible"/>
 
-
+        <!-- pomodoro용 시, 분, 초, seekbar -->
         <TextView
-            android:id="@+id/remainMinutesTextView"
+            android:id="@+id/remainHourTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="50dp"
             android:layout_marginTop="150dp"
             android:text="00:"
             android:textColor="@color/black"
             android:textSize="70sp"
             android:textStyle="bold"
-            android:visibility="visible"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/remainMinutesTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/remainMinutesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="150dp"
+            android:text="00:"
+            android:textColor="@color/black"
+            android:textSize="70sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/remainSecondsTextView"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/remainSecondsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="200dp"
+            android:layout_marginLeft="250dp"
             android:layout_marginTop="150dp"
             android:text="00"
             android:textColor="@color/black"
             android:textSize="70sp"
             android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/remainMinutesTextView"
+            app:layout_constraintLeft_toRightOf="@id/remainMinutesTextView"
+            app:layout_constraintRight_toRightOf="parent"
             tools:ignore="HardcodedText"
-            android:visibility="visible"/>
+            android:visibility="invisible"/>
 
         <SeekBar
             android:id="@+id/seekBar"
@@ -128,13 +155,66 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginLeft="100dp"
             android:layout_marginTop="250dp"
-            android:min="0"
-            android:max="60"
+            android:max="10800"
             android:thumb="@drawable/ic_thumb"
             app:tickMark="@drawable/drawable_tick_mark"
-            android:visibility="visible"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/remainMinutesTextView"
+            android:visibility="invisible"/>
 
+        <!-- timebox용 seekbar
+        <TextView
+            android:id="@+id/remainMinutesTextView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="150dp"
+            android:text="00:"
+            android:textColor="@color/black"
+            android:textSize="70sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/remainSecondsTextView2"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
 
+        <TextView
+            android:id="@+id/remainSecondsTextView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="200dp"
+            android:layout_marginTop="150dp"
+            android:text="00"
+            android:textColor="@color/black"
+            android:textSize="70sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/remainMinutesTextView2"
+            app:layout_constraintLeft_toRightOf="@id/remainMinutesTextView2"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:ignore="HardcodedText"
+            android:visibility="invisible"/>
+
+        <SeekBar
+            android:id="@+id/seekBar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="250dp"
+            android:max="180"
+            android:thumb="@drawable/ic_thumb"
+            app:tickMark="@drawable/drawable_tick_mark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/remainMinutesTextView"
+            android:visibility="invisible"/>
+-->
         <!-- basictimer용 start, stop, reset 버튼-->
         <LinearLayout
             android:id="@+id/basictimerBtn"
@@ -175,7 +255,7 @@
             android:layout_height="100dp"
             android:layout_marginTop="300dp"
             android:gravity="center"
-            android:visibility="visible" >
+            android:visibility="invisible" >
 
             <Button
                 android:id="@+id/pomodorostartBtn"
@@ -235,13 +315,29 @@
                 />
         </LinearLayout>
 
-
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/currentSelectedTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:textStyle="bold"
+        android:text="Selected Timer = None" />
+
+
+    <Button
+        android:id="@+id/timerListAddButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:text="add item"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 
 
 
