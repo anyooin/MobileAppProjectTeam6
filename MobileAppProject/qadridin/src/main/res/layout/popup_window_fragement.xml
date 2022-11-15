@@ -7,9 +7,9 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
     android:orientation="vertical"
     android:layout_height="450dp">
-    <!-- 날짜를 누를 때 뙤어나야 하는 window의 ui -->
+    <!-- 날짜를 누를 때 띄우는 window의 ui -->
 
-    <!--  visibilyt
+    <!--  visibility
     android:visibility="invisible" -->
 
     <GridLayout
@@ -63,6 +63,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <!--
     <ImageView
         android:id="@+id/addPopItem"
         android:layout_width="76dp"
@@ -70,6 +71,17 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_marginStart="180dp"
         android:layout_marginBottom="20dp"
         android:src="@android:drawable/ic_menu_add" />
+        -->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addTodo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:src="@android:drawable/ic_menu_add"
+        app:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </LinearLayout>

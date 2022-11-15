@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- to do list 에 있는 일정들의에  layout -->
+<!-- to do list 에 있는 일정들의  layout -->
 <LinearLayout
     android:id="@+id/todolistItem"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,6 +15,22 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="16dp"
-        />
+        android:textSize="16sp" />
+
+    <!-- 체크박스 추후에 이미지로 변경 -->
+    <CheckBox
+        android:id="@+id/checkTimer"
+        android:layout_width="0dp"
+        android:layout_weight="0.3"
+        android:layout_height="25dp" />
+
+    <!--
+    <TextView
+        android:id="@+id/todoListItem_time"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:textSize="13sp" />
+    -->
+
 </LinearLayout>
