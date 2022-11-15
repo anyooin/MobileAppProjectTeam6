@@ -7,40 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.PopupWindow
 import android.widget.TextView
 
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileappproject.databinding.PopupWindowFragementBinding
 
-class PopupWindowFragment(private val position: Int) : DialogFragment() {
+class PopupWindowFragment(private var position: Int) : DialogFragment() {
 
+    lateinit var binding: PopupWindowFragementBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         println("Here in popupWindow")
-        val binding = PopupWindowFragementBinding.inflate(inflater, container, false)
+        binding = PopupWindowFragementBinding.inflate(inflater, container, false)
 
-    /*    binding.popWindow.visibility = View.VISIBLE
-        binding.cancelBt.setOnClickListener {
-            Log.d("cancel", "clicked cancel button in popUpWIndow")
-        }
-        binding.dateInPopup.text = (position+1).toString()
-        binding.nextBt.setOnClickListener {
-            Log.d("next button", "clicked next button in popup win")
-        }
-        val memos = mutableListOf<String>()
-        memos.add("Study")
-        memos.add("Workout")
-        memos.add("Payment")
-
-        val layoutManager = LinearLayoutManager(activity)
-        binding.toDoListContext.layoutManager = layoutManager
-        val adapter= PopupWindowAdapter(memos)
-        binding.toDoListContext.adapter = adapter
-     */
         return binding.root
     }
 
@@ -52,29 +37,51 @@ class PopupWindowFragment(private val position: Int) : DialogFragment() {
         val next = view.findViewById<Button>(R.id.nextBt)
         val dateInPopup = view.findViewById<TextView>(R.id.dateInPopup)
         val addButton = view.findViewById<ImageView>(R.id.addPopItem)
-        val binding = PopupWindowFragementBinding.inflate(layoutInflater)
+        val toDoListContext = view.findViewById<RecyclerView>(R.id.toDoListContext)
+
 
         //add some memos by default for test
+        // by start should access excel and read data with key date and add to memos
         val memos = mutableListOf<String>()
-        memos.add("Study")
+        memos.add("STUDY")
         memos.add("Workout")
         memos.add("Payment")
-
-       // binding.toDoListContext.layoutManager = LinearLayoutManager()
-        // Set adapter for memos context
-        binding.toDoListContext.adapter = TodoItemAdapter(memos)
+        setPopWindowAttr(memos, toDoListContext, dateInPopup)
 
         cancel.setOnClickListener {
-            Log.d("qadridin", "clicked cancel button in popupwindow")
+            Log.d("qadridin", "clicked cancel button in popup Window")
+            super.dismiss()
         }
         next.setOnClickListener {
-            Log.d("qadridin", "clicked next button in popupwindow")
+            Log.d("qadridin", "clicked next button in popup Window")
+            position += 1
+
+            //Should to access excel file and read from table to do titles
+            // to add to memos
+            // var dataFromTable = Table(date or position)
+
+            // For test
+            val memos1 = mutableListOf<String>()
+            memos1.add("Jogging")
+            memos1.add("Swimming")
+            memos1.add("Club")
+            memos1.add("Sleep")
+
+            setPopWindowAttr(memos1, toDoListContext, dateInPopup)
         }
-        dateInPopup.text = (position + 1).toString()
 
         addButton.setOnClickListener {
-            Log.d("qadridin", "clicked add button in popupwindow")
+            Log.d("qadridin", "clicked add button in popup Window")
 
+            //Move to do list maker page
         }
+    }
+
+    private fun setPopWindowAttr(memos: MutableList<String>, toDoListContext: RecyclerView, dateInPopup: TextView)  {
+        dateInPopup.text = (position - 1).toString()
+
+        // Set layout and to do list titles to show in popup Window
+        toDoListContext.layoutManager = LinearLayoutManager(layoutInflater.context)
+        toDoListContext.adapter = TodoItemAdapter(memos)
     }
 }

@@ -7,13 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatViewInflater
-import androidx.core.view.get
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileappproject.MainActivity
 import com.example.mobileappproject.databinding.DaysCellBinding

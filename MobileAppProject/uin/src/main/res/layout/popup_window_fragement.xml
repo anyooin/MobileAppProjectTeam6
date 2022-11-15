@@ -1,41 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/popWindow"
     android:layout_width="300dp"
     android:orientation="vertical"
-    android:layout_height="400dp">
-    <!-- 날짜를 누를 때 뙤어나야 하는 window의 ui -->
+    android:layout_height="450dp">
+    <!-- 날짜를 누를 때 띄우는 window의 ui -->
 
-    <!--  visibilyt
+    <!--  visibility
     android:visibility="invisible" -->
 
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints">
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancelBt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
             android:background="@color/white"
             android:text="X"
+            android:textStyle="bold"
+            android:backgroundTint="@null"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/nextBt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
             android:layout_row="0"
             android:layout_column="2"
-            android:background="@color/white"
-            android:text=">"
+            android:layout_marginStart="50dp"
+            android:background="@drawable/next_month"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/dateInPopup"
@@ -44,17 +46,18 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_row="0"
             android:layout_column="1"
             android:text="15"
+            android:textStyle="bold"
+            android:layout_marginStart="50dp"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
     </GridLayout>
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/toDoListContext"
-        android:layout_width="match_parent"
-        android:layout_height="330dp"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -62,12 +65,11 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
     <ImageView
         android:id="@+id/addPopItem"
-        android:layout_width="85dp"
-        android:layout_height="60dp"
-        android:src="@android:drawable/ic_menu_add"
-        tools:layout_editor_absoluteX="208dp"
-        tools:layout_editor_absoluteY="324dp"
-        tools:ignore="MissingConstraints" />
+        android:layout_width="76dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginBottom="20dp"
+        android:src="@android:drawable/ic_menu_add" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
