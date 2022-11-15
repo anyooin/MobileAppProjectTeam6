@@ -7,15 +7,27 @@ import android.os.CountDownTimer
 import android.os.SystemClock
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mobileappproject.databinding.ActivityMainBinding
+import com.google.android.material.navigation.NavigationView
 
-class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener , SeekBar.OnSeekBarChangeListener {
+    //navigation
+    lateinit var navigationView: NavigationView
+    lateinit var drawerLayout: DrawerLayout
+    //navigation
+
+    lateinit var toggle: ActionBarDrawerToggle
 
     private val soundPool = SoundPool.Builder().build()
 
@@ -23,10 +35,10 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private var tickingSoundId: Int? = null
     private var bellSoundId: Int? = null
 
-    var initTime = 0L
+    //var initTime = 0L
     var pauseTime = 0L
 
-    //private lateinit var binding: ActivityMainBinding
+
 
     private lateinit var remainHourTextView: TextView
     private lateinit var remainMinutesTextView: TextView
@@ -35,10 +47,10 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private lateinit var currentSelectedTimer: TextView
 
     private val datas = mutableListOf<String>()
-
     private var selectPos = -1 // 선택된 list
     private lateinit var RecordTimerMode: TextView
     private lateinit var RecordTime: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +66,24 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         seekBar = binding.seekBar
         currentSelectedTimer = binding.currentSelectedTimer
 
+
+        //navigation s
         setSupportActionBar(binding.toolbar)
+
+        toggle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.drawer_opened, R.string.drawer_closed)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) // 드로어를 꺼낼 홈 버튼 활성화
+        //supportActionBar?.setHomeAsUpIndicator(R.drawable.navi_menu) // 홈버튼 이미지 변경
+        //supportActionBar?.setDisplayShowTitleEnabled(false) // 툴바에 타이틀 안보이게
+        toggle.syncState()
+
+        // 네비게이션 드로어 생성
+        drawerLayout = binding.drawerLayout//findViewById(R.id.drawer_layout)
+
+        // 네비게이션 드로어 내에있는 화면의 이벤트를 처리하기 위해 생성
+        navigationView = binding.navView
+        navigationView.setNavigationItemSelectedListener(this) //navigation 리스너
+        //navigation f
+
 
         //seekbar event handler
         binding.seekBar.setOnSeekBarChangeListener(this)
@@ -75,6 +104,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             if(selectPos != -1) {
                 RecordTimerMode.text = "Mode = basicTimer"
             }
+
         }
         binding.pomodoro.setOnClickListener {
 
@@ -94,6 +124,8 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             if(selectPos != -1) {
                 RecordTimerMode.text = "Mode = pomodoro"
             }
+
+
         }
         binding.timebox.setOnClickListener {
             binding.basicTimerScreen.visibility = View.INVISIBLE
@@ -112,6 +144,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             if(selectPos != -1) {
                 RecordTimerMode.text = "Mode = timebox"
             }
+
         }
 
 
@@ -121,16 +154,18 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             binding.chronometer.start()
         }
         binding.basictimerstopBtn.setOnClickListener {
-            pauseTime = binding.chronometer.base - SystemClock.elapsedRealtime()
+            binding.chronometer.base - SystemClock.elapsedRealtime()
             binding.chronometer.stop()
             if(selectPos != -1) {
-                var recordPauseTime = SystemClock.elapsedRealtime() - binding.chronometer.base
-                var h =(recordPauseTime/3600000)
-                var textH = "%02d:".format(h)
-                var m = (recordPauseTime-h*3600000)/60000
-                var textM = "%02d:".format(m)
-                var s = (recordPauseTime-h*3600000-m*60000)/1000
-                var textS = "%02d".format(s)
+
+                val recordPauseTime = SystemClock.elapsedRealtime() - binding.chronometer.base
+                val h =(recordPauseTime/3600000)
+                val textH = "%02d:".format(h)
+                val m = (recordPauseTime-h*3600000)/60000
+                val textM = "%02d:".format(m)
+                val s = (recordPauseTime-h*3600000-m*60000)/1000
+                val textS = "%02d".format(s)
+
 
                 RecordTime.text = "time = ${textH}${textM}${textS}"
             }
@@ -155,6 +190,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                 RecordTime.text = "time = ${remainHourTextView.text}${remainMinutesTextView.text}" +
                         "${remainSecondsTextView.text}"
             }
+
         }
         binding.pomodororesetBtn.setOnClickListener {
             seekBar.progress = 0
@@ -170,11 +206,6 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         }
         binding.timeboxstopBtn.setOnClickListener {
             stopCountDown()
-
-            if(selectPos != -1) {
-                RecordTime.text = "time = ${remainHourTextView.text}${remainMinutesTextView.text}" +
-                        "${remainSecondsTextView.text}"
-            }
         }
         binding.timeboxresetBtn.setOnClickListener {
             seekBar.progress = 0
@@ -190,6 +221,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             datas.add("timer ${datas.size}")
             (binding.recyclerView.adapter as timerListAdapter).notifyDataSetChanged()
         }
+
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = timerListAdapter(datas,
@@ -207,26 +239,26 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             return
         }
         datas.removeAt(position)
-        if(selectPos == position) {
-            currentSelectedTimer.text = "Selected Timer = None"
-            selectPos = -1
-        }
     }
-    // timerList 선택함수
     fun selectTimerItem(position: Int)
     {
         currentSelectedTimer.text = "Selected Timer = ${datas[position]}"
+        if(selectPos != position)
+        { //새로운 타이머 선택
+            Log.d("lee", "select new timer list")
+            // T0DO 항목별로 시간 저장...?
+
+        }
         selectPos = position
     }
-    // timerList 기록함수
+    // timer MODE 변수 받아오기
     fun recordTimer(timerMode:TextView)
     {
         RecordTimerMode = timerMode
-        //timerMode.text = "선택된 timer"
     }
+    // TIME 기록 변수 받아오기
     fun recordTime(timeRecord : TextView) {
         RecordTime = timeRecord
-        //timeRecord.text = "기록된 시간"
     }
 
 
@@ -278,6 +310,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private fun startCountDown(){
         currentCountDownTimer = createCountDownTimer(seekBar.progress*1000L)
         currentCountDownTimer?.start()  // timer 시작하기
+
 
         tickingSoundId?.let {soundId->
             soundPool.play(soundId,1F,1F,0,-1,1F)
@@ -353,6 +386,37 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         })
 
         return super.onCreateOptionsMenu(menu)
+    }
+    // 툴바 메뉴 버튼이 클릭 됐을 때 실행하는 함수
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        //toggle 버튼 선택시 navigation 창 열림
+        if(toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+
+        // 클릭한 툴바 메뉴 아이템 id 마다 다르게 실행하도록 설정
+        when(item!!.itemId){
+            android.R.id.home->{
+                // 햄버거 버튼 클릭시 네비게이션 드로어 열기
+                drawerLayout.openDrawer(GravityCompat.START)
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+
+    // 드로어 내 아이템 클릭 이벤트 처리하는 함수
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_item1-> Toast.makeText(this,"menu_item1 실행",Toast.LENGTH_SHORT).show()
+            R.id.menu_item2-> Toast.makeText(this,"menu_item2 실행",Toast.LENGTH_SHORT).show()
+            R.id.menu_item3-> Toast.makeText(this,"menu_item3 실행",Toast.LENGTH_SHORT).show()
+            R.id.menu_item4-> Toast.makeText(this,"menu_item4 실행",Toast.LENGTH_SHORT).show()
+            R.id.menu_item5-> Toast.makeText(this,"menu_item5 실행",Toast.LENGTH_SHORT).show()
+        }
+        return false
     }
 
 
