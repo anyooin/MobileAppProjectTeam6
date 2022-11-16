@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
             override fun onItemClick(view: View, position: Int) {
                 Log.d("uin", "item click")
 
-                val popupFragment = PopupWindowFragment(position)
+                val popupFragment = PopupWindowFragment(position, daysInMonth, this@MainActivity, RESULT_OK)
                 popupFragment.show(supportFragmentManager, "custom Dialog")
             }
             }

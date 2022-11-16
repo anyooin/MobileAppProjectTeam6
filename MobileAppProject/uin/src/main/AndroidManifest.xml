@@ -4,6 +4,7 @@
     package="com.example.mobileappproject">
 
     <application
+        android:name=".ApplicationClass"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,7 +15,7 @@
         android:theme="@style/Theme.MobileAppProject"
         tools:targetApi="31">
         <activity
-            android:name=".EditTodoActivity"
+            android:name=".TodoPageActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
