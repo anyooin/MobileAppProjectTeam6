@@ -106,28 +106,6 @@ class TodoPageActivity : AppCompatActivity() {
         }, hour, minute, false)
 
         mTimePicker.show()
-
-        /*
-        val cal = Calendar.getInstance()
-        val timeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-            timeString = "${hourOfDay}시 ${minute}분"
-            result.text = "날짜/시간 : "+dateString + " / " + timeString
-        }
-        TimePickerDialog(this, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),true).show()
-
-        val cal = Calendar.getInstance()
-        mTimePicker = TimePickerDialog.OnTimeSetListener {
-            override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-                if (id == "startTime") {
-                    binding.startTime.text = String.format("%d : %d", hourOfDay, minute)
-                }
-                else if (id == "endTime") {
-                    binding.endTime.text = String.format("%d : %d", hourOfDay, minute)
-                }
-            }
-            TimePickerDialog(this, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),true).show()
-        }
-        */
     }
 
     private fun setupDatePicker(id: String) {
@@ -141,10 +119,10 @@ class TodoPageActivity : AppCompatActivity() {
 
             override fun onDateSet(view: DatePicker?, year: Int, month: Int, DayOfMonth: Int) {
                 if (id == "startDate") {
-                    binding.startDate.text = String.format("%d:%d:%d", year, month, DayOfMonth)
+                    binding.startDate.text = String.format("%d:%d:%d", year, month+1, DayOfMonth)
                 }
                 else if (id == "endDate") {
-                    binding.endDate.text = String.format("%d:%d:%d", year, month, DayOfMonth)
+                    binding.endDate.text = String.format("%d:%d:%d", year, month+1, DayOfMonth)
                 }
             }
         }, year, month, day)
