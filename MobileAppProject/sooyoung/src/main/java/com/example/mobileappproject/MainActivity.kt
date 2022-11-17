@@ -38,18 +38,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     //var initTime = 0L
     var pauseTime = 0L
 
-
-
+    //pomodoro variable
     private lateinit var remainHourTextView: TextView
     private lateinit var remainMinutesTextView: TextView
     private lateinit var remainSecondsTextView: TextView
-    private lateinit var seekBar: SeekBar
+    private lateinit var pomodoroSeekBar: SeekBar
+
+    //timebox variable
+    private lateinit var timeBoxremainHourTextView: TextView
+    private lateinit var timeBoxremainMinutesTextView: TextView
+    private lateinit var timeBoxremainSecondsTextView: TextView
+    private lateinit var timeboxSeekBar: SeekBar
+
     private lateinit var currentSelectedTimer: TextView
 
     private val datas = mutableListOf<String>()
     private var selectPos = -1 // 선택된 list
+    private var type = -1 // 선택된 timermode = 0 : pomodoro, 1 : timebox
     private lateinit var RecordTimerMode: TextView
     private lateinit var RecordTime: TextView
+    private var pomodoroSuccess = 0;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +71,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         remainHourTextView = binding.remainHourTextView
         remainMinutesTextView = binding.remainMinutesTextView
         remainSecondsTextView = binding.remainSecondsTextView
-        seekBar = binding.seekBar
+        timeBoxremainHourTextView = binding.timeBoxremainHourTextView
+        timeBoxremainMinutesTextView = binding.timeBoxremainMinutesTextView
+        timeBoxremainSecondsTextView = binding.timeBoxremainSecondsTextView
+
+        pomodoroSeekBar = binding.pomodoroSeekBar
+        timeboxSeekBar = binding.timeboxSeekBar
         currentSelectedTimer = binding.currentSelectedTimer
 
 
@@ -86,10 +99,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         //seekbar event handler
-        binding.seekBar.setOnSeekBarChangeListener(this)
+        binding.pomodoroSeekBar.setOnSeekBarChangeListener(this)
+        binding.timeboxSeekBar.setOnSeekBarChangeListener(this)
 
         //TimerMode
         binding.basicTimer.setOnClickListener {
+            type = -1
             binding.basicTimerScreen.visibility = View.VISIBLE
             binding.basictimerBtn.visibility = View.VISIBLE
             binding.pomodoroScreen.visibility = View.INVISIBLE
@@ -99,7 +114,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             binding.remainHourTextView.visibility = View.INVISIBLE
             binding.remainMinutesTextView.visibility = View.INVISIBLE
             binding.remainSecondsTextView.visibility = View.INVISIBLE
-            binding.seekBar.visibility = View.INVISIBLE
+            binding.timeBoxremainHourTextView.visibility = View.INVISIBLE
+            binding.timeBoxremainMinutesTextView.visibility = View.INVISIBLE
+            binding.timeBoxremainSecondsTextView.visibility = View.INVISIBLE
+            binding.pomodoroSeekBar.visibility = View.INVISIBLE
+            binding.timeboxSeekBar.visibility = View.INVISIBLE
             binding.chronometer.visibility = View.VISIBLE
             if(selectPos != -1) {
                 RecordTimerMode.text = "Mode = basicTimer"
@@ -108,6 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         binding.pomodoro.setOnClickListener {
 
+            type = 0
             binding.basicTimerScreen.visibility = View.INVISIBLE
             binding.basictimerBtn.visibility = View.INVISIBLE
             binding.pomodoroScreen.visibility = View.VISIBLE
@@ -117,30 +137,44 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             binding.remainHourTextView.visibility = View.VISIBLE
             binding.remainMinutesTextView.visibility = View.VISIBLE
             binding.remainSecondsTextView.visibility = View.VISIBLE
-            binding.seekBar.visibility = View.VISIBLE
+            binding.timeBoxremainHourTextView.visibility = View.INVISIBLE
+            binding.timeBoxremainMinutesTextView.visibility = View.INVISIBLE
+            binding.timeBoxremainSecondsTextView.visibility = View.INVISIBLE
+            binding.pomodoroSeekBar.visibility = View.INVISIBLE
+            binding.timeboxSeekBar.visibility = View.INVISIBLE
             binding.chronometer.visibility = View.INVISIBLE
             updateRemainTime(60*30*1000L)
-            updateSeekBar(60*30*1000L)
+            updateSeekBar(60*30*1000L, pomodoroSeekBar)
             if(selectPos != -1) {
                 RecordTimerMode.text = "Mode = pomodoro"
             }
-
-
         }
         binding.timebox.setOnClickListener {
+            type = 1
             binding.basicTimerScreen.visibility = View.INVISIBLE
             binding.basictimerBtn.visibility = View.INVISIBLE
             binding.pomodoroScreen.visibility = View.INVISIBLE
             binding.pomodoroBtn.visibility = View.INVISIBLE
             binding.timeboxScreen.visibility = View.VISIBLE
             binding.timeboxBtn.visibility = View.VISIBLE
-            binding.remainHourTextView.visibility = View.VISIBLE
-            binding.remainMinutesTextView.visibility = View.VISIBLE
-            binding.remainSecondsTextView.visibility = View.VISIBLE
-            binding.seekBar.visibility = View.VISIBLE
+            binding.remainHourTextView.visibility = View.INVISIBLE
+            binding.remainMinutesTextView.visibility = View.INVISIBLE
+            binding.remainSecondsTextView.visibility = View.INVISIBLE
+            binding.timeBoxremainHourTextView.visibility = View.VISIBLE
+            binding.timeBoxremainMinutesTextView.visibility = View.VISIBLE
+            binding.timeBoxremainSecondsTextView.visibility = View.VISIBLE
+            binding.pomodoroSeekBar.visibility = View.INVISIBLE
+            binding.timeboxSeekBar.visibility = View.VISIBLE
             binding.chronometer.visibility = View.INVISIBLE
-            updateRemainTime(3*60*60*1000L)
-            updateSeekBar(3*60*60*1000L)
+
+            var hourToken = timeBoxremainHourTextView.text.split(":")[0].toInt()
+            var minToken = timeBoxremainMinutesTextView.text.split(":")[0].toInt()
+            var secToken = timeBoxremainSecondsTextView.text.split(":")[0].toInt()
+            Log.d("soo", "${timeBoxremainHourTextView.text} "+
+                    "${timeBoxremainMinutesTextView.text} "+
+                    "${timeBoxremainSecondsTextView.text} ")
+            updateRemainTime((hourToken*60*60+minToken*60+secToken)*1000L)
+            updateSeekBar((hourToken*60*60+minToken*60+secToken)*1000L, timeboxSeekBar)
             if(selectPos != -1) {
                 RecordTimerMode.text = "Mode = timebox"
             }
@@ -154,7 +188,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             binding.chronometer.start()
         }
         binding.basictimerstopBtn.setOnClickListener {
-            binding.chronometer.base - SystemClock.elapsedRealtime()
+            pauseTime = binding.chronometer.base - SystemClock.elapsedRealtime()
             binding.chronometer.stop()
             if(selectPos != -1) {
 
@@ -180,45 +214,51 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         //POMODORO
         binding.pomodorostartBtn.setOnClickListener {
-            if(seekBar.progress != 0) {
-                startCountDown()
-            }
+            startCountDown(pomodoroSeekBar)
         }
-        binding.pomodorostopBtn.setOnClickListener {
+        /*binding.pomodorostopBtn.setOnClickListener {
             stopCountDown()
             if(selectPos != -1) {
                 RecordTime.text = "time = ${remainHourTextView.text}${remainMinutesTextView.text}" +
                         "${remainSecondsTextView.text}"
             }
-
-        }
+        }*/
         binding.pomodororesetBtn.setOnClickListener {
-            seekBar.progress = 0
-            updateRemainTime(0)
-            updateSeekBar(0)
+            pomodoroSeekBar.progress = 1800
+            updateRemainTime(60*30*1000L)
+            updateSeekBar(60*30*1000L, pomodoroSeekBar)
+            stopCountDown()
         }
 
         //TIMEBOX
         binding.timeboxstartBtn.setOnClickListener {
-            if(seekBar.progress != 0) {
-                startCountDown()
+            if(timeboxSeekBar.progress != 0) {
+                startCountDown(timeboxSeekBar)
             }
         }
         binding.timeboxstopBtn.setOnClickListener {
             stopCountDown()
+            Log.d("sooo", "stop timeboxBtn")
+            if(selectPos != -1) {
+                RecordTime.text = "time = ${timeBoxremainHourTextView.text}${timeBoxremainMinutesTextView.text}" +
+                    "${timeBoxremainSecondsTextView.text}"
+            }
         }
         binding.timeboxresetBtn.setOnClickListener {
-            seekBar.progress = 0
+            timeboxSeekBar.progress = 0
             updateRemainTime(0)
-            updateSeekBar(0)
+            updateSeekBar(0, timeboxSeekBar)
+
+            stopCountDown()
         }
+
         // Timer LIST
-        for(i in 0..2) {
+        for(i in 1..2) {
             datas.add("timer $i")
         }
 
         binding.timerListAddButton.setOnClickListener {
-            datas.add("timer ${datas.size}")
+            datas.add("timer ${datas.size+1}")
             (binding.recyclerView.adapter as timerListAdapter).notifyDataSetChanged()
         }
 
@@ -239,6 +279,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             return
         }
         datas.removeAt(position)
+        if(selectPos == position) {
+            currentSelectedTimer.text = "Selected Timer = None"
+            selectPos = -1
+        }
     }
     fun selectTimerItem(position: Int)
     {
@@ -266,12 +310,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onResume()
         soundPool.autoResume()
     }
-
     override fun onPause() {
         super.onPause()
         soundPool.autoPause()
     }
-
     override fun onDestroy() {
         super.onDestroy()
         // sound파일들이 메모리에서 제거된다.
@@ -283,7 +325,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
         // seekbar 값 변경될 때마다 호출
         if(p2) {
-            updateRemainTime(seekBar.progress*1000L)
+            if(type == 1)
+                updateRemainTime(timeboxSeekBar.progress*1000L)
         }
     }
     override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -292,50 +335,53 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     override fun onStopTrackingTouch(p0: SeekBar?) {
         // seekbar 드래그 떼면 호출
-        if(seekBar.progress == 0) { // 0분이면 시작안함
+        if(p0?.progress == 0) { // 0분이면 시작안함
             stopCountDown()
         }
-        else { //  0분이 아닌경우
-            startCountDown()
-        }
+//        else { //  0분이 아닌경우
+//            startCountDown()
+//        }  --> start 누르면 호출하는걸로 바꿈!
     }
-
 
     private fun stopCountDown() {
         currentCountDownTimer?.cancel() // timer 멈추기
         currentCountDownTimer = null
         soundPool.autoPause()
     }
-
-    private fun startCountDown(){
-        currentCountDownTimer = createCountDownTimer(seekBar.progress*1000L)
+    private fun startCountDown(seekBar: SeekBar){
+        currentCountDownTimer = createCountDownTimer(seekBar.progress*1000L, seekBar)
         currentCountDownTimer?.start()  // timer 시작하기
-
 
         tickingSoundId?.let {soundId->
             soundPool.play(soundId,1F,1F,0,-1,1F)
         }
     }
 
-    private fun createCountDownTimer(initialMills:Long) =
+    private fun createCountDownTimer(initialMills:Long, seekBar: SeekBar) =
         // 1초 마다 호출되도록 함
         object : CountDownTimer(initialMills, 1000L){
             override fun onTick(millisUntilFinished: Long) {
                 //countDownInterval 마다 호출됨
                 updateRemainTime(millisUntilFinished)
-                updateSeekBar(millisUntilFinished)
+                updateSeekBar(millisUntilFinished, seekBar)
             }
-
             override fun onFinish() {
                 //timer가 종료되면 호출
-                completeCountDown()
+                completeCountDown(seekBar)
             }
-
         }
 
-    private fun completeCountDown(){
+    private fun completeCountDown(seekBar: SeekBar){
         updateRemainTime(0)
-        updateSeekBar(0)
+        updateSeekBar(0, seekBar)
+
+        if(type == 0) //pomodoro인경우
+        {
+            pomodoroSuccess += 1
+            if(selectPos != -1) {
+                RecordTime.text = "포모도로 ${pomodoroSuccess}회 성공!"
+            }
+        }
 
         // 끝난 경우
         // 끝난 벨소리 재생함
@@ -350,10 +396,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // 총 남은 초
         val remainSeconds = remainMillis/1000
 
-        // 시만 보여줌, 분만 보여줌, 초만 보여줌
-        remainHourTextView.text = "%02d:".format(remainSeconds/60/60)
-        remainMinutesTextView.text = "%02d:".format(remainSeconds/60%60)
-        remainSecondsTextView.text= "%02d".format(remainSeconds%60)
+        if(type == 0)//pomodoro인 경우
+        {
+            remainHourTextView.text = "%02d:".format(remainSeconds/60/60)
+            remainMinutesTextView.text = "%02d:".format(remainSeconds/60%60)
+            remainSecondsTextView.text= "%02d".format(remainSeconds%60)
+            Log.d("sooo", "type = 0 ${remainHourTextView.text }  " +
+                    "${remainMinutesTextView.text }  " +
+                    "${remainSecondsTextView.text }  ")
+        }
+        if (type == 1)// timeBox인경우
+        {
+            timeBoxremainHourTextView.text = "%02d:".format(remainSeconds/60/60)
+            timeBoxremainMinutesTextView.text = "%02d:".format(remainSeconds/60%60)
+            timeBoxremainSecondsTextView.text= "%02d".format(remainSeconds%60)
+            Log.d("sooo", "type  = 1 ${timeBoxremainHourTextView.text }  " +
+                    "${timeBoxremainMinutesTextView.text }  " +
+                    "${timeBoxremainSecondsTextView.text }  ")
+        }
+
 
     }
 
@@ -363,7 +424,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bellSoundId = soundPool.load(this, R.raw.timer_bell, 1)
     }
 
-    private fun updateSeekBar(remainMillis: Long) {
+    private fun updateSeekBar(remainMillis: Long, seekBar: SeekBar) {
         // 밀리 세컨드를 분(정수)으로 바꿔서 보여줌
         seekBar.progress = (remainMillis / 1000).toInt()
     }
@@ -379,14 +440,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onQueryTextChange(p0: String?): Boolean {
                 return true
             }
-
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return true
             }
         })
-
         return super.onCreateOptionsMenu(menu)
     }
+
+
     // 툴바 메뉴 버튼이 클릭 됐을 때 실행하는 함수
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
@@ -418,6 +479,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         return false
     }
-
-
 }
