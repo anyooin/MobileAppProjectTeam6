@@ -18,5 +18,4 @@ class CalendarUtil {
             TODO("VERSION.SDK_INT < O")
         }
     }
-
 }

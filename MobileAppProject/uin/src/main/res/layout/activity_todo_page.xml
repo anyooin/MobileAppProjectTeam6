@@ -91,8 +91,6 @@
 
     </LinearLayout>
 
-
-
     <EditText
         android:id="@+id/etTodoContent"
         android:layout_width="match_parent"
@@ -105,6 +103,17 @@
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:singleLine="false" />
+
+    <!--
+    <CheckBox
+        android:id="@+id/checkTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/etTodoContent"
+        app:layout_constraintBottom_toTopOf="@id/btnSave"
+        android:text="timer"
+        tools:ignore="MissingConstraints" />
+        -->
 
     <Button
         android:id="@+id/btnSave"
