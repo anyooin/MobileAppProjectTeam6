@@ -16,13 +16,10 @@ class TodoAdapter(val context: Context, val currentDay: String): RecyclerView.Ad
     inner class TodoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
         var title = itemView.findViewById<TextView>(R.id.todoListItem_data)
-        //var timestamp = itemView.findViewById<TextView>(R.id.tvTimeStamp)
         var checkbox = itemView.findViewById<CheckBox>(R.id.checkTimer)
 
         fun onBind(data: Todo) {
-                //println("Data onBind TodoVIewHolder ${data.timestamp} == ${currentDay}")
-                title.text = data.title
-                //timestamp.text = data.timestamp
+                                title.text = data.title
                 checkbox.isChecked = data.isChecked
 
                 if (data.isChecked) {

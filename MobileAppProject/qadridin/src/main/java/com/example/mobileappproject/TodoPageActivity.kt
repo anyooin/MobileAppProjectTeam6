@@ -5,7 +5,10 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.PopupWindow
+import android.widget.TextView
 import com.example.mobileappproject.databinding.ActivityTodoPageBinding
+import com.example.mobileappproject.databinding.PopupWindowFragementBinding
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 
@@ -13,7 +16,7 @@ class TodoPageActivity : AppCompatActivity() {
     lateinit var binding: ActivityTodoPageBinding
     private var todo: Todo?=null
 
-    @SuppressLint("SimpleDateFormat")
+   // @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTodoPageBinding.inflate(layoutInflater)
@@ -33,15 +36,10 @@ class TodoPageActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener {
             val title = binding.etTodoTitle.text.toString()
             val content = binding.etTodoContent.text.toString()
-          //  val currentDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-           //     LocalDate.now()
-           // } else {
-           //
-           // }
 
             if (type.equals("ADD")) {
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val todo = Todo(0, title, content,  false)
+                    val todo = Todo(0, title, content,  date, false)
                     val intent = Intent().apply {
                         putExtra("todo", todo)
                         putExtra("flag", 0)
@@ -52,7 +50,7 @@ class TodoPageActivity : AppCompatActivity() {
             } else {
                 // 수정
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val todo = Todo(todo!!.id, title, content, todo!!.isChecked)
+                    val todo = Todo(todo!!.id, title, content, date, todo!!.isChecked)
 
                     val intent = Intent().apply {
                         putExtra("todo", todo)
