@@ -39,12 +39,7 @@ class MainActivity : AppCompatActivity() {
         toggle.syncState()
 
         // Menu items
-        val data = mutableListOf<String>()
-        data.add("Calendar")
-        data.add("Timer")
-        data.add("To Do List")
-        data.add("Statistics")
-        data.add("Settings")
+        val data = mutableListOf("Calendar", "Timer", "Todo List", "Statistics", "Settings")
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
@@ -108,7 +103,7 @@ class MainActivity : AppCompatActivity() {
             override fun onItemClick(view: View, position: Int) {
                 Log.d("uin", "item click")
 
-                val popupFragment = PopupWindowFragment(position, daysInMonth, this@MainActivity, RESULT_OK)
+                val popupFragment = PopupWindowFragment(position, daysInMonth, this@MainActivity, RESULT_OK, supportFragmentManager)
                 popupFragment.show(supportFragmentManager, "custom Dialog")
             }
             }

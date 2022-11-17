@@ -16,28 +16,27 @@ class TodoAdapter(val context: Context, val currentDay: String): RecyclerView.Ad
     inner class TodoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
         var title = itemView.findViewById<TextView>(R.id.todoListItem_data)
+        var checkbox = itemView.findViewById<CheckBox>(R.id.checkDone)
         var timestamp = itemView.findViewById<TextView>(R.id.todoListItem_timeSetting)
-        var checkbox = itemView.findViewById<CheckBox>(R.id.checkTimer)
 
         fun onBind(data: Todo) {
-                //println("Data onBind TodoVIewHolder ${data.timestamp} == ${currentDay}")
-                title.text = data.title
-                timestamp.text = data.timestamp
-                checkbox.isChecked = data.isChecked
+            title.text = data.title
+            checkbox.isChecked = data.isChecked
+            timestamp.text = data.timestamp
 
-                if (data.isChecked) {
-                    title.paintFlags = title.paintFlags or STRIKE_THRU_TEXT_FLAG
-                } else {
-                    title.paintFlags = title.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
-                }
+            if (data.isChecked) {
+                title.paintFlags = title.paintFlags or STRIKE_THRU_TEXT_FLAG
+            } else {
+                title.paintFlags = title.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
+            }
 
-                checkbox.setOnClickListener {
-                    itemCheckBoxClickListener.onClick(it, layoutPosition, list[layoutPosition].id)
-                }
+            checkbox.setOnClickListener {
+                itemCheckBoxClickListener.onClick(it, layoutPosition, list[layoutPosition].id)
+            }
 
-                itemView.setOnClickListener {
-                    itemClickListner.onClick(it, layoutPosition, list[layoutPosition].id)
-                }
+            itemView.setOnClickListener {
+                itemClickListner.onClick(it, layoutPosition, list[layoutPosition].id)
+            }
 
         }
     }

@@ -50,6 +50,7 @@ class TodoItemAdapter(val data: MutableList<String>): RecyclerView.Adapter<Recyc
         //print view data
         binding.todoListItemData.text = data[position]
 
+        /*
         binding.checkTimer.setOnCheckedChangeListener{ compoundButton, b ->
             if(b) {
                 Log.d("uin", "timer setting")
@@ -60,6 +61,7 @@ class TodoItemAdapter(val data: MutableList<String>): RecyclerView.Adapter<Recyc
                 //타이머 해제
             }
         }
+         */
 
         /*
         inner class CheckBoxListener : CompoundButton.OnCheckedChangeListener{
@@ -72,7 +74,7 @@ class TodoItemAdapter(val data: MutableList<String>): RecyclerView.Adapter<Recyc
     }
          */
 
-        // popup window에 있는 to do list title 누르면 전체 내용 보기
+        // popup window에 있는 to do list title 누르면 전제 내용 보기
         binding.todolistItem.setOnClickListener {
             Log.d("kkang", "item root click: $position")
 

@@ -9,8 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.DatePicker
+import android.widget.PopupWindow
+import android.widget.TextView
 import android.widget.TimePicker
 import com.example.mobileappproject.databinding.ActivityTodoPageBinding
+import com.example.mobileappproject.databinding.PopupWindowFragementBinding
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -19,37 +22,38 @@ class TodoPageActivity : AppCompatActivity() {
     lateinit var binding: ActivityTodoPageBinding
     private var todo: Todo?=null
 
-    @SuppressLint("SimpleDateFormat")
+   // @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTodoPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.startTime.setOnClickListener{
-            setupTimePicker("startTime")
-            Log.d("uin", "startTime")
-        }
-        binding.endTime.setOnClickListener{
-            setupTimePicker("endTime")
-            Log.d("uin", "endTime")
-        }
-        binding.startDate.setOnClickListener{
-            setupDatePicker("startDate")
-            Log.d("uin", "startDate")
-        }
-        binding.endDate.setOnClickListener{
-            setupDatePicker("endDate")
-            Log.d("uin", "endDate")
-        }
+       binding.startTime.setOnClickListener{
+           setupTimePicker("startTime")
+           Log.d("uin", "startTime")
+       }
+       binding.endTime.setOnClickListener{
+           setupTimePicker("endTime")
+           Log.d("uin", "endTime")
+       }
+       binding.startDate.setOnClickListener{
+           setupDatePicker("startDate")
+           Log.d("uin", "startDate")
+       }
+       binding.endDate.setOnClickListener{
+           setupDatePicker("endDate")
+           Log.d("uin", "endDate")
+       }
 
         val type = intent.getStringExtra("type")
 
         if (type.equals("ADD")) {
             binding.btnSave.text = "추가하기"
         } else {
-            todo = intent.getSerializableExtra("item") as Todo?  //
+            todo = intent.getSerializableExtra("item") as Todo?
             binding.etTodoTitle.setText(todo!!.title)
             binding.etTodoContent.setText(todo!!.content)
+            //여기에 날짜 + 시간정보추가
             binding.btnSave.text = "수정하기"
         }
 
@@ -58,13 +62,13 @@ class TodoPageActivity : AppCompatActivity() {
             val content = binding.etTodoContent.text.toString()
             // 데이터베이스 작업을 쉽게하기위해 timestamp2 만들기
             val timestamp = binding.startDate.text.toString() + " " +
-                binding.startTime.text.toString() + "~" + binding.endDate.text.toString() + " " +
+                    binding.startTime.text.toString() + "~" + binding.endDate.text.toString() + " " +
                     binding.endTime.text.toString()
             //val currentDate = SimpleDateFormat("yyyy-MM-dd HH:mm").format(System.currentTimeMillis())
 
             if (type.equals("ADD")) {
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val todo = Todo(0, title, content, timestamp,false)
+                    val todo = Todo(0, title, content, timestamp, date,false)
                     val intent = Intent().apply {
                         putExtra("todo", todo)
                         putExtra("flag", 0)
@@ -75,7 +79,7 @@ class TodoPageActivity : AppCompatActivity() {
             } else {
                 // 수정
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val todo = Todo(todo!!.id, title, content, timestamp, todo!!.isChecked)
+                    val todo = Todo(todo!!.id, title, content, timestamp, date, todo!!.isChecked)
 
                     val intent = Intent().apply {
                         putExtra("todo", todo)
