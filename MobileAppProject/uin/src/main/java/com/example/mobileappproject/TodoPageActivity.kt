@@ -54,6 +54,8 @@ class TodoPageActivity : AppCompatActivity() {
             binding.etTodoTitle.setText(todo!!.title)
             binding.etTodoContent.setText(todo!!.content)
             //여기에 날짜 + 시간정보추가
+            binding.startDate.setText(todo!!.timestamp.split(" ")[0])
+            binding.startDate.setText(todo!!.timestamp.split(" ")[1])
             binding.btnSave.text = "수정하기"
         }
 

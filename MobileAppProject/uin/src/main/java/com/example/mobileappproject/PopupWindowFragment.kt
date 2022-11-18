@@ -47,7 +47,6 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
         super.onViewCreated(view, savedInstanceState)
         println("On view Created ")
         val cancel = view.findViewById<Button>(R.id.cancelBt)
-        val next = view.findViewById<Button>(R.id.nextBt)
         val dateInPopupGlobal = view.findViewById<TextView>(R.id.dateInPopup)
         //  dateInPopupGlobal.text = (dayInMonth[position]).toString()
 
@@ -57,15 +56,6 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
         cancel.setOnClickListener {
             Log.d("qadridin", "clicked cancel button in popup Window")
             super.dismiss()
-        }
-
-        //next button Need implementation to connect DB
-        next.setOnClickListener {
-            Log.d("qadridin", "clicked next button in popup Window")
-            position += 1
-            setPopWindowAttr(toDoListContext, dateInPopupGlobal)
-            // val popup = PopupWindowFragment(position, dayInMonth, mainActivity, RESULT_OK, supportFragmentManager)
-            // popup.show(supportFragmentManager, "dialog fragment")
         }
 
         addButton.setOnClickListener {

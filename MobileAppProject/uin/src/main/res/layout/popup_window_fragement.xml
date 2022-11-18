@@ -12,10 +12,22 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     <!--  visibility
     android:visibility="invisible" -->
 
-    <GridLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/dateInPopup"
+            android:layout_width="125dp"
+            android:layout_height="35dp"
+            android:text="15"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_marginLeft="75dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancelBt"
@@ -26,52 +38,19 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             android:textStyle="bold"
             android:backgroundTint="@null"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginLeft="25dp"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/nextBt"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_row="0"
-            android:layout_column="2"
-            android:layout_marginStart="50dp"
-            android:background="@drawable/next"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/dateInPopup"
-            android:layout_width="124dp"
-            android:layout_height="34dp"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:text="15"
-            android:textStyle="bold"
-            android:layout_marginStart="50dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-    </GridLayout>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/toDoListContext"
         android:layout_width="wrap_content"
         android:layout_height="300dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
     </androidx.recyclerview.widget.RecyclerView>
-
-    <!--
-    <ImageView
-        android:id="@+id/addPopItem"
-        android:layout_width="76dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="180dp"
-        android:layout_marginBottom="20dp"
-        android:src="@android:drawable/ic_menu_add" />
-        -->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addTodo"
@@ -80,8 +59,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_margin="20dp"
         android:src="@android:drawable/ic_menu_add"
         app:tint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_gravity="end"/>
 
 
 </LinearLayout>
