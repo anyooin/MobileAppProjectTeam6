@@ -25,7 +25,7 @@
         android:id="@+id/timerMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mode = Basic Timer"
+        android:text="Mode = -"
         android:textSize="10sp"
         android:textStyle="bold"
         android:layout_marginLeft="20dp"/>

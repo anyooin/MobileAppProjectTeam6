@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
@@ -52,12 +53,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private lateinit var currentSelectedTimer: TextView
 
-    private val datas = mutableListOf<String>()
+    //private val datas = mutableListOf<String>()
+    private val timerList = mutableListOf<timerList>() //저장된 timerList
+
     private var selectPos = -1 // 선택된 list
     private var type = -1 // 선택된 timermode = 0 : pomodoro, 1 : timebox
     private lateinit var RecordTimerMode: TextView
     private lateinit var RecordTime: TextView
-    private var pomodoroSuccess = 0;
+    private var pomodoroSuccess = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,6 +125,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             binding.chronometer.visibility = View.VISIBLE
             if(selectPos != -1) {
                 RecordTimerMode.text = "Mode = basicTimer"
+                timerList[selectPos].timerMode = "Mode = basicTimer"
             }
 
         }
@@ -147,6 +151,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             updateSeekBar(60*30*1000L, pomodoroSeekBar)
             if(selectPos != -1) {
                 RecordTimerMode.text = "Mode = pomodoro"
+                timerList[selectPos].timerMode = "Mode = pomodoro"
             }
         }
         binding.timebox.setOnClickListener {
@@ -167,9 +172,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             binding.timeboxSeekBar.visibility = View.VISIBLE
             binding.chronometer.visibility = View.INVISIBLE
 
-            var hourToken = timeBoxremainHourTextView.text.split(":")[0].toInt()
-            var minToken = timeBoxremainMinutesTextView.text.split(":")[0].toInt()
-            var secToken = timeBoxremainSecondsTextView.text.split(":")[0].toInt()
+            val hourToken = timeBoxremainHourTextView.text.split(":")[0].toInt()
+            val minToken = timeBoxremainMinutesTextView.text.split(":")[0].toInt()
+            val secToken = timeBoxremainSecondsTextView.text.split(":")[0].toInt()
             Log.d("soo", "${timeBoxremainHourTextView.text} "+
                     "${timeBoxremainMinutesTextView.text} "+
                     "${timeBoxremainSecondsTextView.text} ")
@@ -177,6 +182,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             updateSeekBar((hourToken*60*60+minToken*60+secToken)*1000L, timeboxSeekBar)
             if(selectPos != -1) {
                 RecordTimerMode.text = "Mode = timebox"
+                timerList[selectPos].timerMode = "Mode = timebox"
             }
 
         }
@@ -202,6 +208,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
                 RecordTime.text = "time = ${textH}${textM}${textS}"
+                timerList[selectPos].timeRecord = "time = ${textH}${textM}${textS}"
             }
 
         }
@@ -216,13 +223,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.pomodorostartBtn.setOnClickListener {
             startCountDown(pomodoroSeekBar)
         }
-        /*binding.pomodorostopBtn.setOnClickListener {
-            stopCountDown()
-            if(selectPos != -1) {
-                RecordTime.text = "time = ${remainHourTextView.text}${remainMinutesTextView.text}" +
-                        "${remainSecondsTextView.text}"
-            }
-        }*/
         binding.pomodororesetBtn.setOnClickListener {
             pomodoroSeekBar.progress = 1800
             updateRemainTime(60*30*1000L)
@@ -238,10 +238,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         binding.timeboxstopBtn.setOnClickListener {
             stopCountDown()
-            Log.d("sooo", "stop timeboxBtn")
             if(selectPos != -1) {
                 RecordTime.text = "time = ${timeBoxremainHourTextView.text}${timeBoxremainMinutesTextView.text}" +
                     "${timeBoxremainSecondsTextView.text}"
+                timerList[selectPos].timeRecord = "time = ${timeBoxremainHourTextView.text}${timeBoxremainMinutesTextView.text}" +
+                        "${timeBoxremainSecondsTextView.text}"
             }
         }
         binding.timeboxresetBtn.setOnClickListener {
@@ -252,19 +253,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             stopCountDown()
         }
 
-        // Timer LIST
-        for(i in 1..2) {
-            datas.add("timer $i")
-        }
-
+        //timer 추가함수
         binding.timerListAddButton.setOnClickListener {
-            datas.add("timer ${datas.size+1}")
+            //datas.add("timer ${datas.size}")
+            timerList.add(timerList("timer ${timerList.size}", "Mode = -", "time = 00:00:00"))
             (binding.recyclerView.adapter as timerListAdapter).notifyDataSetChanged()
         }
 
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = timerListAdapter(datas,
+        binding.recyclerView.adapter = timerListAdapter(timerList,
             onClickRemoveButton= {deleteTimerList(it)},
             onClickSelectItem = {selectTimerItem(it)},
             onTimerItem = {recordTimer(it)},
@@ -275,34 +273,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     // timerList 삭제함수
     fun deleteTimerList(position : Int) {
-        if(datas.size == 0){
+        if(timerList.size == 0){
             return
         }
-        datas.removeAt(position)
+        timerList.removeAt(position)
         if(selectPos == position) {
             currentSelectedTimer.text = "Selected Timer = None"
             selectPos = -1
         }
     }
+    //timerList 에서 선택하기
     fun selectTimerItem(position: Int)
     {
-        currentSelectedTimer.text = "Selected Timer = ${datas[position]}"
-        if(selectPos != position)
-        { //새로운 타이머 선택
-            Log.d("lee", "select new timer list")
-            // T0DO 항목별로 시간 저장...?
-
-        }
+        currentSelectedTimer.text = "Selected Timer = ${timerList[position].timername}"
         selectPos = position
     }
     // timer MODE 변수 받아오기
-    fun recordTimer(timerMode:TextView)
-    {
+    fun recordTimer(timerMode:TextView) {
         RecordTimerMode = timerMode
     }
     // TIME 기록 변수 받아오기
     fun recordTime(timeRecord : TextView) {
         RecordTime = timeRecord
+
     }
 
 
@@ -316,14 +309,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     override fun onDestroy() {
         super.onDestroy()
-        // sound파일들이 메모리에서 제거된다.
+        // sound 파일들이 메모리에서 제거된다.
         soundPool.release()
     }
 
 
-    //Seekbar event listener
+    //Seekbar event listener, seekbar 값 변경될 때마다 호출
     override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-        // seekbar 값 변경될 때마다 호출
         if(p2) {
             if(type == 1)
                 updateRemainTime(timeboxSeekBar.progress*1000L)
@@ -338,9 +330,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if(p0?.progress == 0) { // 0분이면 시작안함
             stopCountDown()
         }
-//        else { //  0분이 아닌경우
-//            startCountDown()
-//        }  --> start 누르면 호출하는걸로 바꿈!
     }
 
     private fun stopCountDown() {
@@ -375,16 +364,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         updateRemainTime(0)
         updateSeekBar(0, seekBar)
 
-        if(type == 0) //pomodoro인경우
+        if(type == 0) //pomodoro 인 경우
         {
             pomodoroSuccess += 1
             if(selectPos != -1) {
                 RecordTime.text = "포모도로 ${pomodoroSuccess}회 성공!"
+                timerList[selectPos].timeRecord = "포모도로 ${pomodoroSuccess}회 성공!"
             }
         }
 
-        // 끝난 경우
-        // 끝난 벨소리 재생함
+        // 끝난 경우-끝난 벨소리 재생함
         soundPool.autoPause()
         bellSoundId?.let {soundId->
             soundPool.play(soundId, 1F,1F,0,0,1F)
@@ -459,7 +448,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // 클릭한 툴바 메뉴 아이템 id 마다 다르게 실행하도록 설정
         when(item!!.itemId){
             android.R.id.home->{
-                // 햄버거 버튼 클릭시 네비게이션 드로어 열기
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }
