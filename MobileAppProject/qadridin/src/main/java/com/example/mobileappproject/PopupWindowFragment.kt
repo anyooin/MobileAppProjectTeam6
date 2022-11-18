@@ -2,6 +2,7 @@ package com.example.mobileappproject
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.media.AsyncPlayer
 import android.os.Bundle
@@ -47,25 +48,19 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
         super.onViewCreated(view, savedInstanceState)
         println("On view Created ")
         val cancel = view.findViewById<Button>(R.id.cancelBt)
-        val next = view.findViewById<Button>(R.id.nextBt)
         val dateInPopupGlobal = view.findViewById<TextView>(R.id.dateInPopup)
-        //  dateInPopupGlobal.text = (dayInMonth[position]).toString()
-
         val addButton = view.findViewById<ImageView>(R.id.addTodo)
         val toDoListContext = view.findViewById<RecyclerView>(R.id.toDoListContext)
+
+        if (dialog != null) dialog!!.window!!.setLayout(
+            300.toPx(requireContext()),
+            450.toPx(requireContext())
+        )
+
 
         cancel.setOnClickListener {
             Log.d("qadridin", "clicked cancel button in popup Window")
             super.dismiss()
-        }
-
-        //next button Need implementation to connect DB
-        next.setOnClickListener {
-            Log.d("qadridin", "clicked next button in popup Window")
-            position += 1
-            setPopWindowAttr(toDoListContext, dateInPopupGlobal)
-            // val popup = PopupWindowFragment(position, dayInMonth, mainActivity, RESULT_OK, supportFragmentManager)
-            // popup.show(supportFragmentManager, "dialog fragment")
         }
 
         addButton.setOnClickListener {
@@ -116,9 +111,11 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
             todoAdapter.update(it)
         }
 
+
         todoAdapter = TodoAdapter(mainActivity, dayInMonth[position].toString())
         toDoListContext.layoutManager = LinearLayoutManager(mainActivity)
         toDoListContext.adapter = todoAdapter
+
 
         todoAdapter.setItemCheckBoxClickListener(object: TodoAdapter.ItemCheckBoxClickListener {
             override fun onClick(view: View, position: Int, itemId: Long) {
@@ -145,4 +142,7 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
             }
         })
     }
+    private fun Int.toPx(context: Context): Int =
+        (this * context.resources.displayMetrics.density).toInt()
+
 }

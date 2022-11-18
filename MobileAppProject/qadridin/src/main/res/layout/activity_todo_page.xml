@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,12 +8,39 @@
     android:layout_margin="10dp"
     tools:context=".TodoPageActivity">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/todolist_backBt"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/prev"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/etTodoTitle"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!-- 수정하기 일때만 버튼이 뜨도록 -->
+    <Button
+        android:id="@+id/todolist_deleteBt"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_row="0"
+        android:layout_column="2"
+        android:layout_marginStart="50dp"
+        android:background="@drawable/delete"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/etTodoTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"/>
+
     <EditText
         android:id="@+id/etTodoTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Add Title"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/todolist_backBt"
         app:layout_constraintBottom_toTopOf="@id/date_setting"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -98,12 +126,22 @@
         android:layout_height="0dp"
         android:hint="Add content"
         app:layout_constraintTop_toBottomOf="@id/time_setting"
-        app:layout_constraintBottom_toTopOf="@id/btnSave"
+        app:layout_constraintBottom_toTopOf="@id/isTimer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:singleLine="false" />
+
+    <CheckBox
+        android:id="@+id/isTimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="타이머설정"
+        app:layout_constraintTop_toBottomOf="@id/etTodoContent"
+        app:layout_constraintBottom_toTopOf="@id/btnSave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnSave"
@@ -113,9 +151,9 @@
         android:layout_alignParentBottom="true"
         android:text="Save"
         android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@id/etTodoContent"
+        app:layout_constraintTop_toBottomOf="@id/isTimer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

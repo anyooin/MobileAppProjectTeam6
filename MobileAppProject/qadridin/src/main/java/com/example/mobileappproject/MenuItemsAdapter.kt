@@ -50,6 +50,7 @@ class TodoItemAdapter(val data: MutableList<String>): RecyclerView.Adapter<Recyc
         //print view data
         binding.todoListItemData.text = data[position]
 
+        /*
         binding.checkTimer.setOnCheckedChangeListener{ compoundButton, b ->
             if(b) {
                 Log.d("uin", "timer setting")
@@ -60,6 +61,7 @@ class TodoItemAdapter(val data: MutableList<String>): RecyclerView.Adapter<Recyc
                 //타이머 해제
             }
         }
+         */
 
         /*
         inner class CheckBoxListener : CompoundButton.OnCheckedChangeListener{
