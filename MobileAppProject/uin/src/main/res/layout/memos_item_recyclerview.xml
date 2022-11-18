@@ -12,13 +12,14 @@
     <CheckBox
         android:id="@+id/checkDone"
         android:layout_width="0dp"
-        android:layout_weight="0.3"
+        android:layout_weight="0.1"
         android:layout_height="25dp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/todoListItem_data"
@@ -33,7 +34,7 @@
             android:id="@+id/todoListItem_timeStamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:text="테스트용 시간대"/>
 
 
@@ -46,5 +47,11 @@
         android:layout_weight="0.3"
         android:layout_height="25dp" />
     -->
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_weight="0.1"
+        android:layout_height="wrap_content"
+        android:src="@drawable/timer_setting" />
 
 </LinearLayout>

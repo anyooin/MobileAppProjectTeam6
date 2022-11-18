@@ -19,7 +19,7 @@ import java.time.LocalDate
 import java.util.*
 
 class TodoPageActivity : AppCompatActivity() {
-    lateinit var binding: ActivityTodoPageBinding
+    lateinit var binding: com.example.mobileappproject.databinding.ActivityTodoPageBinding
     private var todo: Todo?=null
 
    // @SuppressLint("SimpleDateFormat")
