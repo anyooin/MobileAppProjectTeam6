@@ -35,7 +35,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_row="0"
             android:layout_column="2"
             android:layout_marginStart="50dp"
-            android:background="@drawable/next_month"
+            android:background="@drawable/next"
             android:textColor="@color/black"
             android:textSize="20sp" />
 

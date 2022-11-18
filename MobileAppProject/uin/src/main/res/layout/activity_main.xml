@@ -32,7 +32,7 @@
                 android:layout_height="30dp"
                 android:gravity="center"
                 android:backgroundTint="@null"
-                android:background="@drawable/prev_month" />
+                android:background="@drawable/prev" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/minusMonth"
@@ -40,7 +40,7 @@
                 android:layout_height="30dp"
                 android:gravity="center"
                 android:backgroundTint="@null"
-                android:background="@drawable/prev_month" />
+                android:background="@drawable/prev" />
 
             <TextView
                 android:id="@+id/monthYear"
@@ -57,7 +57,7 @@
                 android:layout_height="30dp"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:background="@drawable/next_month" />
+                android:background="@drawable/next" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/plusYear"
@@ -65,7 +65,7 @@
                 android:layout_height="30dp"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:background="@drawable/next_month" />
+                android:background="@drawable/next" />
 
         </LinearLayout>
 

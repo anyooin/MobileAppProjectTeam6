@@ -1,6 +1,7 @@
 package com.example.mobileappproject
 
 import android.content.Context
+import android.provider.Settings
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 
@@ -15,7 +16,10 @@ class TodoRepository private constructor(context: Context){
 
     private val todoDao = database.todoDao()
 
-    fun list(): LiveData<MutableList<Todo>> = todoDao.list()
+    fun list(dateInPopup: String): LiveData<MutableList<Todo>> {
+        println("Date in TodoRepository Class $dateInPopup")
+        return  todoDao.list(dateInPopup)
+    }
 
     fun getTodo(id: Long): Todo = todoDao.selectOne(id)
 

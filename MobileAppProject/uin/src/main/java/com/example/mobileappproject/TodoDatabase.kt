@@ -11,13 +11,14 @@ class Todo(
     @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) var id: Long = 0,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "content") val content: String,
-    //@ColumnInfo(name = "timestamp") val timestamp: String,
+    @ColumnInfo(name = "timestamp") val timestamp: String,
+    @ColumnInfo(name = "date") val date: String,  //생성한 날짜 -> 선택한날짜
     @ColumnInfo(name = "isChecked") var isChecked: Boolean
 ): Serializable {
 }
 
 //To do Database.kt
-@Database(entities = arrayOf(Todo::class), version = 1)
+@Database(entities = [Todo::class], version = 1, exportSchema = false)
 abstract class TodoDatabase: RoomDatabase() {
     abstract fun todoDao(): TodoDao
 }
@@ -29,8 +30,13 @@ interface TodoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(dto: Todo)
 
-    @Query("select * from todoTable")
-    fun list(): LiveData<MutableList<Todo>>
+    @Query("select * from todoTable where date = (:date)")
+    fun list(date: String): LiveData<MutableList<Todo>>
+
+    /*
+    @Query("SELECT * FROM todoTable WHERE date BETWEEN date(:from) AND date(:to)")
+    fun fetchUserBetweenDate(from: String?, to: String?): LiveData<List<User?>?>?
+    */
 
     @Query("select * from todoTable where id = (:id)")
     fun selectOne(id: Long): Todo
