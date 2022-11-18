@@ -17,7 +17,7 @@ class TodoAdapter(val context: Context, val currentDay: String): RecyclerView.Ad
 
         var title = itemView.findViewById<TextView>(R.id.todoListItem_data)
         var checkbox = itemView.findViewById<CheckBox>(R.id.checkDone)
-        var timestamp = itemView.findViewById<TextView>(R.id.todoListItem_timeSetting)
+        var timestamp = itemView.findViewById<TextView>(R.id.todoListItem_timeStamp)
 
         fun onBind(data: Todo) {
             title.text = data.title

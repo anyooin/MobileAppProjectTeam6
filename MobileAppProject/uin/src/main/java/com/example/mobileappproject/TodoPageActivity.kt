@@ -123,10 +123,10 @@ class TodoPageActivity : AppCompatActivity() {
 
             override fun onDateSet(view: DatePicker?, year: Int, month: Int, DayOfMonth: Int) {
                 if (id == "startDate") {
-                    binding.startDate.text = String.format("%d:%d:%d", year, month+1, DayOfMonth)
+                    binding.startDate.text = String.format("%d-%d-%d", year, month+1, DayOfMonth)
                 }
                 else if (id == "endDate") {
-                    binding.endDate.text = String.format("%d:%d:%d", year, month+1, DayOfMonth)
+                    binding.endDate.text = String.format("%d-%d-%d", year, month+1, DayOfMonth)
                 }
             }
         }, year, month, day)

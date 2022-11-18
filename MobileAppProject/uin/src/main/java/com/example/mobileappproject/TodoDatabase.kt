@@ -12,7 +12,7 @@ class Todo(
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "content") val content: String,
     @ColumnInfo(name = "timestamp") val timestamp: String,
-    @ColumnInfo(name = "date") val date: String,
+    @ColumnInfo(name = "date") val date: String,  //생성한 날짜 -> 선택한날짜
     @ColumnInfo(name = "isChecked") var isChecked: Boolean
 ): Serializable {
 }
@@ -32,6 +32,11 @@ interface TodoDao {
 
     @Query("select * from todoTable where date = (:date)")
     fun list(date: String): LiveData<MutableList<Todo>>
+
+    /*
+    @Query("SELECT * FROM todoTable WHERE date BETWEEN date(:from) AND date(:to)")
+    fun fetchUserBetweenDate(from: String?, to: String?): LiveData<List<User?>?>?
+    */
 
     @Query("select * from todoTable where id = (:id)")
     fun selectOne(id: Long): Todo
