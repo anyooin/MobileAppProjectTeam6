@@ -187,6 +187,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         }
 
+        // 나중에 삭제하기 ->  logcat 에 변수 기록 확인
+        binding.logcatRecord.setOnClickListener {
+            Log.d("recordVariable","basicTimerRecord")
+            for(i in timerList[selectPos].basictimeVar.indices){
+                Log.d("recordVariable","${timerList[selectPos].timername} ${timerList[selectPos].basictimeVar[i]}")
+            }
+            Log.d("recordVariable","\npomodoroTimerRecord")
+            for(i in timerList[selectPos].pomodorotimeVar.indices){
+                Log.d("recordVariable","${timerList[selectPos].timername} ${timerList[selectPos].pomodorotimeVar[i]}")
+            }
+            Log.d("recordVariable","\ntimeboxTimerRecord")
+            for(i in timerList[selectPos].timeboxtimeVar.indices){
+                Log.d("recordVariable","${timerList[selectPos].timername} ${timerList[selectPos].timeboxtimeVar[i]}")
+            }
+            Log.d("recordVariable","--------------------------------------------")
+        }
+
 
         //TIMER
         binding.basictimerstartBtn.setOnClickListener {
@@ -200,15 +217,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 val recordPauseTime = SystemClock.elapsedRealtime() - binding.chronometer.base
                 val h =(recordPauseTime/3600000)
-                val textH = "%02d:".format(h)
+                val textH = "%02d".format(h)
                 val m = (recordPauseTime-h*3600000)/60000
-                val textM = "%02d:".format(m)
+                val textM = "%02d".format(m)
                 val s = (recordPauseTime-h*3600000-m*60000)/1000
                 val textS = "%02d".format(s)
 
 
-                RecordTime.text = "time = ${textH}${textM}${textS}"
-                timerList[selectPos].timeRecord = "time = ${textH}${textM}${textS}"
+                RecordTime.text = "time = ${textH}:${textM}:${textS}"
+                timerList[selectPos].timeRecord = "time = ${textH}:${textM}:${textS}"
+                timerList[selectPos].basictimeVar.add(textH.toLong()*3600 + textM.toLong()*60 + textS.toLong())
             }
 
         }
@@ -239,10 +257,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.timeboxstopBtn.setOnClickListener {
             stopCountDown()
             if(selectPos != -1) {
-                RecordTime.text = "time = ${timeBoxremainHourTextView.text}${timeBoxremainMinutesTextView.text}" +
-                    "${timeBoxremainSecondsTextView.text}"
-                timerList[selectPos].timeRecord = "time = ${timeBoxremainHourTextView.text}${timeBoxremainMinutesTextView.text}" +
-                        "${timeBoxremainSecondsTextView.text}"
+                val h = timeBoxremainHourTextView.text
+                val m = timeBoxremainMinutesTextView.text
+                val s = timeBoxremainSecondsTextView.text
+                RecordTime.text = "time = ${h}${m}${s}"
+                timerList[selectPos].timeRecord = "time = ${h}${m}${s}"
+                timerList[selectPos].timeboxtimeVar.add(h.substring(0..1).toLong()*3600 + m.substring(0..1).toLong()*60+s.toString().toLong())
             }
         }
         binding.timeboxresetBtn.setOnClickListener {
@@ -255,7 +275,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         //timer 추가함수
         binding.timerListAddButton.setOnClickListener {
-            //datas.add("timer ${datas.size}")
             timerList.add(timerList("timer ${timerList.size}", "Mode = -", "time = 00:00:00"))
             (binding.recyclerView.adapter as timerListAdapter).notifyDataSetChanged()
         }
@@ -370,6 +389,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if(selectPos != -1) {
                 RecordTime.text = "포모도로 ${pomodoroSuccess}회 성공!"
                 timerList[selectPos].timeRecord = "포모도로 ${pomodoroSuccess}회 성공!"
+                timerList[selectPos].pomodorotimeVar.add("포모도로 ${pomodoroSuccess}회 성공!")
             }
         }
 
@@ -390,18 +410,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             remainHourTextView.text = "%02d:".format(remainSeconds/60/60)
             remainMinutesTextView.text = "%02d:".format(remainSeconds/60%60)
             remainSecondsTextView.text= "%02d".format(remainSeconds%60)
-            Log.d("sooo", "type = 0 ${remainHourTextView.text }  " +
-                    "${remainMinutesTextView.text }  " +
-                    "${remainSecondsTextView.text }  ")
         }
         if (type == 1)// timeBox인경우
         {
             timeBoxremainHourTextView.text = "%02d:".format(remainSeconds/60/60)
             timeBoxremainMinutesTextView.text = "%02d:".format(remainSeconds/60%60)
             timeBoxremainSecondsTextView.text= "%02d".format(remainSeconds%60)
-            Log.d("sooo", "type  = 1 ${timeBoxremainHourTextView.text }  " +
-                    "${timeBoxremainMinutesTextView.text }  " +
-                    "${timeBoxremainSecondsTextView.text }  ")
         }
 
 
