@@ -16,12 +16,14 @@ import java.lang.Class as Class1
 
 
 class TodoViewModel: ViewModel() {
-    public val todoList: LiveData<MutableList<Todo>>
+    val todoList: LiveData<MutableList<Todo>>
     private val todoRepository: TodoRepository = TodoRepository.get()
     init {
         println("date in to do ViewModel $date")
         todoList = todoRepository.list(date)
     }
+
+    fun getCurrentDay(days: String) = todoRepository.getCurrentDay(days)
 
     fun getOne(id: Long) = todoRepository.getTodo(id)
 

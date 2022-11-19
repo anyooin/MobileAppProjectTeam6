@@ -21,6 +21,8 @@ class TodoRepository private constructor(context: Context){
         return  todoDao.list(dateInPopup)
     }
 
+    fun getCurrentDay(day: String): LiveData<MutableList<Todo>> = todoDao.getCurrentDay(day)
+
     fun getTodo(id: Long): Todo = todoDao.selectOne(id)
 
     fun insert(dto: Todo) = todoDao.insert(dto)

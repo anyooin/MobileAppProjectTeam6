@@ -1,5 +1,6 @@
 package com.example.mobileappproject
 
+import android.app.Activity
 import android.graphics.Color
 import android.os.Build
 import android.util.Log
@@ -7,18 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileappproject.MainActivity
 import com.example.mobileappproject.databinding.DaysCellBinding
-import com.example.mobileappproject.databinding.PopupWindowFragementBinding
-import kotlinx.coroutines.NonDisposableHandle.parent
 import java.time.LocalDate
-import kotlin.contracts.contract
 
-//class CalendarViewHolder(val binding: DaysCellBinding):
-//    RecyclerView.ViewHolder(binding.root)
 
-class CalendarAdapter(private val days: MutableList<LocalDate?>) :
+class CalendarAdapter(private val days: MutableList<LocalDate?>, private var activity: LifecycleOwner) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class CalendarViewHolder(val binding: DaysCellBinding):
@@ -72,6 +71,18 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>) :
             binding.cellDayText.setTextColor(Color.BLUE)
         } else if (position == 0 || position % 7 == 0) {
             binding.cellDayText.setTextColor(Color.RED)
+        }
+
+        //set to do list title for day
+
+        val todo = TodoViewModel().getCurrentDay(day.toString())
+        todo.observe(activity) {
+            if (it.size > 0) {
+                binding.todoTitle1.text = it[0].title
+                if (it.size > 1) {
+                    binding.todoTitle2.text = it[1].title
+                }
+            }
         }
     }
 

@@ -35,6 +35,8 @@ interface TodoDao {
     @Query("select * from todoTable where date = (:date)")
     fun list(date: String): LiveData<MutableList<Todo>>
 
+    @Query("select * from todoTable where date = (:date)")
+    fun getCurrentDay(date: String): LiveData<MutableList<Todo>>
     /*
     @Query("SELECT * FROM todoTable WHERE date BETWEEN date(:from) AND date(:to)")
     fun fetchUserBetweenDate(from: String?, to: String?): LiveData<List<User?>?>?
