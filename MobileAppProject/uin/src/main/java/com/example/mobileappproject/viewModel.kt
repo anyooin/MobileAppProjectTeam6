@@ -23,6 +23,8 @@ class TodoViewModel: ViewModel() {
         todoList = todoRepository.list(date)
     }
 
+    fun getCurrentDay(days: String) = todoRepository.getCurrentDay(days)
+
     fun getOne(id: Long) = todoRepository.getTodo(id)
 
     fun insert(dto: Todo) = viewModelScope.launch(Dispatchers.IO) {

@@ -48,7 +48,8 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="300dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -56,10 +57,11 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/addTodo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:src="@android:drawable/ic_menu_add"
-        app:tint="@color/white"
-        android:layout_gravity="end"/>
-
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:src="@android:drawable/ic_input_add"
+        android:tint="@color/white"
+        app:fabSize="normal"/>
 
 </LinearLayout>

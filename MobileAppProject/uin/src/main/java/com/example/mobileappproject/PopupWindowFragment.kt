@@ -2,6 +2,7 @@ package com.example.mobileappproject
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.media.AsyncPlayer
 import android.os.Bundle
@@ -48,10 +49,13 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
         println("On view Created ")
         val cancel = view.findViewById<Button>(R.id.cancelBt)
         val dateInPopupGlobal = view.findViewById<TextView>(R.id.dateInPopup)
-        //  dateInPopupGlobal.text = (dayInMonth[position]).toString()
-
         val addButton = view.findViewById<ImageView>(R.id.addTodo)
         val toDoListContext = view.findViewById<RecyclerView>(R.id.toDoListContext)
+
+        if (dialog != null) dialog!!.window!!.setLayout(
+            300.toPx(requireContext()),
+            450.toPx(requireContext())
+        )
 
         cancel.setOnClickListener {
             Log.d("qadridin", "clicked cancel button in popup Window")
@@ -106,9 +110,11 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
             todoAdapter.update(it)
         }
 
+
         todoAdapter = TodoAdapter(mainActivity, dayInMonth[position].toString())
         toDoListContext.layoutManager = LinearLayoutManager(mainActivity)
         toDoListContext.adapter = todoAdapter
+
 
         todoAdapter.setItemCheckBoxClickListener(object: TodoAdapter.ItemCheckBoxClickListener {
             override fun onClick(view: View, position: Int, itemId: Long) {
@@ -135,4 +141,7 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
             }
         })
     }
+    private fun Int.toPx(context: Context): Int =
+        (this * context.resources.displayMetrics.density).toInt()
+
 }

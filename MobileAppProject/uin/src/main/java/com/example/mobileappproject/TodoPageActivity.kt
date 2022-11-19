@@ -8,10 +8,8 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.DatePicker
-import android.widget.PopupWindow
-import android.widget.TextView
-import android.widget.TimePicker
+import android.view.View
+import android.widget.*
 import com.example.mobileappproject.databinding.ActivityTodoPageBinding
 import com.example.mobileappproject.databinding.PopupWindowFragementBinding
 import java.text.SimpleDateFormat
@@ -44,19 +42,32 @@ class TodoPageActivity : AppCompatActivity() {
            setupDatePicker("endDate")
            Log.d("uin", "endDate")
        }
+       binding.todolistBackBt.setOnClickListener {
+           finish()
+       }
 
         val type = intent.getStringExtra("type")
 
         if (type.equals("ADD")) {
             binding.btnSave.text = "추가하기"
+            binding.todolistDeleteBt.visibility = View.INVISIBLE
         } else {
             todo = intent.getSerializableExtra("item") as Todo?
             binding.etTodoTitle.setText(todo!!.title)
             binding.etTodoContent.setText(todo!!.content)
             //여기에 날짜 + 시간정보추가
-            binding.startDate.setText(todo!!.timestamp.split(" ")[0])
-            binding.startDate.setText(todo!!.timestamp.split(" ")[1])
+            //binding.startDate.setText(todo!!.timestamp.split(" ")[0])
+            //binding.startDate.setText(todo!!.timestamp.split(" ")[1])
             binding.btnSave.text = "수정하기"
+
+            //set backBtn and deleteBtn
+            binding.todolistDeleteBt.visibility = View.VISIBLE
+
+            binding.todolistDeleteBt.setOnClickListener {
+                Toast.makeText(this, "삭제", Toast.LENGTH_SHORT).show()
+                TodoViewModel().delete(this.todo!!)
+                finish()
+            }
         }
 
         binding.btnSave.setOnClickListener {

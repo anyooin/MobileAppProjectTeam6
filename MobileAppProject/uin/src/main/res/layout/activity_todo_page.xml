@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <!-- 수정하기 일때만 버튼이 뜨도록 -->
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/todolist_deleteBt"
         android:layout_width="40dp"
         android:layout_height="30dp"

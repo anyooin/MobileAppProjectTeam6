@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -91,7 +92,13 @@ class MainActivity : AppCompatActivity() {
     private fun setMonthView() {
         monthYear.text = monthYearFromDate(CalendarUtil.selectedDate)
         val daysInMonth = daysInMonthArray(CalendarUtil.selectedDate)
-        val calendarAdapter = CalendarAdapter(daysInMonth)
+        //
+      //  val todo = TodoViewModel().getCurrentDay(day.toString())
+        // println(todo.date)
+        // println(todo)
+        //todo.observe(this) { findViewById<TextView>().todoTitle1.text = it[0].title.toString() }
+
+        val calendarAdapter = CalendarAdapter(daysInMonth, this@MainActivity)
         println("CalendarAdapter size is ${calendarAdapter.itemCount}")
         val layoutManager = GridLayoutManager(applicationContext, 7)
         calendar.layoutManager = layoutManager
