@@ -2,6 +2,7 @@ package com.example.mobileappproject
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.view.LayoutInflater
@@ -12,7 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class TodoAdapter(val context: Context, val currentDay: String): RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
+class TodoAdapter(val context: Context, val currentDay: String, val items: Array<String>): RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
     private var list = mutableListOf<Todo>()
 
@@ -22,6 +23,7 @@ class TodoAdapter(val context: Context, val currentDay: String): RecyclerView.Ad
         var checkDone = itemView.findViewById<CheckBox>(R.id.checkDone)
         var timestamp = itemView.findViewById<TextView>(R.id.todoListItem_timeStamp)
         var TimerImage = itemView.findViewById<ImageView>(R.id.timerImage)
+        var categoryText = itemView.findViewById<TextView>(R.id.todoListItem_category)
 
         @SuppressLint("SetTextI18n")
         fun onBind(data: Todo) {
@@ -29,6 +31,7 @@ class TodoAdapter(val context: Context, val currentDay: String): RecyclerView.Ad
             checkDone.isChecked = data.isChecked
             timestamp.text = data.startDate + " " + data.startTime + "~" +
                     data.endDate + " " + data.endTime
+            categoryText.text = items[data.categoryNum]
 
             if (data.isChecked) {
                 title.paintFlags = title.paintFlags or STRIKE_THRU_TEXT_FLAG
@@ -39,7 +42,8 @@ class TodoAdapter(val context: Context, val currentDay: String): RecyclerView.Ad
             if (data.isTimer) {
                 TimerImage.setImageResource(R.drawable.timer_setting)
             } else {
-                TimerImage.setImageResource(R.drawable.timer_off)
+                //TimerImage.setImageBitmap(null);
+                TimerImage.setImageResource(0)
             }
 
             checkDone.setOnClickListener {

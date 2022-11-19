@@ -17,7 +17,8 @@ class Todo(
     @ColumnInfo(name = "endTime") val endTime: String,
     @ColumnInfo(name = "date") val date: String,  //생성한 날짜 -> 선택한날짜?
     @ColumnInfo(name = "isChecked") var isChecked: Boolean,
-    @ColumnInfo(name = "isTimer") var isTimer: Boolean
+    @ColumnInfo(name = "isTimer") var isTimer: Boolean,
+    @ColumnInfo(name = "categoryNum") var categoryNum: Int
 ): Serializable {
 }
 

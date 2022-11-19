@@ -45,6 +45,18 @@ class TodoPageActivity : AppCompatActivity() {
        binding.todolistBackBt.setOnClickListener {
            finish()
        }
+       val items = resources.getStringArray(R.array.category_list)
+       val categoryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,items)
+
+       binding.category.adapter = categoryAdapter
+//       binding.category.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//           override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//               when(position) {
+//                   1 ->
+//               }
+//           }
+//       }
+
 
         val type = intent.getStringExtra("type")
 
@@ -53,6 +65,8 @@ class TodoPageActivity : AppCompatActivity() {
             binding.todolistDeleteBt.visibility = View.INVISIBLE
         } else {
             todo = intent.getSerializableExtra("item") as Todo?
+            binding.btnSave.text = "수정하기"
+            //제목 + 내용정보
             binding.etTodoTitle.setText(todo!!.title)
             binding.etTodoContent.setText(todo!!.content)
             //날짜 + 시간정보
@@ -60,14 +74,12 @@ class TodoPageActivity : AppCompatActivity() {
             binding.endDate.setText(todo!!.endDate)
             binding.startTime.setText(todo!!.startTime)
             binding.endTime.setText(todo!!.endTime)
-
+            //그외 세팅정보
             binding.isTimer.setChecked(todo!!.isTimer)
-
-            binding.btnSave.text = "수정하기"
+            binding.category.setSelection(todo!!.categoryNum)
 
             //set backBtn and deleteBtn
             binding.todolistDeleteBt.visibility = View.VISIBLE
-
             binding.todolistDeleteBt.setOnClickListener {
                 Toast.makeText(this, "삭제", Toast.LENGTH_SHORT).show()
                 TodoViewModel().delete(this.todo!!)
@@ -83,10 +95,11 @@ class TodoPageActivity : AppCompatActivity() {
             val startTime = binding.startTime.text.toString()
             val endTime = binding.endTime.text.toString()
             val isTimer = binding.isTimer.isChecked()
+            val category = binding.category.selectedItemPosition
 
-            if (type.equals("ADD")) {
+            if (type.equals("ADD")) {  //추가하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val todo = Todo(0, title, content, startDate, endDate, startTime, endTime, date,false, isTimer)
+                    val todo = Todo(0, title, content, startDate, endDate, startTime, endTime, date,false, isTimer, category)
                     val intent = Intent().apply {
                         putExtra("todo", todo)
                         putExtra("flag", 0)
@@ -94,11 +107,9 @@ class TodoPageActivity : AppCompatActivity() {
                     setResult(RESULT_OK, intent)
                     finish()
                 }
-            } else {
-                // 수정
+            } else { // 수정하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val todo = Todo(todo!!.id, title, content, startDate, endDate, startTime, endTime, date, todo!!.isChecked, isTimer)
-
+                    val todo = Todo(todo!!.id, title, content, startDate, endDate, startTime, endTime, date, todo!!.isChecked, isTimer, category)
                     val intent = Intent().apply {
                         putExtra("todo", todo)
                         putExtra("flag", 1)

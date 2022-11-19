@@ -111,7 +111,7 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
         }
 
 
-        todoAdapter = TodoAdapter(mainActivity, dayInMonth[position].toString())
+        todoAdapter = TodoAdapter(mainActivity, dayInMonth[position].toString(), resources.getStringArray(R.array.category_list))
         toDoListContext.layoutManager = LinearLayoutManager(mainActivity)
         toDoListContext.adapter = todoAdapter
 
