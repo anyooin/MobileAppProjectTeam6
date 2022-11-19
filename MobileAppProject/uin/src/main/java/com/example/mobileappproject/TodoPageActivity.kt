@@ -55,9 +55,14 @@ class TodoPageActivity : AppCompatActivity() {
             todo = intent.getSerializableExtra("item") as Todo?
             binding.etTodoTitle.setText(todo!!.title)
             binding.etTodoContent.setText(todo!!.content)
-            //여기에 날짜 + 시간정보추가
-            //binding.startDate.setText(todo!!.timestamp.split(" ")[0])
-            //binding.startDate.setText(todo!!.timestamp.split(" ")[1])
+            //날짜 + 시간정보
+            binding.startDate.text = todo!!.startDate
+            binding.endDate.setText(todo!!.endDate)
+            binding.startTime.setText(todo!!.startTime)
+            binding.endTime.setText(todo!!.endTime)
+
+            binding.isTimer.setChecked(todo!!.isTimer)
+
             binding.btnSave.text = "수정하기"
 
             //set backBtn and deleteBtn
@@ -73,15 +78,15 @@ class TodoPageActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener {
             val title = binding.etTodoTitle.text.toString()
             val content = binding.etTodoContent.text.toString()
-            // 데이터베이스 작업을 쉽게하기위해 timestamp2 만들기
-            val timestamp = binding.startDate.text.toString() + " " +
-                    binding.startTime.text.toString() + "~" + binding.endDate.text.toString() + " " +
-                    binding.endTime.text.toString()
-            //val currentDate = SimpleDateFormat("yyyy-MM-dd HH:mm").format(System.currentTimeMillis())
+            val startDate = binding.startDate.text.toString()
+            val endDate = binding.endDate.text.toString()
+            val startTime = binding.startTime.text.toString()
+            val endTime = binding.endTime.text.toString()
+            val isTimer = binding.isTimer.isChecked()
 
             if (type.equals("ADD")) {
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val todo = Todo(0, title, content, timestamp, date,false)
+                    val todo = Todo(0, title, content, startDate, endDate, startTime, endTime, date,false, isTimer)
                     val intent = Intent().apply {
                         putExtra("todo", todo)
                         putExtra("flag", 0)
@@ -92,7 +97,7 @@ class TodoPageActivity : AppCompatActivity() {
             } else {
                 // 수정
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val todo = Todo(todo!!.id, title, content, timestamp, date, todo!!.isChecked)
+                    val todo = Todo(todo!!.id, title, content, startDate, endDate, startTime, endTime, date, todo!!.isChecked, isTimer)
 
                     val intent = Intent().apply {
                         putExtra("todo", todo)

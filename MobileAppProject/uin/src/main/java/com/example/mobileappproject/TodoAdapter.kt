@@ -1,11 +1,14 @@
 package com.example.mobileappproject
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -16,13 +19,16 @@ class TodoAdapter(val context: Context, val currentDay: String): RecyclerView.Ad
     inner class TodoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
         var title = itemView.findViewById<TextView>(R.id.todoListItem_data)
-        var checkbox = itemView.findViewById<CheckBox>(R.id.checkDone)
+        var checkDone = itemView.findViewById<CheckBox>(R.id.checkDone)
         var timestamp = itemView.findViewById<TextView>(R.id.todoListItem_timeStamp)
+        var TimerImage = itemView.findViewById<ImageView>(R.id.timerImage)
 
+        @SuppressLint("SetTextI18n")
         fun onBind(data: Todo) {
             title.text = data.title
-            checkbox.isChecked = data.isChecked
-            timestamp.text = data.timestamp
+            checkDone.isChecked = data.isChecked
+            timestamp.text = data.startDate + " " + data.startTime + "~" +
+                    data.endDate + " " + data.endTime
 
             if (data.isChecked) {
                 title.paintFlags = title.paintFlags or STRIKE_THRU_TEXT_FLAG
@@ -30,7 +36,13 @@ class TodoAdapter(val context: Context, val currentDay: String): RecyclerView.Ad
                 title.paintFlags = title.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
             }
 
-            checkbox.setOnClickListener {
+            if (data.isTimer) {
+                TimerImage.setImageResource(R.drawable.timer_setting)
+            } else {
+                TimerImage.setImageResource(R.drawable.timer_off)
+            }
+
+            checkDone.setOnClickListener {
                 itemCheckBoxClickListener.onClick(it, layoutPosition, list[layoutPosition].id)
             }
 
