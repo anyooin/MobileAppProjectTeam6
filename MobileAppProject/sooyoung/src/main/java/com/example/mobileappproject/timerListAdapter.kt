@@ -1,5 +1,4 @@
 package com.example.mobileappproject
-
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileappproject.databinding.ActivityMainBinding
 import com.example.mobileappproject.databinding.ItemMainBinding
+import com.example.mobileappproject.timerList
 import kotlinx.coroutines.selects.select
 
 class timerListAdapter(val timerList: MutableList<timerList>,
@@ -28,11 +28,11 @@ class timerListAdapter(val timerList: MutableList<timerList>,
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as MyViewHolder).binding
 
-        binding.itemData.text = timerList[position].timername
+        binding.timeritemData.text = timerList[position].timername
         binding.timerMode.text = timerList[position].timerMode
         binding.timerRecord.text = timerList[position].timeRecord
 
-        binding.itemData.setOnClickListener {
+        binding.timeritemData.setOnClickListener {
             onClickSelectItem.invoke(position)
             onTimerItem(binding.timerMode)
             onTimeRecord(binding.timerRecord)

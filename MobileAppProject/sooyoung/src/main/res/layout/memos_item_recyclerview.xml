@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- to do list 에 있는 일정들의  layout -->
+<LinearLayout
+    android:id="@+id/todolistItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:layout_margin="8dp">
+
+    <CheckBox
+        android:id="@+id/checkDone"
+        android:layout_width="0dp"
+        android:layout_weight="0.2"
+        android:layout_height="35dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/todoListItem_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="테스트용 제목"/>
+
+
+        <TextView
+            android:id="@+id/todoListItem_timeStamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:text="테스트용 시간대"/>
+
+
+    </LinearLayout>
+
+    <!-- 체크박스 추후에 이미지로 변경
+    <CheckBox
+        android:id="@+id/checkTimer"
+        android:layout_width="0dp"
+        android:layout_weight="0.3"
+        android:layout_height="25dp" />
+        -->
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="0.2"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/todoListItem_category"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textSize="10sp"
+            android:text="카테고리"/>
+
+    <ImageView
+        android:id="@+id/timerImage"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:src="@drawable/timer_setting" />
+
+    </LinearLayout>
+
+</LinearLayout>
