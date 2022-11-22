@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">MobileAppProject</string>
+    <string name="drawer_opened">DrawerOpened</string>
+    <string name="drawer_closed">DrawerClosed</string>
     <string name="menu_item_open">Opened menu item</string>
     <string name="menu_item_clos">Closed menu item</string>
     <!-- TODO: Remove or change this placeholder text -->

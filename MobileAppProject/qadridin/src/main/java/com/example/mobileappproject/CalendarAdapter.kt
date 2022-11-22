@@ -1,19 +1,15 @@
 package com.example.mobileappproject
 
-import android.app.Activity
 import android.graphics.Color
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mobileappproject.MainActivity
+import com.example.mobileappproject.R
 import com.example.mobileappproject.databinding.DaysCellBinding
+import com.example.mobileappproject.CalendarUtil
 import java.time.LocalDate
 
 

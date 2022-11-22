@@ -1,5 +1,4 @@
 package com.example.mobileappproject
-
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -10,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.example.mobileappproject.Todo
 import com.example.mobileappproject.databinding.ActivityTodoPageBinding
 import com.example.mobileappproject.databinding.PopupWindowFragementBinding
 import java.text.SimpleDateFormat
@@ -45,6 +45,18 @@ class TodoPageActivity : AppCompatActivity() {
        binding.todolistBackBt.setOnClickListener {
            finish()
        }
+       val items = resources.getStringArray(R.array.category_list)
+       val categoryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,items)
+
+       binding.category.adapter = categoryAdapter
+//       binding.category.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//           override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//               when(position) {
+//                   1 ->
+//               }
+//           }
+//       }
+
 
         val type = intent.getStringExtra("type")
 
@@ -53,16 +65,21 @@ class TodoPageActivity : AppCompatActivity() {
             binding.todolistDeleteBt.visibility = View.INVISIBLE
         } else {
             todo = intent.getSerializableExtra("item") as Todo?
+            binding.btnSave.text = "수정하기"
+            //제목 + 내용정보
             binding.etTodoTitle.setText(todo!!.title)
             binding.etTodoContent.setText(todo!!.content)
-            //여기에 날짜 + 시간정보추가
-            binding.startDate.setText(todo!!.timestamp.split(" ")[0])
-            binding.startDate.setText(todo!!.timestamp.split(" ")[1])
-            binding.btnSave.text = "수정하기"
+            //날짜 + 시간정보
+            binding.startDate.text = todo!!.startDate
+            binding.endDate.setText(todo!!.endDate)
+            binding.startTime.setText(todo!!.startTime)
+            binding.endTime.setText(todo!!.endTime)
+            //그외 세팅정보
+            binding.isTimer.setChecked(todo!!.isTimer)
+            binding.category.setSelection(todo!!.categoryNum)
 
             //set backBtn and deleteBtn
             binding.todolistDeleteBt.visibility = View.VISIBLE
-
             binding.todolistDeleteBt.setOnClickListener {
                 Toast.makeText(this, "삭제", Toast.LENGTH_SHORT).show()
                 TodoViewModel().delete(this.todo!!)
@@ -73,15 +90,16 @@ class TodoPageActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener {
             val title = binding.etTodoTitle.text.toString()
             val content = binding.etTodoContent.text.toString()
-            // 데이터베이스 작업을 쉽게하기위해 timestamp2 만들기
-            val timestamp = binding.startDate.text.toString() + " " +
-                    binding.startTime.text.toString() + "~" + binding.endDate.text.toString() + " " +
-                    binding.endTime.text.toString()
-            //val currentDate = SimpleDateFormat("yyyy-MM-dd HH:mm").format(System.currentTimeMillis())
+            val startDate = binding.startDate.text.toString()
+            val endDate = binding.endDate.text.toString()
+            val startTime = binding.startTime.text.toString()
+            val endTime = binding.endTime.text.toString()
+            val isTimer = binding.isTimer.isChecked()
+            val category = binding.category.selectedItemPosition
 
-            if (type.equals("ADD")) {
+            if (type.equals("ADD")) {  //추가하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val todo = Todo(0, title, content, timestamp, date,false)
+                    val todo = Todo(0, title, content, startDate, endDate, startTime, endTime, date,false, isTimer, category)
                     val intent = Intent().apply {
                         putExtra("todo", todo)
                         putExtra("flag", 0)
@@ -89,11 +107,9 @@ class TodoPageActivity : AppCompatActivity() {
                     setResult(RESULT_OK, intent)
                     finish()
                 }
-            } else {
-                // 수정
+            } else { // 수정하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val todo = Todo(todo!!.id, title, content, timestamp, date, todo!!.isChecked)
-
+                    val todo = Todo(todo!!.id, title, content, startDate, endDate, startTime, endTime, date, todo!!.isChecked, isTimer, category)
                     val intent = Intent().apply {
                         putExtra("todo", todo)
                         putExtra("flag", 1)

@@ -1,9 +1,10 @@
 package com.example.mobileappproject
-
 import android.content.Context
 import android.provider.Settings
 import androidx.lifecycle.LiveData
 import androidx.room.Room
+import com.example.mobileappproject.Todo
+import com.example.mobileappproject.TodoDatabase
 
 private const val DATABASE_NAME = "todo-database.db"
 class TodoRepository private constructor(context: Context){
@@ -43,6 +44,47 @@ class TodoRepository private constructor(context: Context){
         fun get(): TodoRepository {
             return INSTANCE ?:
             throw IllegalStateException("TodoRepository must be initialized")
+        }
+    }
+}
+
+private const val DATABASE_Diary = "diary-database.db"
+class DiaryRepository private constructor(context: Context){
+
+    private val database: DiaryDatabase = Room.databaseBuilder(
+        context.applicationContext,
+        DiaryDatabase::class.java,
+        DATABASE_Diary
+    ).build()
+
+    private val DiaryDao = database.DiaryDao()
+
+    fun list(): LiveData<MutableList<Diary>> {
+        return  DiaryDao.list()
+    }
+
+    fun getCurrentDay(day: String): LiveData<MutableList<Diary>> = DiaryDao.getCurrentDay(day)
+
+    fun getTodo(id: Long): Diary = DiaryDao.selectOne(id)
+
+    fun insert(dto: Diary) = DiaryDao.insert(dto)
+
+    suspend fun update(dto: Diary) = DiaryDao.update(dto)
+
+    fun delete(dto: Diary) = DiaryDao.delete(dto)
+
+    companion object {
+        private var INSTANCE: DiaryRepository?=null
+
+        fun initialize(context: Context) {
+            if (INSTANCE == null) {
+                INSTANCE = DiaryRepository(context)
+            }
+        }
+
+        fun get(): DiaryRepository {
+            return INSTANCE ?:
+            throw IllegalStateException("DiaryRepository must be initialized")
         }
     }
 }
