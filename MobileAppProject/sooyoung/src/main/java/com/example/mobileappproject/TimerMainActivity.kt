@@ -1,4 +1,5 @@
 package com.example.mobileappproject
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.media.SoundPool
 import androidx.appcompat.app.AppCompatActivity
@@ -6,13 +7,11 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.SystemClock
 import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.SeekBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
@@ -26,6 +25,7 @@ import com.example.mobileappproject.timerList
 import com.example.mobileappproject.timerListAdapter
 import com.example.mobileappproject.MainActivity
 import com.google.android.material.navigation.NavigationView
+import java.util.*
 
 class TimerMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener , SeekBar.OnSeekBarChangeListener {
     //navigation
@@ -68,12 +68,13 @@ class TimerMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     private var pomodoroSuccess = 0
 
 
+    lateinit var binding:ActivityTimerMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        binding = ActivityTimerMainBinding.inflate(layoutInflater)
         initSounds()
 
-        val binding = ActivityTimerMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         remainHourTextView = binding.remainHourTextView
@@ -113,11 +114,8 @@ class TimerMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         //TimerMode
         binding.basicTimer.setOnClickListener {
             type = -1
-            binding.basicTimerScreen.visibility = View.VISIBLE
             binding.basictimerBtn.visibility = View.VISIBLE
-            binding.pomodoroScreen.visibility = View.INVISIBLE
             binding.pomodoroBtn.visibility = View.INVISIBLE
-            binding.timeboxScreen.visibility = View.INVISIBLE
             binding.timeboxBtn.visibility = View.INVISIBLE
             binding.remainHourTextView.visibility = View.INVISIBLE
             binding.remainMinutesTextView.visibility = View.INVISIBLE
@@ -137,11 +135,8 @@ class TimerMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         binding.pomodoro.setOnClickListener {
 
             type = 0
-            binding.basicTimerScreen.visibility = View.INVISIBLE
             binding.basictimerBtn.visibility = View.INVISIBLE
-            binding.pomodoroScreen.visibility = View.VISIBLE
             binding.pomodoroBtn.visibility = View.VISIBLE
-            binding.timeboxScreen.visibility = View.INVISIBLE
             binding.timeboxBtn.visibility = View.INVISIBLE
             binding.remainHourTextView.visibility = View.VISIBLE
             binding.remainMinutesTextView.visibility = View.VISIBLE
@@ -161,11 +156,8 @@ class TimerMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         }
         binding.timebox.setOnClickListener {
             type = 1
-            binding.basicTimerScreen.visibility = View.INVISIBLE
             binding.basictimerBtn.visibility = View.INVISIBLE
-            binding.pomodoroScreen.visibility = View.INVISIBLE
             binding.pomodoroBtn.visibility = View.INVISIBLE
-            binding.timeboxScreen.visibility = View.VISIBLE
             binding.timeboxBtn.visibility = View.VISIBLE
             binding.remainHourTextView.visibility = View.INVISIBLE
             binding.remainMinutesTextView.visibility = View.INVISIBLE
@@ -285,17 +277,28 @@ class TimerMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             (binding.recyclerView.adapter as timerListAdapter).notifyDataSetChanged()
         }
 
+        binding.dateSelectButton.setOnClickListener {
+            setupDatePicker("CurrentSelectedDate")
+        }
+
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = timerListAdapter(timerList,
             onClickRemoveButton= {deleteTimerList(it)},
             onClickSelectItem = {selectTimerItem(it)},
             onTimerItem = {recordTimer(it)},
-            onTimeRecord = {recordTime(it)})
+            onTimeRecord = {recordTime(it)},
+            onTimerListTodoShow = {timerListTodoShow(it)})
 
         binding.recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
     }
+    fun timerListTodoShow(position: Int) {
+        val dig = timerListTodoPopup(this)
+        dig.show("todoList title")
+        Log.d("lee","timerList todo select")
+    }
+
     // timerList 삭제함수
     fun deleteTimerList(position : Int) {
         if(timerList.size == 0){
@@ -490,5 +493,25 @@ class TimerMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             R.id.menu_item5-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
         }
         return false
+    }
+
+    //날짜 선택 함수
+    private fun setupDatePicker(id: String) {
+        val mDatePicker: DatePickerDialog
+        val mCurrentDate = Calendar.getInstance()
+        val year = mCurrentDate.get(Calendar.YEAR)
+        val month = mCurrentDate.get(Calendar.MONTH)
+        val day = mCurrentDate.get(Calendar.DAY_OF_MONTH)
+
+        mDatePicker = DatePickerDialog(this, object : DatePickerDialog.OnDateSetListener{
+
+            override fun onDateSet(view: DatePicker?, year: Int, month: Int, DayOfMonth: Int) {
+                if (id == "CurrentSelectedDate") {
+                    binding.CurrentSelectedDate.text = String.format("%d-%d-%d", year, month+1, DayOfMonth)
+                }
+            }
+        }, year, month, day)
+
+        mDatePicker.show()
     }
 }
