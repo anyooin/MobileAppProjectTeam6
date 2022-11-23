@@ -9,13 +9,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
-import com.example.mobileappproject.Todo
-import com.example.mobileappproject.databinding.ActivityTodoPageBinding
 import com.example.mobileappproject.databinding.ActivityWritingDiaryPageBinding
-import com.example.mobileappproject.databinding.PopupWindowFragementBinding
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.util.*
+
 
 class WritingDiaryPage : AppCompatActivity() {
     private var diary: Diary? = null

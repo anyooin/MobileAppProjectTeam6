@@ -24,10 +24,14 @@ class DiaryAdapter(val context: Context): RecyclerView.Adapter<DiaryAdapter.Diar
 
         @SuppressLint("SetTextI18n")
         fun onBind(data: Diary) {
+            println("here in onBind")
             title.text = data.title
             desc.text = data.content
 //            image.setImageResource(data.source)
 
+            itemView.setOnClickListener {
+                itemClickListner.onClick(it, layoutPosition, list[layoutPosition].id)
+            }
         }
     }
 

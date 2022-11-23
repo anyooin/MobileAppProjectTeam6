@@ -1,5 +1,5 @@
 package com.example.mobileappproject
-
+/*
 import android.content.ClipData
 import android.util.Log
 import android.view.LayoutInflater
@@ -84,3 +84,5 @@ class TodoItemAdapter(val data: MutableList<String>): RecyclerView.Adapter<Recyc
     }
 
 }
+
+ */

@@ -61,7 +61,7 @@ class DiaryPageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         }
 
         diaryViewModel = ViewModelProvider(this)[DiaryViewModel::class.java]
-        println("setPopWinAttr after todoViewModel")
+        println("diary view model")
 
         diaryViewModel.diaryItemsList.observe(this) {
             diaryAdapter.update(it)
