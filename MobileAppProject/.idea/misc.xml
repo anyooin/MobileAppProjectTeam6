@@ -17,19 +17,8 @@
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/header.xml" value="0.25729166666666664" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/item_main.xml" value="0.264" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/recycler_view.xml" value="0.271875" />
-        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/menu/main_menu.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/menu/menu_list.xml" value="0.1" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/menu/menu_main.xml" value="0.2037037037037037" />
-        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/test1/src/main/res/drawable-v24/drawable_tick_mark.xml" value="0.1" />
-        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/test1/src/main/res/drawable/delete.xml" value="0.1" />
-        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/test1/src/main/res/drawable/navi_menu.xml" value="0.1" />
-        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/test1/src/main/res/layout/activity_main.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/test1/src/main/res/layout/activity_timer_main.xml" value="0.1" />
-        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/test1/src/main/res/layout/activity_todo_page.xml" value="0.1" />
-        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/test1/src/main/res/layout/appbar.xml" value="0.1" />
-        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/test1/src/main/res/layout/item_main.xml" value="0.1" />
-        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/test1/src/main/res/menu/main_menu.xml" value="0.1" />
-        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/test1/src/main/res/menu/menu_list.xml" value="0.1" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_main.xml" value="0.11203703703703703" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/menu_item.xml" value="0.11203703703703703" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/yeonjae/src/main/res/layout/activity_main.xml" value="0.21041666666666667" />
@@ -44,9 +33,9 @@
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_todo_page.xml" value="0.264" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/days_cell.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/memos_item_recyclerview.xml" value="0.264" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/memos_item_recyclerview.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/menu_item.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/popup_window_fragement.xml" value="0.2" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/popup_window_fragement.xml" value="0.1609375" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/menu/main_menu.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uinuin/src/main/res/layout/activity_todo_page.xml" value="0.16203703703703703" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uinuin/src/main/res/layout/memos_item_recyclerview.xml" value="0.165625" />
@@ -61,11 +50,27 @@
         <entry key="..\:/Users/majid/AndroidStudioProjects/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/popup_window_fragement.xml" value="0.25" />
         <entry key="..\:/Users/majid/AndroidStudioProjects/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/menu/day_popup_menu.xml" value="0.25" />
         <entry key="..\:/Users/majid/AndroidStudioProjects/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/menu/main_menu.xml" value="0.16" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/drawable-v24/drawable_tick_mark.xml" value="0.139" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.139" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/drawable/delete.xml" value="0.139" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/drawable/ic_launcher_background.xml" value="0.139" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/drawable/navi_menu.xml" value="0.139" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/drawable/timer_off.xml" value="0.139" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/drawable/timer_setting.xml" value="0.139" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_diary_page.xml" value="0.12" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_main.xml" value="0.18" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_timer_main.xml" value="0.15925925925925927" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_todo_page.xml" value="0.33" />
-        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/days_cell.xml" value="0.75" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_writing_diary_page.xml" value="0.15052083333333333" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/appbar.xml" value="0.16875" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/days_cell.xml" value="0.16" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/diary_items.xml" value="0.22" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/header.xml" value="0.15925925925925927" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/item_main.xml" value="0.16875" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/memos_item_recyclerview.xml" value="0.5" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/menu_item.xml" value="0.15925925925925927" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/popup_window_fragement.xml" value="0.18" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/menu/menu_list.xml" value="0.33" />
         <entry key="..\:/Users/majid/Desktop/teamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/majid/Desktop/teamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_todo_page.xml" value="0.1" />
         <entry key="..\:/Users/majid/Desktop/teamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/days_cell.xml" value="0.1828125" />

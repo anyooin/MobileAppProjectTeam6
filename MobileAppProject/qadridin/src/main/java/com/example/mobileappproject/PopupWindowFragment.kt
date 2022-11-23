@@ -57,7 +57,6 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
             450.toPx(requireContext())
         )
 
-
         cancel.setOnClickListener {
             Log.d("qadridin", "clicked cancel button in popup Window")
             super.dismiss()
@@ -112,7 +111,7 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
         }
 
 
-        todoAdapter = TodoAdapter(mainActivity, dayInMonth[position].toString())
+        todoAdapter = TodoAdapter(mainActivity, dayInMonth[position].toString(), resources.getStringArray(R.array.category_list))
         toDoListContext.layoutManager = LinearLayoutManager(mainActivity)
         toDoListContext.adapter = todoAdapter
 
@@ -142,6 +141,7 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
             }
         })
     }
+
     private fun Int.toPx(context: Context): Int =
         (this * context.resources.displayMetrics.density).toInt()
 

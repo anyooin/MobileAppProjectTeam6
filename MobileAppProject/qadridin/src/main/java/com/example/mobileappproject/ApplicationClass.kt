@@ -1,6 +1,7 @@
 package com.example.mobileappproject
 
 import android.app.Application
+import com.example.mobileappproject.TodoRepository
 
 class ApplicationClass: Application() {
 
@@ -8,5 +9,6 @@ class ApplicationClass: Application() {
         super.onCreate()
 
         TodoRepository.initialize(this)
+        DiaryRepository.initialize(this)
     }
 }

@@ -126,22 +126,37 @@
         android:layout_height="0dp"
         android:hint="Add content"
         app:layout_constraintTop_toBottomOf="@id/time_setting"
-        app:layout_constraintBottom_toTopOf="@id/isTimer"
+        app:layout_constraintBottom_toTopOf="@id/todolist_setting"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:singleLine="false" />
 
-    <CheckBox
-        android:id="@+id/isTimer"
+    <LinearLayout
+        android:id="@+id/todolist_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="타이머설정"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/etTodoContent"
         app:layout_constraintBottom_toTopOf="@id/btnSave"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <CheckBox
+            android:id="@+id/isTimer"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="타이머설정" />
+
+        <Spinner
+            android:id="@+id/category"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnSave"
@@ -151,7 +166,7 @@
         android:layout_alignParentBottom="true"
         android:text="Save"
         android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@id/isTimer"
+        app:layout_constraintTop_toBottomOf="@id/todolist_setting"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
