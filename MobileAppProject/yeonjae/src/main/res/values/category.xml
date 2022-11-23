@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="category_list">
+    <item>지정안함</item>
+    <item>공부</item>
+    <item>운동</item>
+    <item>회의</item>
+    <item>약속</item>
+</string-array>
+</resources>
