@@ -21,6 +21,7 @@ class TodoRepository private constructor(context: Context){
         println("Date in TodoRepository Class $dateInPopup")
         return  todoDao.list(dateInPopup)
     }
+    fun readAllData() : LiveData<MutableList<Todo>> = todoDao.readAllData()
 
     fun getCurrentDay(day: String): LiveData<MutableList<Todo>> = todoDao.getCurrentDay(day)
 

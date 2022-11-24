@@ -20,11 +20,12 @@ class timerListTodoPopup(private val context: AppCompatActivity ) {
         dig.setCancelable(false)
 
         binding.timertodoTitle.text = content //부모 액티비티에서 전달받은 텍스트 세팅
-
-        binding.timertodoOk.setOnClickListener {
+        binding.timertodoContent.setOnClickListener {
             dig.dismiss()
         }
-        Log.d("lee", "show start")
+//        binding.timertodoOk.setOnClickListener {
+//            dig.dismiss()
+//        }
         dig.show()
     }
 }
