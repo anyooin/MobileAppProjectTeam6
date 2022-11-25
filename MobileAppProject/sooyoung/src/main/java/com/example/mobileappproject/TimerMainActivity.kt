@@ -1,7 +1,10 @@
 package com.example.mobileappproject
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.media.SoundPool
+import android.os.Build.VERSION_CODES.N
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -26,6 +29,7 @@ import com.example.mobileappproject.databinding.ActivityTimerMainBinding
 import com.google.android.material.navigation.NavigationView
 import java.util.*
 
+var timerTodoSelectedDay = "None"
 class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener , SeekBar.OnSeekBarChangeListener{
     //navigation
     lateinit var navigationView: NavigationView
@@ -288,11 +292,10 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             (binding.recyclerView.adapter as timerListAdapter).notifyDataSetChanged()
         }
 
+        //day selected button click
+        binding.CurrentSelectedDate.text = timerTodoSelectedDay
         binding.dateSelectButton.setOnClickListener {
             setupDatePicker("CurrentSelectedDate")
-//            todoViewModel.getCurrentDay(binding.CurrentSelectedDate.text.toString()).observe(this) {
-//                Log.d("lee","${it[0].title}")
-//            }
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
@@ -308,12 +311,10 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
         timerTodoAdapter = timerTodoListAdapter(this)
         binding.selectRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.selectRecyclerView.adapter = timerTodoAdapter
-
-
     }
     fun timerListTodoShow(position: Int) {
-        val dig = timerListTodoPopup(this)
-        dig.show("todoList title")
+        //val dig = timerListTodoPopup(this)
+        //dig.show("todoList title")
     }
 
     // timerList 삭제함수
@@ -530,7 +531,10 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
 
             override fun onDateSet(view: DatePicker?, year: Int, month: Int, DayOfMonth: Int) {
                 if (id == "CurrentSelectedDate") {
-                    binding.CurrentSelectedDate.text = String.format("%d-%d-%d", year, month+1, DayOfMonth)
+                    binding.CurrentSelectedDate.text = String.format("%d-%d-%02d", year, month+1, DayOfMonth)
+                    timerTodoSelectedDay = binding.CurrentSelectedDate.text.toString()
+
+                    timerTodoAdapter.updating()
                 }
             }
         }, year, month, day)
