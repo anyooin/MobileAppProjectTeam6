@@ -93,12 +93,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun setMonthView() {
         monthYear.text = monthYearFromDate(CalendarUtil.selectedDate)
         val daysInMonth = daysInMonthArray(CalendarUtil.selectedDate)
-        //
-        //  val todo = TodoViewModel().getCurrentDay(day.toString())
-        // println(todo.date)
-        // println(todo)
-        //todo.observe(this) { findViewById<TextView>().todoTitle1.text = it[0].title.toString() }
-
         val calendarAdapter = CalendarAdapter(daysInMonth, this@MainActivity)
         println("CalendarAdapter size is ${calendarAdapter.itemCount}")
         val layoutManager = GridLayoutManager(applicationContext, 7)
@@ -111,7 +105,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onItemClick(view: View, position: Int) {
                 Log.d("uin", "item click")
 
-                val popupFragment = PopupWindowFragment(position, daysInMonth, this@MainActivity, RESULT_OK, supportFragmentManager)
+                val popupFragment = PopupWindowFragment(position, daysInMonth, this@MainActivity, RESULT_OK)
                 popupFragment.show(supportFragmentManager, "custom Dialog")
             }
         }
@@ -189,11 +183,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val TimerIntent:Intent = Intent(this, TimerMainActivity::class.java)
                 startActivity(TimerIntent)}
             R.id.menu_item3-> Toast.makeText(this,"TodoList 실행", Toast.LENGTH_SHORT).show()
-            R.id.menu_item4-> {
-                Toast.makeText(this, "Diary 실행", Toast.LENGTH_SHORT).show()
-                val diaryIntent = Intent(this, DiaryPageActivity::class.java)
-                startActivity(diaryIntent)
-            }
             R.id.menu_item5-> Toast.makeText(this,"Statistics 실행", Toast.LENGTH_SHORT).show()
             R.id.menu_item6-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
         }

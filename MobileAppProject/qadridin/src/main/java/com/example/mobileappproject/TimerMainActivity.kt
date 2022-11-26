@@ -486,11 +486,6 @@ class TimerMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             R.id.menu_item2-> Toast.makeText(this,"Timer 실행", Toast.LENGTH_SHORT).show()
             R.id.menu_item3-> Toast.makeText(this,"TodoList 실행", Toast.LENGTH_SHORT).show()
-            R.id.menu_item4-> {
-                Toast.makeText(this, "Diary 실행", Toast.LENGTH_SHORT).show()
-                val diaryIntent = Intent(this, DiaryPageActivity::class.java)
-                startActivity(diaryIntent)
-            }
             R.id.menu_item5-> Toast.makeText(this,"Statistics 실행", Toast.LENGTH_SHORT).show()
             R.id.menu_item6-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
         }

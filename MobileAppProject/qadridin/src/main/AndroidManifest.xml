@@ -18,9 +18,6 @@
             android:name=".WritingDiaryPage"
             android:exported="false" />
         <activity
-            android:name=".DiaryPageActivity"
-            android:exported="false" />
-        <activity
             android:name=".TimerMainActivity"
             android:exported="false" />
         <activity
