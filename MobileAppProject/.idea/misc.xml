@@ -61,19 +61,22 @@
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_diary_page.xml" value="0.12" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_main.xml" value="0.18" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_timer_main.xml" value="0.15925925925925927" />
-        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_todo_page.xml" value="0.33" />
-        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_writing_diary_page.xml" value="0.15052083333333333" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_todo_page.xml" value="0.3125" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_writing_diary_page.xml" value="0.22" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/appbar.xml" value="0.16875" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/color_list.xml" value="0.1375" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/days_cell.xml" value="0.12" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/diary_items.xml" value="0.22" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/font_list.xml" value="0.1" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/fragment_dairy_tab.xml" value="0.12" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/fragment_to_do_tab.xml" value="0.1" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/header.xml" value="0.15925925925925927" />
-        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/item_main.xml" value="0.16875" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/item_main.xml" value="0.25" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/memos_item_recyclerview.xml" value="0.5" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/menu_item.xml" value="0.15925925925925927" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/popup_tabs_manager_layout.xml" value="0.1" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/popup_window_fragement.xml" value="0.18" />
+        <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/size_list.xml" value="0.1" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/menu/menu_list.xml" value="0.25882352941176473" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/yeonjae/src/main/res/layout/activity_main.xml" value="0.19" />
         <entry key="..\:/Users/majid/Desktop/appTeamProject/MobileAppProjectTeam6/MobileAppProject/yeonjae/src/main/res/layout/activity_statistics_main.xml" value="0.14895833333333333" />
