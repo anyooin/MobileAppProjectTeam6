@@ -9,24 +9,33 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobileappproject.*
 
 import com.example.mobileappproject.databinding.ActivityMainBinding
+
+import com.google.android.material.navigation.NavigationView
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var toggle: ActionBarDrawerToggle
     lateinit var calendar: RecyclerView
     lateinit var monthYear: TextView
+
+    //navigation ADD
+    lateinit var navigationView: NavigationView
+    lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         toggle.syncState()
 
         // Menu items
+        /*
         val data = mutableListOf("Calendar", "Timer", "Todo List", "Statistics", "Settings")
 
         val layoutManager = LinearLayoutManager(this)
@@ -50,7 +60,11 @@ class MainActivity : AppCompatActivity() {
                 this,
                 LinearLayoutManager.VERTICAL
             )
-        )
+        )*/
+        drawerLayout = binding.drawer
+        navigationView = binding.naView
+        navigationView.setNavigationItemSelectedListener(this)
+        //navigation f
 
         //init widgets
         calendar = findViewById(R.id.daysView)
@@ -70,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         binding.minusMonth.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 CalendarUtil.selectedDate = CalendarUtil.selectedDate.minusMonths(1)
-             }
+            }
             setMonthView()
         }
 
@@ -93,7 +107,7 @@ class MainActivity : AppCompatActivity() {
         monthYear.text = monthYearFromDate(CalendarUtil.selectedDate)
         val daysInMonth = daysInMonthArray(CalendarUtil.selectedDate)
         //
-      //  val todo = TodoViewModel().getCurrentDay(day.toString())
+        //  val todo = TodoViewModel().getCurrentDay(day.toString())
         // println(todo.date)
         // println(todo)
         //todo.observe(this) { findViewById<TextView>().todoTitle1.text = it[0].title.toString() }
@@ -113,7 +127,7 @@ class MainActivity : AppCompatActivity() {
                 val popupFragment = PopupWindowFragment(position, daysInMonth, this@MainActivity, RESULT_OK, supportFragmentManager)
                 popupFragment.show(supportFragmentManager, "custom Dialog")
             }
-            }
+        }
         )
     }
 
@@ -130,10 +144,10 @@ class MainActivity : AppCompatActivity() {
             for (i in 1..42) {
                 //SHOULD BE DEVELOPED LATER
                 if(i <= dayOfWeek) {
-                  //  daysInMonthArray.add((daysInMonth - dayOfWeek + i).toString())
+                    //  daysInMonthArray.add((daysInMonth - dayOfWeek + i).toString())
                     daysInMonthArray.add(null)
                 } else if (i > daysInMonth + dayOfWeek) {
-              //      daysInMonthArray.add((i - daysInMonth + dayOfWeek).toString())
+                    //      daysInMonthArray.add((i - daysInMonth + dayOfWeek).toString())
                     daysInMonthArray.add(null)
                 }
                 else {
@@ -144,19 +158,19 @@ class MainActivity : AppCompatActivity() {
             println(daysInMonthArray)
             return daysInMonthArray
         }
-       return ArrayList()
+        return ArrayList()
     }
 
 
     private fun monthYearFromDate(date: LocalDate): String {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-           val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
+            val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
             return date.format(formatter)
         }
-       return "Error in monthYearFromDate Function"
+        return "Error in monthYearFromDate Function"
     }
 
-// Menu items part
+    // Menu items part
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
@@ -178,6 +192,20 @@ class MainActivity : AppCompatActivity() {
         if (toggle.onOptionsItemSelected(item))
             return true
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_item1-> Toast.makeText(this,"Calendar 실행", Toast.LENGTH_SHORT).show()
+            R.id.menu_item2-> {
+                Toast.makeText(this,"Timer 실행", Toast.LENGTH_SHORT).show()
+                val TimerIntent:Intent = Intent(this, TimerMainActivity::class.java)
+                startActivity(TimerIntent)}
+            R.id.menu_item3-> Toast.makeText(this,"TodoList 실행", Toast.LENGTH_SHORT).show()
+            R.id.menu_item4-> Toast.makeText(this,"Statistics 실행", Toast.LENGTH_SHORT).show()
+            R.id.menu_item5-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
+        }
+        return false
     }
 
 }

@@ -1,5 +1,4 @@
 package com.example.mobileappproject
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
@@ -12,6 +11,7 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobileappproject.Todo
 
 class TodoAdapter(val context: Context, val currentDay: String, val items: Array<String>): RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 

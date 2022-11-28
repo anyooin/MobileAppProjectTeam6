@@ -1,9 +1,10 @@
 package com.example.mobileappproject
-
 import android.content.Context
 import android.provider.Settings
 import androidx.lifecycle.LiveData
 import androidx.room.Room
+import com.example.mobileappproject.Todo
+import com.example.mobileappproject.TodoDatabase
 
 private const val DATABASE_NAME = "todo-database.db"
 class TodoRepository private constructor(context: Context){
@@ -20,6 +21,7 @@ class TodoRepository private constructor(context: Context){
         println("Date in TodoRepository Class $dateInPopup")
         return  todoDao.list(dateInPopup)
     }
+    fun readAllData() : LiveData<MutableList<Todo>> = todoDao.readAllData()
 
     fun getCurrentDay(day: String): LiveData<MutableList<Todo>> = todoDao.getCurrentDay(day)
 

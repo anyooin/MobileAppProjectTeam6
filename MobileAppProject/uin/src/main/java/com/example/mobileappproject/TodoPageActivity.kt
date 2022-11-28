@@ -1,5 +1,4 @@
 package com.example.mobileappproject
-
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -10,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.example.mobileappproject.Todo
 import com.example.mobileappproject.databinding.ActivityTodoPageBinding
 import com.example.mobileappproject.databinding.PopupWindowFragementBinding
 import java.text.SimpleDateFormat
@@ -96,10 +96,13 @@ class TodoPageActivity : AppCompatActivity() {
             val endTime = binding.endTime.text.toString()
             val isTimer = binding.isTimer.isChecked()
             val category = binding.category.selectedItemPosition
+            //여기 timer초기화 추가하기
 
             if (type.equals("ADD")) {  //추가하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val todo = Todo(0, title, content, startDate, endDate, startTime, endTime, date,false, isTimer, category)
+                    val todo = Todo(0, title, content,
+                        startDate, endDate, startTime, endTime,
+                        date,false, isTimer, category)
                     val intent = Intent().apply {
                         putExtra("todo", todo)
                         putExtra("flag", 0)
@@ -109,7 +112,9 @@ class TodoPageActivity : AppCompatActivity() {
                 }
             } else { // 수정하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val todo = Todo(todo!!.id, title, content, startDate, endDate, startTime, endTime, date, todo!!.isChecked, isTimer, category)
+                    val todo = Todo(todo!!.id, title, content,
+                        startDate, endDate, startTime, endTime,
+                        date, todo!!.isChecked, isTimer, category)
                     val intent = Intent().apply {
                         putExtra("todo", todo)
                         putExtra("flag", 1)

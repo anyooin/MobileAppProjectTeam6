@@ -1,5 +1,4 @@
 package com.example.mobileappproject
-
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import java.io.Serializable
@@ -34,6 +33,9 @@ interface TodoDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(dto: Todo)
+
+    @Query("select * from todoTable")
+    fun readAllData() : LiveData<MutableList<Todo>>
 
     @Query("select * from todoTable where date = (:date)")
     fun list(date: String): LiveData<MutableList<Todo>>

@@ -15,6 +15,12 @@
         android:theme="@style/Theme.MobileAppProject"
         tools:targetApi="31">
         <activity
+            android:name=".timerListTodoPopup"
+            android:exported="false" />
+        <activity
+            android:name=".TimerMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".TodoPageActivity"
             android:exported="false" />
         <activity
