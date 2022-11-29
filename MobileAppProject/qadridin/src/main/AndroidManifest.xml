@@ -15,7 +15,7 @@
         android:theme="@style/Theme.MobileAppProject"
         tools:targetApi="31">
         <activity
-            android:name=".WritingDiaryPage"
+            android:name=".WritingDiaryPageActivity"
             android:exported="false" />
         <activity
             android:name=".TimerMainActivity"

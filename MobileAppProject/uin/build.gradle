@@ -56,4 +56,15 @@ dependencies {
 
     //viewModel
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+
+    //colorsheet
+    implementation "dev.sasikanth:colorsheet:1.0.1"
+
+    //원형도표 gradle setting
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
+
+
+
+
+

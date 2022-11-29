@@ -15,9 +15,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.toColorInt
 import com.example.mobileappproject.databinding.ActivityWritingDiaryPageBinding
 import kotlinx.coroutines.NonDisposableHandle.parent
+import java.util.*
 
 
-class WritingDiaryPage : AppCompatActivity() {
+class WritingDiaryPageActivity : AppCompatActivity() {
     private var diary: Diary? = null
     private val fontList = arrayOf<String?>("normal", "bold", "italic")
     lateinit var binding: ActivityWritingDiaryPageBinding
