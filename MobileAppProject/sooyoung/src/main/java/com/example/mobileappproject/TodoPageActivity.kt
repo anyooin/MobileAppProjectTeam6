@@ -20,35 +20,35 @@ class TodoPageActivity : AppCompatActivity() {
     lateinit var binding: com.example.mobileappproject.databinding.ActivityTodoPageBinding
     private var todo: Todo?=null
 
-   // @SuppressLint("SimpleDateFormat")
+    // @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTodoPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-       binding.startTime.setOnClickListener{
-           setupTimePicker("startTime")
-           Log.d("uin", "startTime")
-       }
-       binding.endTime.setOnClickListener{
-           setupTimePicker("endTime")
-           Log.d("uin", "endTime")
-       }
-       binding.startDate.setOnClickListener{
-           setupDatePicker("startDate")
-           Log.d("uin", "startDate")
-       }
-       binding.endDate.setOnClickListener{
-           setupDatePicker("endDate")
-           Log.d("uin", "endDate")
-       }
-       binding.todolistBackBt.setOnClickListener {
-           finish()
-       }
-       val items = resources.getStringArray(R.array.category_list)
-       val categoryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,items)
+        binding.startTime.setOnClickListener{
+            setupTimePicker("startTime")
+            Log.d("uin", "startTime")
+        }
+        binding.endTime.setOnClickListener{
+            setupTimePicker("endTime")
+            Log.d("uin", "endTime")
+        }
+        binding.startDate.setOnClickListener{
+            setupDatePicker("startDate")
+            Log.d("uin", "startDate")
+        }
+        binding.endDate.setOnClickListener{
+            setupDatePicker("endDate")
+            Log.d("uin", "endDate")
+        }
+        binding.todolistBackBt.setOnClickListener {
+            finish()
+        }
+        val items = resources.getStringArray(R.array.category_list)
+        val categoryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,items)
 
-       binding.category.adapter = categoryAdapter
+        binding.category.adapter = categoryAdapter
 //       binding.category.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 //           override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 //               when(position) {
@@ -102,7 +102,7 @@ class TodoPageActivity : AppCompatActivity() {
                 if (title.isNotEmpty() && content.isNotEmpty()) {
                     val todo = Todo(0, title, content,
                         startDate, endDate, startTime, endTime,
-                        date,false, isTimer, category)
+                        date,false, isTimer, category,"0","0","0")
                     val intent = Intent().apply {
                         putExtra("todo", todo)
                         putExtra("flag", 0)
@@ -114,7 +114,7 @@ class TodoPageActivity : AppCompatActivity() {
                 if (title.isNotEmpty() && content.isNotEmpty()) {
                     val todo = Todo(todo!!.id, title, content,
                         startDate, endDate, startTime, endTime,
-                        date, todo!!.isChecked, isTimer, category)
+                        date, todo!!.isChecked, isTimer, category,"0","0","0")
                     val intent = Intent().apply {
                         putExtra("todo", todo)
                         putExtra("flag", 1)
