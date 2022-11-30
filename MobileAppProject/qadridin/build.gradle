@@ -56,4 +56,7 @@ dependencies {
 
     //viewModel
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+
+    //colorsheet
+    implementation "dev.sasikanth:colorsheet:1.0.1"
 }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/timeritem_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/timeritemData"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+    <Button
+        android:id="@+id/timerListRemoveBtn"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="DEL"
+        android:textStyle="bold"
+        android:textSize="10sp"/>
+    <Button
+        android:id="@+id/showTodoList"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Todo"
+        android:textStyle="bold"
+        android:textSize="10sp"/>
+    <TextView
+        android:id="@+id/timerMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mode = -"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"/>
+    <TextView
+        android:id="@+id/timerRecord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="time = 00:00:00"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"/>
+
+
+</LinearLayout>
