@@ -417,13 +417,13 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             var popBasic = 0.toLong()
             if(timerList[position].basictimeVar.size != 0)
                 popBasic = timerList[position].basictimeVar[timerList[position].basictimeVar.size-1]
-            var popupBasic = "%02d".format(popBasic/3600)+":%02d".format(popBasic/60)+":%02d".format(popBasic%60)
+            var popupBasic = "%02d".format(popBasic/3600)+":%02d".format(popBasic/60%60)+":%02d".format(popBasic%60)
 
             //timebox
             var popTB = 0.toLong()
             if(timerList[position].timeboxtimeVar.size != 0)
                 popTB = timerList[position].timeboxtimeVar[timerList[position].timeboxtimeVar.size-1]
-            var popupTB = "%02d".format(popTB/3600)+":%02d".format(popTB/60)+":%02d".format(popTB%60)
+            var popupTB = "%02d".format(popTB/3600)+":%02d".format(popTB/60%60)+":%02d".format(popTB%60)
 
             dig.show(popupBasic, timerList[position].pomodorotimeVar, popupTB)
         }
@@ -432,7 +432,32 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             timerList[position].timername = titleChange.split(" ")[2]
             timerList[position].timeConnected = true
             timerList[position].timeConnectedID = DBid
-            Log.d("soo","connected DB id == " + timerList[position].timeConnectedID)
+
+            CoroutineScope(Dispatchers.IO).launch {
+                Log.d("soo","---coroutineScope")
+                var basic = todoViewModel.getOne(DBid).basicTimer
+                var pomodoro = todoViewModel.getOne(DBid).pomodoro
+                var timebox = todoViewModel.getOne(DBid).timeBox
+                if(!basic.equals("0")) {
+                    var basicH = basic.split(" ")[2].split(":")[0].toLong()
+                    var basicM = basic.split(" ")[2].split(":")[1].toLong()
+                    var basicS = basic.split(" ")[2].split(":")[2].toLong()
+                    timerList[position].basictimeVar.add(basicH*3600+basicM*60+basicS)
+                    Log.d("soo","basic : " + basicH + ", " + basicM + ", " + basicS)
+                }
+                if(!pomodoro.equals("0")) {
+                    var pomo = pomodoro.split(" ")[1][0]
+                    timerList[position].pomodorotimeVar = pomo-'0'
+                    Log.d("soo", "pomodoro == " + (pomo-'0'))
+                }
+                if(!timebox.equals("0")) {
+                    var timeH = timebox.split(" ")[2].split(":")[0].toLong()
+                    var timeM = timebox.split(" ")[2].split(":")[1].toLong()
+                    var timeS = timebox.split(" ")[2].split(":")[2].toLong()
+                    timerList[position].timeboxtimeVar.add(timeH*3600+timeM*60+timeS)
+                    Log.d("soo","timebox = " + timeH + ", " + timeM + ", " + timeS)
+                }
+            }
             (binding.recyclerView.adapter as timerListAdapter).notifyItemChanged(position)
         }
     }

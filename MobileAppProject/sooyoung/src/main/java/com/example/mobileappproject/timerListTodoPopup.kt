@@ -22,7 +22,7 @@ class timerListTodoPopup(private val context: AppCompatActivity ) {
 
         //부모 액티비티에서 전달받은 텍스트 세팅
         binding.timertodoPopupBasic.text = "basic = %s".format(basic)
-        binding.timertodoPopupPomodoro.text = "pomodoro = %s회 성공".format(pomodoro)
+        binding.timertodoPopupPomodoro.text = "pomodoro = %d회 성공".format(pomodoro)
         binding.timertodoPopupTimebox.text = "timeBox = %s".format(timeBox)
 
         binding.timerPopupOk.setOnClickListener {
