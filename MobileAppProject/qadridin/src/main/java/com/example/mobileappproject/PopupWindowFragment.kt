@@ -27,9 +27,9 @@ import com.google.android.material.tabs.TabLayout.TAB_LABEL_VISIBILITY_LABELED
 import java.time.LocalDate
 
 var date = ""
-
 class PopupWindowFragment(private var position: Int, private var dayInMonth: MutableList<LocalDate?>,
-                          private var mainActivity: Activity, private var RESULT_OK: Int) : DialogFragment() {
+                          private var mainActivity: Activity, private var RESULT_OK: Int,
+                          private var supportFragmentManager: FragmentManager) : DialogFragment() {
 
     lateinit var binding: PopupWindowFragementBinding
    // lateinit var todoViewModel: TodoViewModel

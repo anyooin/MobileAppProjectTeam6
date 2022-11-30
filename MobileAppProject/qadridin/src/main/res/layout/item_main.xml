@@ -15,10 +15,18 @@
         android:textSize="16sp" />
     <Button
         android:id="@+id/timerListRemoveBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="DEL"
+        android:textStyle="bold"
+        android:textSize="10sp"/>
+    <Button
+        android:id="@+id/showTodoList"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Todo"
         android:textStyle="bold"
         android:textSize="10sp"/>
     <TextView

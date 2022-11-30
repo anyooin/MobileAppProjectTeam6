@@ -10,9 +10,9 @@
         android:id="@+id/menu_item3"
         android:title="To do List" />
     <item
-        android:id="@+id/menu_item5"
+        android:id="@+id/menu_item4"
         android:title="Statistics" />
     <item
-        android:id="@+id/menu_item6"
+        android:id="@+id/menu_item5"
         android:title="Settings" />
 </menu>
