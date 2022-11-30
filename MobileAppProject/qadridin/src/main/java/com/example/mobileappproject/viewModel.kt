@@ -8,9 +8,13 @@ import kotlinx.coroutines.launch
 
 class TodoViewModel: ViewModel() {
     val todoList: LiveData<MutableList<Todo>>
+    val readAllData: LiveData<MutableList<Todo>>
+
     private val todoRepository: TodoRepository = TodoRepository.get()
     init {
+        println("date in to do ViewModel $date")
         todoList = todoRepository.list(date)
+        readAllData = todoRepository.readAllData()
     }
 
     fun getCurrentDay(days: String) = todoRepository.getCurrentDay(days)

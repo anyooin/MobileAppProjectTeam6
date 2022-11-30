@@ -29,11 +29,11 @@ import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    lateinit var toggle: ActionBarDrawerToggle
     lateinit var calendar: RecyclerView
     lateinit var monthYear: TextView
 
     //navigation ADD
-    lateinit var toggle: ActionBarDrawerToggle
     lateinit var navigationView: NavigationView
     lateinit var drawerLayout: DrawerLayout
 
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onItemClick(view: View, position: Int) {
                 Log.d("uin", "item click")
 
-                val popupFragment = PopupWindowFragment(position, daysInMonth, this@MainActivity, RESULT_OK)
+                val popupFragment = PopupWindowFragment(position, daysInMonth, this@MainActivity, RESULT_OK, supportFragmentManager)
                 popupFragment.show(supportFragmentManager, "custom Dialog")
             }
         }
@@ -181,12 +181,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.menu_item2-> {
                 Toast.makeText(this,"Timer 실행", Toast.LENGTH_SHORT).show()
                 val TimerIntent:Intent = Intent(this, TimerMainActivity::class.java)
-                startActivity(TimerIntent)}
+                startActivity(TimerIntent)
+            }
             R.id.menu_item3-> Toast.makeText(this,"TodoList 실행", Toast.LENGTH_SHORT).show()
-            R.id.menu_item5-> Toast.makeText(this,"Statistics 실행", Toast.LENGTH_SHORT).show()
-            R.id.menu_item6-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
+
+            R.id.menu_item4-> {
+                Toast.makeText(this,"Statistics 실행", Toast.LENGTH_SHORT).show()
+                val StatisticsIntent:Intent = Intent(this, StatisticsMainActivity::class.java)
+                startActivity(StatisticsIntent)
+            }
+            R.id.menu_item5-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
         }
         return false
     }
-
 }

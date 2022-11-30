@@ -11,12 +11,14 @@ import com.example.mobileappproject.databinding.ActivityMainBinding
 import com.example.mobileappproject.databinding.ItemMainBinding
 import com.example.mobileappproject.timerList
 import kotlinx.coroutines.selects.select
+import java.nio.file.Files.size
 
 class timerListAdapter(val timerList: MutableList<timerList>,
                        val onClickRemoveButton: (position : Int) -> Unit,
                        val onClickSelectItem: (position : Int) -> Unit,
                        val onTimerItem: (timerMode: TextView) -> Unit,
-                       val onTimeRecord: (timeRecord: TextView)->Unit)
+                       val onTimeRecord: (timeRecord: TextView)->Unit,
+                       val onTimerListTodoShow: (position : Int) -> Unit)
     :RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class MyViewHolder(val binding: ItemMainBinding) :RecyclerView.ViewHolder(binding.root)
@@ -36,6 +38,9 @@ class timerListAdapter(val timerList: MutableList<timerList>,
             onClickSelectItem.invoke(position)
             onTimerItem(binding.timerMode)
             onTimeRecord(binding.timerRecord)
+        }
+        binding.showTodoList.setOnClickListener {
+            onTimerListTodoShow.invoke(position)
         }
         binding.timerListRemoveBtn.setOnClickListener {
             onClickRemoveButton.invoke(position)

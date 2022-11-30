@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 
 class DiaryAdapter(val context: Context): RecyclerView.Adapter<DiaryAdapter.DiaryViewHolder>() {
@@ -28,6 +29,8 @@ class DiaryAdapter(val context: Context): RecyclerView.Adapter<DiaryAdapter.Diar
             title.text = data.title
             desc.text = data.content
 //            image.setImageResource(data.source)
+            title.setTextColor(data.tTextColor)
+            desc.setTextColor(data.cTextColor)
 
             itemView.setOnClickListener {
                 itemClickListner.onClick(it, layoutPosition, list[layoutPosition].id)

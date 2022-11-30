@@ -1,21 +1,14 @@
 package com.example.mobileappproject
 
-import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color.green
-import android.os.Build
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.graphics.Color
+import android.view.*
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.toColorInt
 import com.example.mobileappproject.databinding.ActivityWritingDiaryPageBinding
-import kotlinx.coroutines.NonDisposableHandle.parent
-import java.util.*
+import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import yuku.ambilwarna.AmbilWarnaDialog
 
 
 class WritingDiaryPageActivity : AppCompatActivity() {
@@ -23,11 +16,18 @@ class WritingDiaryPageActivity : AppCompatActivity() {
     private val fontList = arrayOf<String?>("normal", "bold", "italic")
     lateinit var binding: ActivityWritingDiaryPageBinding
     private val sizeList = arrayOf<String?>("9", "12", "14", "16", "18", "20", "22", "24", "32", "36", "48", "72")
+    private var mDefaultColor = 0
+    var mDefaultTittleTextColor = -16777216
+    var mDefaultContentTextColor = -16777216
+    var mDefaultTittleBackColor = 0
+    var mDefaultContentBackColor = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWritingDiaryPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val toolbar = binding.writingToolbar
+        setSupportActionBar(toolbar)
 
         binding.backBt.setOnClickListener { finish() }
 
@@ -40,8 +40,21 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             diary = intent.getSerializableExtra("item") as Diary?
             binding.btnSave.text = "수정하기"
             //제목 + 내용정보
-            binding.etTodoTitle.setText(diary!!.title)
-            binding.etTodoContent.setText(diary!!.content)
+
+            // color & text size attr
+            diary?.let { binding.Title.setTextColor(it.tTextColor) }
+            binding.Content.setTextColor(diary!!.cTextColor)
+            binding.Title.setBackgroundColor(diary!!.tBackColor)
+            binding.Content.setBackgroundColor(diary!!.cBackColor)
+            binding.Title.textSize = diary!!.titleTextSize
+            binding.Content.textSize = diary!!.contentTextSize
+            binding.Title.setText(diary!!.title)
+            binding.Content.setText(diary!!.content)
+            mDefaultTittleTextColor = diary!!.tTextColor
+            mDefaultTittleBackColor = diary!!.tBackColor
+            mDefaultContentTextColor = diary!!.cTextColor
+            mDefaultContentBackColor = diary!!.cBackColor
+
 
             //set backBtn and deleteBtn
             binding.diaryPageDeleteBt.visibility = View.VISIBLE
@@ -52,16 +65,20 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             }
         }
 
+
         binding.btnSave.setOnClickListener {
-            val title = binding.etTodoTitle.text.toString()
-            val content = binding.etTodoContent.text.toString()
+            val title = binding.Title.text.toString()
+            val content = binding.Content.text.toString()
             val date = CalendarUtil.today.toString()
+            val titleTextSize = binding.Title.textSize
+            val contentTextSize = binding.Content.textSize
+
             //should be developed
             val image_src = "Noting"
 
             if (type.equals("ADD")) {  //추가하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val diary = Diary(0, title, content, date, image_src)
+                    val diary = Diary(0, title, content, date, image_src, mDefaultTittleTextColor, mDefaultTittleBackColor, mDefaultContentTextColor, mDefaultContentBackColor,  titleTextSize, contentTextSize)
                     val intent = Intent().apply {
                         putExtra("diary", diary)
                         putExtra("flag", 0)
@@ -71,7 +88,7 @@ class WritingDiaryPageActivity : AppCompatActivity() {
                 }
             } else { // 수정하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val diary = Diary(diary!!.id, title, content, date, image_src)
+                    val diary = Diary(diary!!.id, title, content, date, image_src, mDefaultTittleTextColor, mDefaultTittleBackColor, mDefaultContentTextColor, mDefaultContentBackColor, titleTextSize, contentTextSize)
                     val intent = Intent().apply {
                         putExtra("diary", diary)
                         putExtra("flag", 1)
@@ -81,14 +98,14 @@ class WritingDiaryPageActivity : AppCompatActivity() {
                 }
             }
         }
-
+/*
         // color picker settings
         val list: ArrayList<ItemHolder> = ArrayList()
 
+        list.add(ItemHolder(R.color.white, "white"))
         list.add(ItemHolder(R.color.black, "black"))
         list.add(ItemHolder(R.color.blue, "blue"))
         list.add(ItemHolder(R.color.red, "red"))
-        list.add(ItemHolder(R.color.white, "white"))
         list.add(ItemHolder(R.color.light_blue, "light_blue"))
         list.add(ItemHolder(android.R.color.holo_green_dark, "green"))
         list.add(ItemHolder(android.R.color.darker_gray, "grey"))
@@ -110,14 +127,17 @@ class WritingDiaryPageActivity : AppCompatActivity() {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     for (i in list.indices) {
                         if (binding.textColorPicker.selectedItemId == i.toLong()) {
-                            binding.etTodoContent.setTextColor(list[i].image)
-                            binding.etTodoTitle.setTextColor(list[i].image)
+                            //binding.etTodoContent.setTextColor(list[i].image)
+                           // binding.etTodoTitle.setTextColor(list[i].image)
+                           // binding.Content.background = Color.BLACK.toDrawable()
                         }
                     }
                 }
             }
         }
 
+ */
+        println(Color.BLACK)
         //size Picker settings
         val sizeAdapter = ArrayAdapter<String>(this, R.layout.font_list, sizeList)
         sizeAdapter.setDropDownViewResource(R.layout.font_list)
@@ -125,9 +145,9 @@ class WritingDiaryPageActivity : AppCompatActivity() {
         binding.textSizePicker.onItemSelectedListener = object : AdapterView.OnItemClickListener,
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                binding.etTodoTitle.textSize =
+                binding.Title.textSize =
                     binding.textSizePicker.selectedItem.toString().toFloat()
-                binding.etTodoContent.textSize =
+                binding.Content.textSize =
                     binding.textSizePicker.selectedItem.toString().toFloat()
             }
 
@@ -139,6 +159,8 @@ class WritingDiaryPageActivity : AppCompatActivity() {
                 println("on item click text size")
             }
         }
+
+
 
         //font picker settings
         val fontAdapter = ArrayAdapter<Any?>(this, R.layout.font_list, fontList)
@@ -172,13 +194,69 @@ class WritingDiaryPageActivity : AppCompatActivity() {
                 //
                 println("onItemClick  ")
             }
-
         }
 
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.colors_menu, menu);
+        return super.onCreateOptionsMenu(menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            //0 - > textColor 1 -> backgroundColor
+            R.id.title_text_color -> { openColorPickerDialogue(0, binding.Title, 1) }
+            R.id.title_background_color -> { openColorPickerDialogue(1, binding.Title, 2) }
+            R.id.content_text_color -> { openColorPickerDialogue(0, binding.Content, 3) }
+            R.id.content_background_color -> { openColorPickerDialogue(1, binding.Content, 4)}
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun openColorPickerDialogue(type: Int, selectedField: EditText, saveColorVal: Int) {
+
+        // the AmbilWarnaDialog callback needs 3 parameters
+        // one is the context, second is default color,
+        val colorPickerDialogue = AmbilWarnaDialog(this, mDefaultColor,
+            object : AmbilWarnaDialog.OnAmbilWarnaListener {
+                override fun onCancel(dialog: AmbilWarnaDialog?) {
+                    // leave this function body as
+                    // blank, as the dialog
+                    // automatically closes when
+                    // clicked on cancel button
+                }
+
+                override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
+                    // change the mDefaultColor to
+                    // change the GFG text color as
+                    // it is returned when the OK
+                    // button is clicked from the
+                    // color picker dialog
+                    mDefaultColor = color
+                    when(saveColorVal) {
+                        1 -> mDefaultTittleTextColor = mDefaultColor
+                        2 -> mDefaultTittleBackColor = mDefaultColor
+                        3 -> mDefaultContentTextColor = mDefaultColor
+                        4 -> mDefaultContentBackColor = mDefaultColor
+                    }
+
+                    // now change the picked color
+                    // preview box to mDefaultColor
+                    if (type == 0)
+                        selectedField.setTextColor(mDefaultColor)
+                    else if (type == 1)
+                        selectedField.setBackgroundColor(mDefaultColor)
+                }
+            })
+        colorPickerDialogue.show()
+    }
+
 }
 
-
+/*
 data class ItemHolder(val image: Int, val text: String)
 
 
@@ -224,4 +302,7 @@ class SpinnerAdapter(val context:Context, private val items:ArrayList<ItemHolder
     }
 
 
+
+
 }
+        */

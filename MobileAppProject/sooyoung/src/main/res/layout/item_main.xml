@@ -3,17 +3,32 @@
     android:id="@+id/timeritem_root"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/timeritemData"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10sp"
         android:textStyle="bold"
         android:textSize="16sp" />
-
-
+    <Button
+        android:id="@+id/timerListRemoveBtn"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="DEL"
+        android:textStyle="bold"
+        android:textSize="10sp"/>
+    <Button
+        android:id="@+id/showTodoList"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Todo"
+        android:textStyle="bold"
+        android:textSize="10sp"/>
     <TextView
         android:id="@+id/timerMode"
         android:layout_width="wrap_content"
@@ -21,7 +36,7 @@
         android:text="Mode = -"
         android:textSize="10sp"
         android:textStyle="bold"
-        android:layout_marginLeft="10sp"/>
+        android:layout_marginLeft="20dp"/>
     <TextView
         android:id="@+id/timerRecord"
         android:layout_width="wrap_content"
@@ -29,33 +44,7 @@
         android:text="time = 00:00:00"
         android:textSize="10sp"
         android:textStyle="bold"
-        android:layout_marginLeft="10dp"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/showTodoList"
-            android:layout_width="wrap_content"
-            android:layout_height="30sp"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="#000000"
-            android:text="connect"
-            android:textColor="#ffffff"
-            android:textStyle="bold"
-            android:textSize="8sp"
-            android:minHeight="0dp"
-            android:minWidth="0dp"
-            android:paddingLeft="5sp"
-            android:paddingRight="5sp"/>
-        <ImageView
-            android:id="@+id/timerListRemoveBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="30sp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/delete"/>
+        android:layout_marginLeft="20dp"/>
 
-
-    </LinearLayout>
 
 </LinearLayout>

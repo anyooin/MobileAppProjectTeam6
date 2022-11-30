@@ -18,7 +18,7 @@ class timerListAdapter(val timerList: MutableList<timerList>,
                        val onClickSelectItem: (position : Int) -> Unit,
                        val onTimerItem: (timerMode: TextView) -> Unit,
                        val onTimeRecord: (timeRecord: TextView)->Unit,
-                       val onConnectedDB: (position : Int) -> Unit)
+                       val onTimerListTodoShow: (position : Int) -> Unit)
     :RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class MyViewHolder(val binding: ItemMainBinding) :RecyclerView.ViewHolder(binding.root)
@@ -34,13 +34,13 @@ class timerListAdapter(val timerList: MutableList<timerList>,
         binding.timerMode.text = timerList[position].timerMode
         binding.timerRecord.text = timerList[position].timeRecord
 
-        binding.showTodoList.setOnClickListener {
-            onConnectedDB.invoke(position)
-        }
         binding.timeritemData.setOnClickListener {
             onClickSelectItem.invoke(position)
             onTimerItem(binding.timerMode)
             onTimeRecord(binding.timerRecord)
+        }
+        binding.showTodoList.setOnClickListener {
+            onTimerListTodoShow.invoke(position)
         }
         binding.timerListRemoveBtn.setOnClickListener {
             onClickRemoveButton.invoke(position)
@@ -48,7 +48,5 @@ class timerListAdapter(val timerList: MutableList<timerList>,
             notifyDataSetChanged()
         }
     }
-
-
 
 }
