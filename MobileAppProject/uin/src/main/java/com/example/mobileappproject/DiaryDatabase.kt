@@ -1,5 +1,7 @@
 package com.example.mobileappproject
 
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import java.io.Serializable
@@ -10,7 +12,14 @@ class Diary(
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "content") val content: String,
     @ColumnInfo(name = "date") val date: String,
-    @ColumnInfo(name = "image") val image: String //Should be consider
+    @ColumnInfo(name = "image") val image: String, //Should be consider
+    @ColumnInfo(name = "tTextColor") val tTextColor: Int,
+    @ColumnInfo(name = "tBackColor") val tBackColor: Int,
+    @ColumnInfo(name = "cTextColor") val cTextColor: Int,
+    @ColumnInfo(name = "cBackColor") val cBackColor: Int,
+    @ColumnInfo(name = "titleTextSize") val titleTextSize: Float,
+    @ColumnInfo(name = "contentTextSize") val contentTextSize: Float
+
 ): Serializable {
 }
 

@@ -13,7 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".WritingFontActivity"
+            android:exported="false"
+            android:label="@string/title_activity_writing_font"
+            android:theme="@style/Theme.MobileAppProject.NoActionBar" />
         <activity
             android:name=".StatisticsMainActivity"
             android:exported="false">

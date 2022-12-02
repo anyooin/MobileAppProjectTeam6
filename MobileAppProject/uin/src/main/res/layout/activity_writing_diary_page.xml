@@ -19,13 +19,19 @@
         app:layout_constraintBottom_toTopOf="@id/etTodoTitle"
         app:layout_constraintStart_toStartOf="parent"/>
 
-
-    <androidx.appcompat.widget.Toolbar
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        >
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/writing_toolbar"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"/>
 
         <Spinner
             android:id="@+id/font_picker"
+            android:layout_marginStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/img" />
@@ -37,21 +43,34 @@
             android:layout_marginStart="30dp"
             android:background="@drawable/size" />
 
+        <!--
         <Spinner
             android:id="@+id/text_color_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:spinnerMode="dialog"
             android:layout_marginStart="15dp"
-             />
+            />
+            -->
+
+        <TextView
+            android:id="@+id/font"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="Set Font"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 
 
-
-    </androidx.appcompat.widget.Toolbar>
+    </LinearLayout>
 
     <EditText
-        android:id="@+id/etTodoTitle"
+        android:id="@+id/Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:hint="Add Title"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -61,15 +80,18 @@
         />
 
     <EditText
-        android:id="@+id/etTodoContent"
+        android:id="@+id/Content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:hint="Add content"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:singleLine="false" />
+
 
 
     <Button
