@@ -15,6 +15,16 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".StatisticsMainActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".WritingDiaryPageActivity"
+            android:exported="false" />
+        <activity
             android:name=".TimerMainActivity"
             android:exported="false" />
         <activity
