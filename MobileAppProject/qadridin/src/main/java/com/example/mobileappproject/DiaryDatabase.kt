@@ -19,8 +19,9 @@ class Diary(
     @ColumnInfo(name = "cTextColor") val cTextColor: Int,
     @ColumnInfo(name = "cBackColor") val cBackColor: Int,
     @ColumnInfo(name = "titleTextSize") val titleTextSize: Float,
-    @ColumnInfo(name = "contentTextSize") val contentTextSize: Float
-
+    @ColumnInfo(name = "contentTextSize") val contentTextSize: Float,
+    @ColumnInfo(name = "titleTextFont") val titleFont: String,
+    @ColumnInfo(name = "contentTextFont") val contentFont: String
 ): Serializable {
 }
 
