@@ -32,6 +32,8 @@ class WritingDiaryPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityWritingDiaryPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val toolbar = binding.writingToolbar
+        setSupportActionBar(toolbar)
 
         binding.backBt.setOnClickListener { finish() }
 
@@ -58,7 +60,7 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             mDefaultTittleBackColor = diary!!.tBackColor
             mDefaultContentTextColor = diary!!.cTextColor
             mDefaultContentBackColor = diary!!.cBackColor
-            binding.imageView.setImageURI(Uri.parse(uriString))
+            binding.imageView.setImageURI(Uri.parse(diary!!.image))
 
             //set backBtn and deleteBtn
             binding.diaryPageDeleteBt.visibility = View.VISIBLE
@@ -76,7 +78,6 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             val date = CalendarUtil.today.toString()
             val titleTextSize = binding.Title.textSize
             val contentTextSize = binding.Content.textSize
-            //uriString = binding.imageView.resources.toString()
 
             if (type.equals("ADD")) {  //추가하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {

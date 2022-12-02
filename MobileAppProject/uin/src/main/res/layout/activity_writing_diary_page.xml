@@ -10,18 +10,44 @@
     tools:context=".WritingDiaryPageActivity">
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/backBt"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@drawable/prev"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/etTodoTitle"
-        app:layout_constraintStart_toStartOf="parent"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/backBt"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/prev"
+            android:layout_gravity="start"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/diary_page_deleteBt"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/delete"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:visibility="invisible"
+            android:layout_gravity="end"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp">
+
+        <!-- color select -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/writing_toolbar"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"/>
 
         <Spinner
             android:id="@+id/font_picker"
@@ -36,16 +62,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:background="@drawable/size" />
-
-        <!--
-        <Spinner
-            android:id="@+id/text_color_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:spinnerMode="dialog"
-            android:layout_marginStart="15dp"
-            />
-            -->
 
         <TextView
             android:id="@+id/font"
@@ -77,7 +93,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:layout_gravity="center"
         android:src="@drawable/image_empty"
         />
@@ -85,42 +101,24 @@
     <EditText
         android:id="@+id/Content"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="150dp"
         android:hint="Add content"
         android:background="@color/white"
         android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:singleLine="false" />
 
-
-
     <Button
         android:id="@+id/btnSave"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
         android:layout_marginBottom="10dp"
         android:text="Save"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/diary_page_deleteBt"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="300dp"
-        android:background="@drawable/delete"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
 </LinearLayout>
