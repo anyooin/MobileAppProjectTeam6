@@ -65,8 +65,6 @@ dependencies {
     //color picker
     implementation 'com.github.yukuku:ambilwarna:2.0.1'
 
-
-
     //원형도표 gradle setting
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

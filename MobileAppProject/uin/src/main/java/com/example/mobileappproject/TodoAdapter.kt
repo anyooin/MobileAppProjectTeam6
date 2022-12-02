@@ -43,7 +43,7 @@ class TodoAdapter(val context: Context, val currentDay: String, val items: Array
                 TimerImage.setImageResource(R.drawable.timer_setting)
             } else {
                 //TimerImage.setImageBitmap(null);
-                TimerImage.setImageResource(0)
+                TimerImage.setImageResource(R.drawable.timer_off)
             }
 
             checkDone.setOnClickListener {
