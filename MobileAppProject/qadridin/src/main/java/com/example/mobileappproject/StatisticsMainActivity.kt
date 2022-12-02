@@ -67,19 +67,6 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toggle.syncState()
 
-        // Menu items
-        /*
-        val data = mutableListOf("Calendar", "Timer", "Todo List", "Statistics", "Settings")
-
-        val layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = MenuItemsAdapter(data)
-        binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                this,
-                LinearLayoutManager.VERTICAL
-            )
-        )*/
         drawerLayout = binding.statisticsdrawer
         navigationView = binding.statisticsnaView
         navigationView.setNavigationItemSelectedListener(this)
@@ -334,21 +321,20 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         when(item.itemId){
             R.id.menu_item1-> {
             Toast.makeText(this,"Calendar 실행", Toast.LENGTH_SHORT).show()
-            val MainIntent: Intent = Intent(this, MainActivity::class.java)
-            startActivity(MainIntent)
+            val mainIntent: Intent = Intent(this, MainActivity::class.java)
+            startActivity(mainIntent)
         }
             R.id.menu_item2-> {
                 Toast.makeText(this,"Timer 실행", Toast.LENGTH_SHORT).show()
-                val TimerIntent:Intent = Intent(this, TimerMainActivity::class.java)
-                startActivity(TimerIntent)
+                val timerIntent:Intent = Intent(this, TimerMainActivity::class.java)
+                startActivity(timerIntent)
             }
-            R.id.menu_item3-> Toast.makeText(this,"TodoList 실행", Toast.LENGTH_SHORT).show()
-            R.id.menu_item4-> {
+            R.id.menu_item3-> {
                 Toast.makeText(this,"Statistics 실행", Toast.LENGTH_SHORT).show()
-                val StatisticsIntent:Intent = Intent(this, StatisticsMainActivity::class.java)
-                startActivity(StatisticsIntent)
+                val statisticsIntent:Intent = Intent(this, StatisticsMainActivity::class.java)
+                startActivity(statisticsIntent)
             }
-            R.id.menu_item5-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
+            R.id.menu_item4-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
         }
         return false
     }
