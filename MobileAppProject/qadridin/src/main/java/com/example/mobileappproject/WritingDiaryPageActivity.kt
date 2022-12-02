@@ -1,7 +1,6 @@
 package com.example.mobileappproject
 
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.view.*
 import android.widget.*
@@ -18,14 +17,17 @@ class WritingDiaryPageActivity : AppCompatActivity() {
     private var diary: Diary? = null
     private val fontList = arrayOf<String?>("normal", "bold", "italic")
     lateinit var binding: ActivityWritingDiaryPageBinding
-    private val sizeList = arrayOf<String?>("9", "12", "14", "16", "18", "20", "22", "24", "32", "36", "48", "72")
+    private lateinit var sizeAdapter: ArrayAdapter<String>
+    private val sizeList = arrayOf<String?>("9.0", "12.0", "14.0", "16.0", "18.0", "20.0", "22.0", "24.0", "32.0", "36.0", "48.0", "72.0")
     private var mDefaultColor = 0
     var mDefaultTittleTextColor = -16777216
     var mDefaultContentTextColor = -16777216
     var mDefaultTittleBackColor = 0
     var mDefaultContentBackColor = 0
-    var uri: Uri? = null
-    var uriString : String = R.drawable.image_empty.toString()
+    private var titleSize: Float = 9.0F
+    private var contentSize = 9.0F
+    private var uri: Uri? = null
+    private var uriString : String = R.drawable.image_empty.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,21 +40,28 @@ class WritingDiaryPageActivity : AppCompatActivity() {
 
         val type = intent.getStringExtra("type")
 
+        //sizePicker adapter
+        sizeAdapter = ArrayAdapter<String>(this, R.layout.font_list, sizeList)
+        sizeAdapter.setDropDownViewResource(R.layout.font_list)
+        binding.textSizePicker.adapter = sizeAdapter
+
         if (type.equals("ADD")) {
            // binding.btnSave.text = "추가하기"
+            binding.textSizePicker.setSelection(sizeAdapter.getPosition(titleSize.toString()))
             binding.diaryPageDeleteBt.visibility = View.INVISIBLE
         } else {
             diary = intent.getSerializableExtra("item") as Diary?
          //   binding.btnSave.text = "수정하기"
-            //제목 + 내용정보
-
             // color & text size attr
             diary?.let { binding.Title.setTextColor(it.tTextColor) }
             binding.Content.setTextColor(diary!!.cTextColor)
             binding.Title.setBackgroundColor(diary!!.tBackColor)
             binding.Content.setBackgroundColor(diary!!.cBackColor)
-            binding.Title.textSize = diary!!.titleTextSize
-            binding.Content.textSize = diary!!.contentTextSize
+            titleSize = diary!!.titleTextSize
+            contentSize = diary!!.contentTextSize
+            binding.textSizePicker.setSelection(sizeAdapter.getPosition(titleSize.toString()))
+
+            // title and content
             binding.Title.setText(diary!!.title)
             binding.Content.setText(diary!!.content)
             mDefaultTittleTextColor = diary!!.tTextColor
@@ -70,13 +79,12 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             }
         }
 
-
         binding.btnSave.setOnClickListener {
             val title = binding.Title.text.toString()
             val content = binding.Content.text.toString()
             val date = CalendarUtil.today.toString()
-            val titleTextSize = binding.Title.textSize
-            val contentTextSize = binding.Content.textSize
+            val titleTextSize =   binding.textSizePicker.selectedItem.toString().toFloat()
+            val contentTextSize =   binding.textSizePicker.selectedItem.toString().toFloat()
 
             if (type.equals("ADD")) {  //추가하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
@@ -101,24 +109,17 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             }
         }
 
-        println(Color.BLACK)
-        //size Picker settings
-        val sizeAdapter = ArrayAdapter<String>(this, R.layout.font_list, sizeList)
-        sizeAdapter.setDropDownViewResource(R.layout.font_list)
-        binding.textSizePicker.adapter = sizeAdapter
+        //size Picker Listener
         binding.textSizePicker.onItemSelectedListener = object : AdapterView.OnItemClickListener,
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                binding.Title.textSize =
-                    binding.textSizePicker.selectedItem.toString().toFloat()
-                binding.Content.textSize =
-                    binding.textSizePicker.selectedItem.toString().toFloat()
-            }
+                binding.Title.textSize = binding.textSizePicker.selectedItem.toString().toFloat()
+                binding.Content.textSize = binding.textSizePicker.selectedItem.toString().toFloat()
 
+            }
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 println("on nothing selected")
             }
-
             override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 println("on item click text size")
             }
@@ -133,18 +134,22 @@ class WritingDiaryPageActivity : AppCompatActivity() {
         binding.fontPicker.onItemSelectedListener = object : AdapterView.OnItemClickListener,
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (binding.fontPicker.selectedItem == "bold") {
-                    println("selected bold")
-                    //    binding.etTodoTitle.se
-                    // binding.etTodoContent.textStyle = "bold"
-                } else if (binding.fontPicker.selectedItem == "normal") {
-                    println("selected normal")
-                    //  binding.etTodoTitle.textStyle = "bold"
-                    // binding.etTodoContent.textStyle = "bold"
-                } else if (binding.fontPicker.selectedItem == "italic") {
-                    println("selected italic")
-                    //  binding.etTodoTitle.textStyle = "bold"
-                    // binding.etTodoContent.textStyle = "bold"
+                when (binding.fontPicker.selectedItem) {
+                    "bold" -> {
+                        println("selected bold")
+                        //    binding.etTodoTitle.se
+                        // binding.etTodoContent.textStyle = "bold"
+                    }
+                    "normal" -> {
+                        println("selected normal")
+                        //  binding.etTodoTitle.textStyle = "bold"
+                        // binding.etTodoContent.textStyle = "bold"
+                    }
+                    "italic" -> {
+                        println("selected italic")
+                        //  binding.etTodoTitle.textStyle = "bold"
+                        // binding.etTodoContent.textStyle = "bold"
+                    }
                 }
             }
 
@@ -187,7 +192,7 @@ class WritingDiaryPageActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.colors_menu, menu);
+        menuInflater.inflate(R.menu.colors_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -204,9 +209,9 @@ class WritingDiaryPageActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun openColorPickerDialogue(type: Int, selectedField: EditText, saveColorVal: Int) {
+    private fun openColorPickerDialogue(type: Int, selectedField: EditText, saveColorVal: Int) {
 
-        // the AmbilWarnaDialog callback needs 3 parameters
+        // the WarnDialog callback needs 3 parameters
         // one is the context, second is default color,
         val colorPickerDialogue = AmbilWarnaDialog(this, mDefaultColor,
             object : AmbilWarnaDialog.OnAmbilWarnaListener {
