@@ -66,7 +66,20 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         toggle = ActionBarDrawerToggle(this, binding.statisticsdrawer, R.string.menu_item_open, R.string.menu_item_clos)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toggle.syncState()
-        
+
+        // Menu items
+        /*
+        val data = mutableListOf("Calendar", "Timer", "Todo List", "Statistics", "Settings")
+
+        val layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.adapter = MenuItemsAdapter(data)
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                LinearLayoutManager.VERTICAL
+            )
+        )*/
         drawerLayout = binding.statisticsdrawer
         navigationView = binding.statisticsnaView
         navigationView.setNavigationItemSelectedListener(this)
@@ -229,6 +242,11 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
     private fun setMonthView() {
         monthYear.text = monthYearFromDate(CalendarUtil.selectedDate)
         val daysInMonth = daysInMonthArray(CalendarUtil.selectedDate)
+        //
+        //  val todo = TodoViewModel().getCurrentDay(day.toString())
+        // println(todo.date)
+        // println(todo)
+        //todo.observe(this) { findViewById<TextView>().todoTitle1.text = it[0].title.toString() }
 
         val calendarAdapter = CalendarAdapter(daysInMonth, this@StatisticsMainActivity)
         println("CalendarAdapter size is ${calendarAdapter.itemCount}")

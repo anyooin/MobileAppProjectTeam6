@@ -2,6 +2,7 @@ package com.example.mobileappproject
 
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import java.io.Serializable

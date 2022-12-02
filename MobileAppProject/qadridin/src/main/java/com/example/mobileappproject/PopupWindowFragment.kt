@@ -32,8 +32,6 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
                           private var supportFragmentManager: FragmentManager) : DialogFragment() {
 
     lateinit var binding: PopupWindowFragementBinding
-   // lateinit var todoViewModel: TodoViewModel
-   // lateinit var todoAdapter: TodoAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,7 +87,7 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
                         transaction.replace(R.id.tabContent, ToDoTab(position, dayInMonth, mainActivity, RESULT_OK))
                     }
                     "Diary" -> {
-                        dateInPopupGlobal.text = "Diary"
+                        dateInPopupGlobal.text = dayInMonth[position].toString()
                         transaction.replace(R.id.tabContent, DairyTab(mainActivity, RESULT_OK))
                     }
                 }
@@ -110,7 +108,7 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
                         transaction.replace(R.id.tabContent, ToDoTab(position, dayInMonth, mainActivity, RESULT_OK))
                     }
                     "Diary" -> {
-                        dateInPopupGlobal.text = "Diary"
+                        dateInPopupGlobal.text = dayInMonth[position].toString()
                         transaction.replace(R.id.tabContent, DairyTab(mainActivity, RESULT_OK))
                     }
                 }
