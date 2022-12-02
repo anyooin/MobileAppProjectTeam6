@@ -29,7 +29,7 @@ class TodoAdapter(val context: Context, val currentDay: String, val items: Array
         fun onBind(data: Todo) {
             title.text = data.title
             checkDone.isChecked = data.isChecked
-            timestamp.text = data.startDate + " " + data.startTime + "~" +
+            timestamp.text = data.startDate + " " + data.startTime + " ~ " +
                     data.endDate + " " + data.endTime
             categoryText.text = items[data.categoryNum]
 
