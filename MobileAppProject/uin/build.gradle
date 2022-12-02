@@ -67,6 +67,8 @@ dependencies {
 
     //원형도표 gradle setting
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    //사진선택
+    implementation 'com.github.bumptech.glide:glide:4.14.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.1'
 }
-//colorsheet
-//implementation "dev.sasikanth:colorsheet:1.0.1"

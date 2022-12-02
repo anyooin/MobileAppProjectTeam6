@@ -2,12 +2,16 @@ package com.example.mobileappproject
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.view.*
 import android.widget.*
 import com.example.mobileappproject.databinding.ActivityWritingDiaryPageBinding
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import yuku.ambilwarna.AmbilWarnaDialog
 
 
@@ -21,13 +25,13 @@ class WritingDiaryPageActivity : AppCompatActivity() {
     var mDefaultContentTextColor = -16777216
     var mDefaultTittleBackColor = 0
     var mDefaultContentBackColor = 0
+    var uri: Uri? = null
+    var uriString : String = R.drawable.image_empty.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWritingDiaryPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val toolbar = binding.writingToolbar
-        setSupportActionBar(toolbar)
 
         binding.backBt.setOnClickListener { finish() }
 
@@ -54,7 +58,7 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             mDefaultTittleBackColor = diary!!.tBackColor
             mDefaultContentTextColor = diary!!.cTextColor
             mDefaultContentBackColor = diary!!.cBackColor
-
+            binding.imageView.setImageURI(Uri.parse(uriString))
 
             //set backBtn and deleteBtn
             binding.diaryPageDeleteBt.visibility = View.VISIBLE
@@ -72,13 +76,11 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             val date = CalendarUtil.today.toString()
             val titleTextSize = binding.Title.textSize
             val contentTextSize = binding.Content.textSize
-
-            //should be developed
-            val image_src = "Noting"
+            //uriString = binding.imageView.resources.toString()
 
             if (type.equals("ADD")) {  //추가하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val diary = Diary(0, title, content, date, image_src, mDefaultTittleTextColor, mDefaultTittleBackColor, mDefaultContentTextColor, mDefaultContentBackColor,  titleTextSize, contentTextSize)
+                    val diary = Diary(0, title, content, date, uriString, mDefaultTittleTextColor, mDefaultTittleBackColor, mDefaultContentTextColor, mDefaultContentBackColor,  titleTextSize, contentTextSize)
                     val intent = Intent().apply {
                         putExtra("diary", diary)
                         putExtra("flag", 0)
@@ -88,7 +90,7 @@ class WritingDiaryPageActivity : AppCompatActivity() {
                 }
             } else { // 수정하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val diary = Diary(diary!!.id, title, content, date, image_src, mDefaultTittleTextColor, mDefaultTittleBackColor, mDefaultContentTextColor, mDefaultContentBackColor, titleTextSize, contentTextSize)
+                    val diary = Diary(diary!!.id, title, content, date, uriString, mDefaultTittleTextColor, mDefaultTittleBackColor, mDefaultContentTextColor, mDefaultContentBackColor, titleTextSize, contentTextSize)
                     val intent = Intent().apply {
                         putExtra("diary", diary)
                         putExtra("flag", 1)
@@ -98,45 +100,7 @@ class WritingDiaryPageActivity : AppCompatActivity() {
                 }
             }
         }
-/*
-        // color picker settings
-        val list: ArrayList<ItemHolder> = ArrayList()
 
-        list.add(ItemHolder(R.color.white, "white"))
-        list.add(ItemHolder(R.color.black, "black"))
-        list.add(ItemHolder(R.color.blue, "blue"))
-        list.add(ItemHolder(R.color.red, "red"))
-        list.add(ItemHolder(R.color.light_blue, "light_blue"))
-        list.add(ItemHolder(android.R.color.holo_green_dark, "green"))
-        list.add(ItemHolder(android.R.color.darker_gray, "grey"))
-        list.add(ItemHolder(R.color.purple_200, "purple"))
-        list.add(ItemHolder(android.R.color.holo_orange_light, "yellow"))
-        list.add(ItemHolder(android.R.color.holo_orange_dark, "orange"))
-        list.add(ItemHolder(R.color.teal_700, "teal"))
-
-        val adapter = SpinnerAdapter(this, list)
-
-        binding.textColorPicker.adapter = adapter
-
-        binding.textColorPicker.let {
-            it.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    binding.textColorPicker.setSelection(0)
-                }
-
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    for (i in list.indices) {
-                        if (binding.textColorPicker.selectedItemId == i.toLong()) {
-                            //binding.etTodoContent.setTextColor(list[i].image)
-                           // binding.etTodoTitle.setTextColor(list[i].image)
-                           // binding.Content.background = Color.BLACK.toDrawable()
-                        }
-                    }
-                }
-            }
-        }
-
- */
         println(Color.BLACK)
         //size Picker settings
         val sizeAdapter = ArrayAdapter<String>(this, R.layout.font_list, sizeList)
@@ -159,8 +123,6 @@ class WritingDiaryPageActivity : AppCompatActivity() {
                 println("on item click text size")
             }
         }
-
-
 
         //font picker settings
         val fontAdapter = ArrayAdapter<Any?>(this, R.layout.font_list, fontList)
@@ -196,6 +158,32 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             }
         }
 
+        //image select
+        binding.imageView.setOnClickListener {
+
+            //갤러리 호출
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            activityResult.launch(intent)
+        }
+    }
+
+    private val activityResult: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()){
+
+        //결과 코드 OK , 결과값 null 아니면
+        if(it.resultCode == RESULT_OK && it.data != null){
+            //값 담기
+            uri  = it.data!!.data!!
+            uriString = uri.toString()
+
+            binding.imageView.setImageURI(Uri.parse(uriString))
+
+            //화면에 보여주기
+            //Glide.with(this)
+            //    .load(uri) //이미지
+            //    .into(binding.imageView) //보여줄 위치
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -253,56 +241,4 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             })
         colorPickerDialogue.show()
     }
-
 }
-
-/*
-data class ItemHolder(val image: Int, val text: String)
-
-
-class SpinnerAdapter(val context:Context, private val items:ArrayList<ItemHolder>): BaseAdapter() {
-
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-
-        val view:View?
-        val holder:ViewHolder
-
-        if(convertView==null){
-
-            view=LayoutInflater.from(context).inflate(R.layout.color_list,parent,false)
-            holder=ViewHolder
-            holder.imageName=view.findViewById(R.id.image_view)
-            holder.itemName=view.findViewById(R.id.text_view)
-
-            view.tag = holder
-        }else{
-            view=convertView
-            holder= view.tag as ViewHolder
-        }
-        holder.itemName.text=items[position].text
-        holder.imageName.setImageResource(items[position].image)
-
-        return view as View
-
-    }
-
-    override fun getItem(position: Int): Any =items[position]
-
-    override fun getItemId(position: Int): Long =position.toLong()
-
-    override fun getCount(): Int =items.size
-
-
-    @SuppressLint("StaticFieldLeak")
-    object ViewHolder{
-
-        lateinit var imageName:ImageView
-        lateinit var itemName:TextView
-    }
-
-
-
-
-}
-        */

@@ -3,6 +3,7 @@ package com.example.mobileappproject
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class DiaryAdapter(val context: Context): RecyclerView.Adapter<DiaryAdapter.DiaryViewHolder>() {
 
@@ -28,7 +30,7 @@ class DiaryAdapter(val context: Context): RecyclerView.Adapter<DiaryAdapter.Diar
             println("here in onBind")
             title.text = data.title
             desc.text = data.content
-//            image.setImageResource(data.source)
+            image.setImageURI(Uri.parse(data.image))
             title.setTextColor(data.tTextColor)
             desc.setTextColor(data.cTextColor)
 
