@@ -1,34 +1,36 @@
 package com.example.mobileappproject
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.media.AsyncPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.mobileappproject.databinding.FragmentToDoTabBinding
 import com.example.mobileappproject.databinding.PopupWindowFragementBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.nio.file.Files.find
 import java.time.LocalDate
 
-var date = ""
-class PopupWindowFragment(private var position: Int, private var dayInMonth: MutableList<LocalDate?>,
-                          private var mainActivity: Activity, private var RESULT_OK: Int,
-                          private var supportFragmentManager: FragmentManager) : DialogFragment() {
+class ToDoTab(private var position: Int, private var dayInMonth: MutableList<LocalDate?>,
+              private var mainActivity: Activity, private var RESULT_OK: Int
+) : Fragment() {
 
-    lateinit var binding: PopupWindowFragementBinding
+    lateinit var binding: FragmentToDoTabBinding
     lateinit var todoViewModel: TodoViewModel
     lateinit var todoAdapter: TodoAdapter
 
@@ -37,30 +39,10 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        println("Here in popupWindow")
-        binding = PopupWindowFragementBinding.inflate(inflater, container, false)
+        binding = FragmentToDoTabBinding.inflate(inflater, container, false)
 
-        return binding.root
-    }
-
-    //popUp window items
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        println("On view Created ")
-        val cancel = view.findViewById<Button>(R.id.cancelBt)
-        val dateInPopupGlobal = view.findViewById<TextView>(R.id.dateInPopup)
-        val addButton = view.findViewById<ImageView>(R.id.addTodo)
-        val toDoListContext = view.findViewById<RecyclerView>(R.id.toDoListContext)
-
-        if (dialog != null) dialog!!.window!!.setLayout(
-            300.toPx(requireContext()),
-            450.toPx(requireContext())
-        )
-
-        cancel.setOnClickListener {
-            Log.d("qadridin", "clicked cancel button in popup Window")
-            super.dismiss()
-        }
+        val addButton = binding.addTodo
+        val toDoListContext = binding.toDoListContext
 
         addButton.setOnClickListener {
             Log.d("qadridin", "clicked add button in popup Window")
@@ -72,8 +54,10 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
             requestActivity.launch(intent)
         }
 
-        setPopWindowAttr(toDoListContext, dateInPopupGlobal)
+        setPopWindowAttr(toDoListContext)
+        return binding.root
     }
+
 
     private val requestActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == RESULT_OK) {
@@ -97,16 +81,14 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
     }
 
 
+    private fun setPopWindowAttr(toDoListContext: RecyclerView)  {
 
-    private fun setPopWindowAttr(toDoListContext: RecyclerView, dateInPopupGlobal: TextView)  {
-        dateInPopupGlobal.text = (dayInMonth[position]).toString()
-        date = dateInPopupGlobal.text.toString()
         println("setPopWinAttr before todoViewModel")
         todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
         println("setPopWinAttr after todoViewModel")
 
 
-        todoViewModel.todoList.observe(this) {
+        todoViewModel.todoList.observe(viewLifecycleOwner) {
             todoAdapter.update(it)
         }
 
@@ -141,7 +123,6 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
             }
         })
     }
-    private fun Int.toPx(context: Context): Int =
-        (this * context.resources.displayMetrics.density).toInt()
 
 }
+

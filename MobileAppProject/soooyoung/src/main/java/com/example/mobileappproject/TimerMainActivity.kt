@@ -443,19 +443,19 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
                     var basicM = basic.split(" ")[2].split(":")[1].toLong()
                     var basicS = basic.split(" ")[2].split(":")[2].toLong()
                     timerList[position].basictimeVar.add(basicH*3600+basicM*60+basicS)
-                    Log.d("soo","basic : " + basicH + ", " + basicM + ", " + basicS)
+                    //Log.d("soo","basic : " + basicH + ", " + basicM + ", " + basicS)
                 }
                 if(!pomodoro.equals("0")) {
                     var pomo = pomodoro.split(" ")[1][0]
                     timerList[position].pomodorotimeVar = pomo-'0'
-                    Log.d("soo", "pomodoro == " + (pomo-'0'))
+                    //Log.d("soo", "pomodoro == " + (pomo-'0'))
                 }
                 if(!timebox.equals("0")) {
                     var timeH = timebox.split(" ")[2].split(":")[0].toLong()
                     var timeM = timebox.split(" ")[2].split(":")[1].toLong()
                     var timeS = timebox.split(" ")[2].split(":")[2].toLong()
                     timerList[position].timeboxtimeVar.add(timeH*3600+timeM*60+timeS)
-                    Log.d("soo","timebox = " + timeH + ", " + timeM + ", " + timeS)
+                    //Log.d("soo","timebox = " + timeH + ", " + timeM + ", " + timeS)
                 }
             }
             (binding.recyclerView.adapter as timerListAdapter).notifyItemChanged(position)
@@ -566,8 +566,7 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
 
                 //database에 추가
                 if(timerList[selectPos].timeConnectedID != -1.toLong()) {
-                    Log.d("soo","pomodoro DataBase change")
-
+                    //Log.d("soo","pomodoro DataBase change")
                     CoroutineScope(Dispatchers.IO).launch{
                         val todo = todoViewModel.getOne(timerList[selectPos].timeConnectedID)
                         todo.pomodoro = "%s".format(timerList[selectPos].timeRecord)
@@ -664,7 +663,11 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             }
             R.id.menu_item2-> Toast.makeText(this,"Timer 실행", Toast.LENGTH_SHORT).show()
             R.id.menu_item3-> Toast.makeText(this,"TodoList 실행", Toast.LENGTH_SHORT).show()
-            R.id.menu_item4-> Toast.makeText(this,"Statistics 실행", Toast.LENGTH_SHORT).show()
+            R.id.menu_item4-> {
+                Toast.makeText(this,"Statistics 실행", Toast.LENGTH_SHORT).show()
+                val StatisticsIntent:Intent = Intent(this, StatisticsMainActivity::class.java)
+                startActivity(StatisticsIntent)
+            }
             R.id.menu_item5-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
         }
         return false
