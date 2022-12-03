@@ -5,7 +5,8 @@
     <item
         android:id="@+id/overflowMenu"
         android:icon="@drawable/color"
-        app:showAsAction="always">
+        app:showAsAction="always"
+        android:title="">
         <menu>
             <item
                 android:id="@+id/title_colors_item"

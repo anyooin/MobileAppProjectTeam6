@@ -1,15 +1,12 @@
 package com.example.mobileappproject
-import android.app.Activity
+
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.media.SoundPool
-import android.os.Build.VERSION_CODES.N
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.SystemClock
-import android.provider.SyncStateContract.Helpers.update
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -22,8 +19,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.mobileappproject.databinding.ActivityTimerListTodoPopupBinding
 import com.example.mobileappproject.databinding.ActivityTimerMainBinding
 
 import com.google.android.material.navigation.NavigationView
@@ -87,8 +82,6 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
         todoViewModel.readAllData.observe(this) {
             timerTodoAdapter.update(it)
         }
-
-
 
         remainHourTextView = binding.remainHourTextView
         remainMinutesTextView = binding.remainMinutesTextView
@@ -508,13 +501,16 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
         when(item.itemId){
             R.id.menu_item1-> {
                 Toast.makeText(this,"Calendar 실행", Toast.LENGTH_SHORT).show()
-                val MainIntent: Intent = Intent(this, MainActivity::class.java)
-                startActivity(MainIntent)
+                val mainIntent: Intent = Intent(this, MainActivity::class.java)
+                startActivity(mainIntent)
             }
             R.id.menu_item2-> Toast.makeText(this,"Timer 실행", Toast.LENGTH_SHORT).show()
-            R.id.menu_item3-> Toast.makeText(this,"TodoList 실행", Toast.LENGTH_SHORT).show()
-            R.id.menu_item4-> Toast.makeText(this,"Statistics 실행", Toast.LENGTH_SHORT).show()
-            R.id.menu_item5-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
+            R.id.menu_item3-> {
+                Toast.makeText(this,"Statistics 실행", Toast.LENGTH_SHORT).show()
+                val statisticsIntent:Intent = Intent(this, StatisticsMainActivity::class.java)
+                startActivity(statisticsIntent)
+            }
+            R.id.menu_item4-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
         }
         return false
     }
