@@ -1,47 +1,74 @@
 package com.example.mobileappproject
 
-import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color.green
-import android.os.Build
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.net.Uri
+import android.view.*
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.toColorInt
 import com.example.mobileappproject.databinding.ActivityWritingDiaryPageBinding
-import kotlinx.coroutines.NonDisposableHandle.parent
-import java.util.*
+import android.os.Bundle
+import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import yuku.ambilwarna.AmbilWarnaDialog
 
 
 class WritingDiaryPageActivity : AppCompatActivity() {
     private var diary: Diary? = null
     private val fontList = arrayOf<String?>("normal", "bold", "italic")
     lateinit var binding: ActivityWritingDiaryPageBinding
-    private val sizeList = arrayOf<String?>("9", "12", "14", "16", "18", "20", "22", "24", "32", "36", "48", "72")
+    private lateinit var sizeAdapter: ArrayAdapter<String>
+    private val sizeList = arrayOf<String?>("9.0", "12.0", "14.0", "16.0", "18.0", "20.0", "22.0", "24.0", "32.0", "36.0", "48.0", "72.0")
+    private var mDefaultColor = 0
+    var mDefaultTittleTextColor = -16777216
+    var mDefaultContentTextColor = -16777216
+    var mDefaultTittleBackColor = 0
+    var mDefaultContentBackColor = 0
+    private var titleSize: Float = 9.0F
+    private var contentSize = 9.0F
+    private var uri: Uri? = null
+    private var uriString : String = R.drawable.image_empty.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWritingDiaryPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val toolbar = binding.writingToolbar
+        setSupportActionBar(toolbar)
 
         binding.backBt.setOnClickListener { finish() }
 
         val type = intent.getStringExtra("type")
 
+        //sizePicker adapter
+        sizeAdapter = ArrayAdapter<String>(this, R.layout.font_list, sizeList)
+        sizeAdapter.setDropDownViewResource(R.layout.font_list)
+        binding.textSizePicker.adapter = sizeAdapter
+
         if (type.equals("ADD")) {
-            binding.btnSave.text = "추가하기"
+           // binding.btnSave.text = "추가하기"
+            binding.textSizePicker.setSelection(sizeAdapter.getPosition(titleSize.toString()))
             binding.diaryPageDeleteBt.visibility = View.INVISIBLE
         } else {
             diary = intent.getSerializableExtra("item") as Diary?
-            binding.btnSave.text = "수정하기"
-            //제목 + 내용정보
-            binding.etTodoTitle.setText(diary!!.title)
-            binding.etTodoContent.setText(diary!!.content)
+         //   binding.btnSave.text = "수정하기"
+            // color & text size attr
+            diary?.let { binding.Title.setTextColor(it.tTextColor) }
+            binding.Content.setTextColor(diary!!.cTextColor)
+            binding.Title.setBackgroundColor(diary!!.tBackColor)
+            binding.Content.setBackgroundColor(diary!!.cBackColor)
+            titleSize = diary!!.titleTextSize
+            contentSize = diary!!.contentTextSize
+            binding.textSizePicker.setSelection(sizeAdapter.getPosition(titleSize.toString()))
+
+            // title and content
+            binding.Title.setText(diary!!.title)
+            binding.Content.setText(diary!!.content)
+            mDefaultTittleTextColor = diary!!.tTextColor
+            mDefaultTittleBackColor = diary!!.tBackColor
+            mDefaultContentTextColor = diary!!.cTextColor
+            mDefaultContentBackColor = diary!!.cBackColor
+            binding.imageView.setImageURI(Uri.parse(diary!!.image))
 
             //set backBtn and deleteBtn
             binding.diaryPageDeleteBt.visibility = View.VISIBLE
@@ -53,15 +80,15 @@ class WritingDiaryPageActivity : AppCompatActivity() {
         }
 
         binding.btnSave.setOnClickListener {
-            val title = binding.etTodoTitle.text.toString()
-            val content = binding.etTodoContent.text.toString()
+            val title = binding.Title.text.toString()
+            val content = binding.Content.text.toString()
             val date = CalendarUtil.today.toString()
-            //should be developed
-            val image_src = "Noting"
+            val titleTextSize =   binding.textSizePicker.selectedItem.toString().toFloat()
+            val contentTextSize =   binding.textSizePicker.selectedItem.toString().toFloat()
 
             if (type.equals("ADD")) {  //추가하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val diary = Diary(0, title, content, date, image_src)
+                    val diary = Diary(0, title, content, date, uriString, mDefaultTittleTextColor, mDefaultTittleBackColor, mDefaultContentTextColor, mDefaultContentBackColor,  titleTextSize, contentTextSize)
                     val intent = Intent().apply {
                         putExtra("diary", diary)
                         putExtra("flag", 0)
@@ -71,7 +98,7 @@ class WritingDiaryPageActivity : AppCompatActivity() {
                 }
             } else { // 수정하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val diary = Diary(diary!!.id, title, content, date, image_src)
+                    val diary = Diary(diary!!.id, title, content, date, uriString, mDefaultTittleTextColor, mDefaultTittleBackColor, mDefaultContentTextColor, mDefaultContentBackColor, titleTextSize, contentTextSize)
                     val intent = Intent().apply {
                         putExtra("diary", diary)
                         putExtra("flag", 1)
@@ -82,59 +109,17 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             }
         }
 
-        // color picker settings
-        val list: ArrayList<ItemHolder> = ArrayList()
-
-        list.add(ItemHolder(R.color.black, "black"))
-        list.add(ItemHolder(R.color.blue, "blue"))
-        list.add(ItemHolder(R.color.red, "red"))
-        list.add(ItemHolder(R.color.white, "white"))
-        list.add(ItemHolder(R.color.light_blue, "light_blue"))
-        list.add(ItemHolder(android.R.color.holo_green_dark, "green"))
-        list.add(ItemHolder(android.R.color.darker_gray, "grey"))
-        list.add(ItemHolder(R.color.purple_200, "purple"))
-        list.add(ItemHolder(android.R.color.holo_orange_light, "yellow"))
-        list.add(ItemHolder(android.R.color.holo_orange_dark, "orange"))
-        list.add(ItemHolder(R.color.teal_700, "teal"))
-
-        val adapter = SpinnerAdapter(this, list)
-
-        binding.textColorPicker.adapter = adapter
-
-        binding.textColorPicker.let {
-            it.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    binding.textColorPicker.setSelection(0)
-                }
-
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    for (i in list.indices) {
-                        if (binding.textColorPicker.selectedItemId == i.toLong()) {
-                            binding.etTodoContent.setTextColor(list[i].image)
-                            binding.etTodoTitle.setTextColor(list[i].image)
-                        }
-                    }
-                }
-            }
-        }
-
-        //size Picker settings
-        val sizeAdapter = ArrayAdapter<String>(this, R.layout.font_list, sizeList)
-        sizeAdapter.setDropDownViewResource(R.layout.font_list)
-        binding.textSizePicker.adapter = sizeAdapter
+        //size Picker Listener
         binding.textSizePicker.onItemSelectedListener = object : AdapterView.OnItemClickListener,
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                binding.etTodoTitle.textSize =
-                    binding.textSizePicker.selectedItem.toString().toFloat()
-                binding.etTodoContent.textSize =
-                    binding.textSizePicker.selectedItem.toString().toFloat()
-            }
+                binding.Title.textSize = binding.textSizePicker.selectedItem.toString().toFloat()
+                binding.Content.textSize = binding.textSizePicker.selectedItem.toString().toFloat()
 
+            }
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 println("on nothing selected")
             }
-
             override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 println("on item click text size")
             }
@@ -149,18 +134,22 @@ class WritingDiaryPageActivity : AppCompatActivity() {
         binding.fontPicker.onItemSelectedListener = object : AdapterView.OnItemClickListener,
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (binding.fontPicker.selectedItem == "bold") {
-                    println("selected bold")
-                    //    binding.etTodoTitle.se
-                    // binding.etTodoContent.textStyle = "bold"
-                } else if (binding.fontPicker.selectedItem == "normal") {
-                    println("selected normal")
-                    //  binding.etTodoTitle.textStyle = "bold"
-                    // binding.etTodoContent.textStyle = "bold"
-                } else if (binding.fontPicker.selectedItem == "italic") {
-                    println("selected italic")
-                    //  binding.etTodoTitle.textStyle = "bold"
-                    // binding.etTodoContent.textStyle = "bold"
+                when (binding.fontPicker.selectedItem) {
+                    "bold" -> {
+                        println("selected bold")
+                        //    binding.etTodoTitle.se
+                        // binding.etTodoContent.textStyle = "bold"
+                    }
+                    "normal" -> {
+                        println("selected normal")
+                        //  binding.etTodoTitle.textStyle = "bold"
+                        // binding.etTodoContent.textStyle = "bold"
+                    }
+                    "italic" -> {
+                        println("selected italic")
+                        //  binding.etTodoTitle.textStyle = "bold"
+                        // binding.etTodoContent.textStyle = "bold"
+                    }
                 }
             }
 
@@ -172,56 +161,89 @@ class WritingDiaryPageActivity : AppCompatActivity() {
                 //
                 println("onItemClick  ")
             }
-
         }
 
-    }
-}
+        //image select
+        binding.imageView.setOnClickListener {
 
-
-data class ItemHolder(val image: Int, val text: String)
-
-
-class SpinnerAdapter(val context:Context, private val items:ArrayList<ItemHolder>): BaseAdapter() {
-
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-
-        val view:View?
-        val holder:ViewHolder
-
-        if(convertView==null){
-
-            view=LayoutInflater.from(context).inflate(R.layout.color_list,parent,false)
-            holder=ViewHolder
-            holder.imageName=view.findViewById(R.id.image_view)
-            holder.itemName=view.findViewById(R.id.text_view)
-
-            view.tag = holder
-        }else{
-            view=convertView
-            holder= view.tag as ViewHolder
+            //갤러리 호출
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            activityResult.launch(intent)
         }
-        holder.itemName.text=items[position].text
-        holder.imageName.setImageResource(items[position].image)
-
-        return view as View
-
     }
 
-    override fun getItem(position: Int): Any =items[position]
+    private val activityResult: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()){
 
-    override fun getItemId(position: Int): Long =position.toLong()
+        //결과 코드 OK , 결과값 null 아니면
+        if(it.resultCode == RESULT_OK && it.data != null){
+            //값 담기
+            uri  = it.data!!.data!!
+            uriString = uri.toString()
 
-    override fun getCount(): Int =items.size
+            binding.imageView.setImageURI(Uri.parse(uriString))
 
+            //화면에 보여주기
+            //Glide.with(this)
+            //    .load(uri) //이미지
+            //    .into(binding.imageView) //보여줄 위치
+        }
+    }
 
-    @SuppressLint("StaticFieldLeak")
-    object ViewHolder{
-
-        lateinit var imageName:ImageView
-        lateinit var itemName:TextView
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.colors_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            //0 - > textColor 1 -> backgroundColor
+            R.id.title_text_color -> { openColorPickerDialogue(0, binding.Title, 1) }
+            R.id.title_background_color -> { openColorPickerDialogue(1, binding.Title, 2) }
+            R.id.content_text_color -> { openColorPickerDialogue(0, binding.Content, 3) }
+            R.id.content_background_color -> { openColorPickerDialogue(1, binding.Content, 4)}
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun openColorPickerDialogue(type: Int, selectedField: EditText, saveColorVal: Int) {
+
+        // the WarnDialog callback needs 3 parameters
+        // one is the context, second is default color,
+        val colorPickerDialogue = AmbilWarnaDialog(this, mDefaultColor,
+            object : AmbilWarnaDialog.OnAmbilWarnaListener {
+                override fun onCancel(dialog: AmbilWarnaDialog?) {
+                    // leave this function body as
+                    // blank, as the dialog
+                    // automatically closes when
+                    // clicked on cancel button
+                }
+
+                override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
+                    // change the mDefaultColor to
+                    // change the GFG text color as
+                    // it is returned when the OK
+                    // button is clicked from the
+                    // color picker dialog
+                    mDefaultColor = color
+                    when(saveColorVal) {
+                        1 -> mDefaultTittleTextColor = mDefaultColor
+                        2 -> mDefaultTittleBackColor = mDefaultColor
+                        3 -> mDefaultContentTextColor = mDefaultColor
+                        4 -> mDefaultContentBackColor = mDefaultColor
+                    }
+
+                    // now change the picked color
+                    // preview box to mDefaultColor
+                    if (type == 0)
+                        selectedField.setTextColor(mDefaultColor)
+                    else if (type == 1)
+                        selectedField.setBackgroundColor(mDefaultColor)
+                }
+            })
+        colorPickerDialogue.show()
+    }
 }
