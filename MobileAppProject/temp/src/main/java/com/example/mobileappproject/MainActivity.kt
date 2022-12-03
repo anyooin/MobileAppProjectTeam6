@@ -180,17 +180,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.menu_item1-> Toast.makeText(this,"Calendar 실행", Toast.LENGTH_SHORT).show()
             R.id.menu_item2-> {
                 Toast.makeText(this,"Timer 실행", Toast.LENGTH_SHORT).show()
-                val TimerIntent:Intent = Intent(this, TimerMainActivity::class.java)
-                startActivity(TimerIntent)
+                val timerIntent = Intent(this, TimerMainActivity::class.java)
+                startActivity(timerIntent)
             }
-            R.id.menu_item3-> Toast.makeText(this,"TodoList 실행", Toast.LENGTH_SHORT).show()
-
-            R.id.menu_item4-> {
+            R.id.menu_item3-> {
                 Toast.makeText(this,"Statistics 실행", Toast.LENGTH_SHORT).show()
-                val StatisticsIntent:Intent = Intent(this, StatisticsMainActivity::class.java)
-                startActivity(StatisticsIntent)
+                val statisticsIntent = Intent(this, StatisticsMainActivity::class.java)
+                startActivity(statisticsIntent)
             }
-            R.id.menu_item5-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
+            R.id.menu_item4-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
         }
         return false
     }

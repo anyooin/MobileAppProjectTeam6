@@ -1,6 +1,7 @@
 package com.example.mobileappproject
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.Uri
 import android.view.*
 import android.widget.*
@@ -15,10 +16,12 @@ import yuku.ambilwarna.AmbilWarnaDialog
 
 class WritingDiaryPageActivity : AppCompatActivity() {
     private var diary: Diary? = null
-    private val fontList = arrayOf<String?>("normal", "bold", "italic")
+    private val fontList = arrayOf<String?>("normal", "bold", "italic", "bold | italic")
     lateinit var binding: ActivityWritingDiaryPageBinding
     private lateinit var sizeAdapter: ArrayAdapter<String>
     private val sizeList = arrayOf<String?>("9.0", "12.0", "14.0", "16.0", "18.0", "20.0", "22.0", "24.0", "32.0", "36.0", "48.0", "72.0")
+    private var titleFont = "normal"
+    private var contentFont = "normal"
     private var mDefaultColor = 0
     var mDefaultTittleTextColor = -16777216
     var mDefaultContentTextColor = -16777216
@@ -45,13 +48,20 @@ class WritingDiaryPageActivity : AppCompatActivity() {
         sizeAdapter.setDropDownViewResource(R.layout.font_list)
         binding.textSizePicker.adapter = sizeAdapter
 
+        //fontPicker adapter
+        val fontAdapter = ArrayAdapter<Any?>(this, R.layout.font_list, fontList)
+        fontAdapter.setDropDownViewResource(R.layout.font_list)
+        binding.fontPicker.adapter = fontAdapter
+
         if (type.equals("ADD")) {
-           // binding.btnSave.text = "추가하기"
+            // binding.btnSave.text = "추가하기"
+            binding.fontPicker.setSelection(fontAdapter.getPosition(titleFont))
+            println("IN ADD ------- ${fontAdapter.getPosition(titleFont)}")
             binding.textSizePicker.setSelection(sizeAdapter.getPosition(titleSize.toString()))
             binding.diaryPageDeleteBt.visibility = View.INVISIBLE
         } else {
             diary = intent.getSerializableExtra("item") as Diary?
-         //   binding.btnSave.text = "수정하기"
+            //   binding.btnSave.text = "수정하기"
             // color & text size attr
             diary?.let { binding.Title.setTextColor(it.tTextColor) }
             binding.Content.setTextColor(diary!!.cTextColor)
@@ -60,6 +70,9 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             titleSize = diary!!.titleTextSize
             contentSize = diary!!.contentTextSize
             binding.textSizePicker.setSelection(sizeAdapter.getPosition(titleSize.toString()))
+
+            //get textStyle from db
+            binding.fontPicker.setSelection(fontAdapter.getPosition(diary!!.titleFont))
 
             // title and content
             binding.Title.setText(diary!!.title)
@@ -85,10 +98,12 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             val date = CalendarUtil.today.toString()
             val titleTextSize =   binding.textSizePicker.selectedItem.toString().toFloat()
             val contentTextSize =   binding.textSizePicker.selectedItem.toString().toFloat()
+            val titleFont = binding.fontPicker.selectedItem.toString()
+            val contentFont = binding.fontPicker.selectedItem.toString()
 
             if (type.equals("ADD")) {  //추가하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val diary = Diary(0, title, content, date, uriString, mDefaultTittleTextColor, mDefaultTittleBackColor, mDefaultContentTextColor, mDefaultContentBackColor,  titleTextSize, contentTextSize)
+                    val diary = Diary(0, title, content, date, uriString, mDefaultTittleTextColor, mDefaultTittleBackColor, mDefaultContentTextColor, mDefaultContentBackColor,  titleTextSize, contentTextSize, titleFont, contentFont)
                     val intent = Intent().apply {
                         putExtra("diary", diary)
                         putExtra("flag", 0)
@@ -98,7 +113,7 @@ class WritingDiaryPageActivity : AppCompatActivity() {
                 }
             } else { // 수정하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val diary = Diary(diary!!.id, title, content, date, uriString, mDefaultTittleTextColor, mDefaultTittleBackColor, mDefaultContentTextColor, mDefaultContentBackColor, titleTextSize, contentTextSize)
+                    val diary = Diary(diary!!.id, title, content, date, uriString, mDefaultTittleTextColor, mDefaultTittleBackColor, mDefaultContentTextColor, mDefaultContentBackColor, titleTextSize, contentTextSize, titleFont, contentFont)
                     val intent = Intent().apply {
                         putExtra("diary", diary)
                         putExtra("flag", 1)
@@ -126,30 +141,18 @@ class WritingDiaryPageActivity : AppCompatActivity() {
         }
 
         //font picker settings
-        val fontAdapter = ArrayAdapter<Any?>(this, R.layout.font_list, fontList)
-        fontAdapter.setDropDownViewResource(R.layout.font_list)
-        binding.fontPicker.adapter = fontAdapter
-
-        println(binding.fontPicker.selectedItem)
         binding.fontPicker.onItemSelectedListener = object : AdapterView.OnItemClickListener,
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 when (binding.fontPicker.selectedItem) {
-                    "bold" -> {
-                        println("selected bold")
-                        //    binding.etTodoTitle.se
-                        // binding.etTodoContent.textStyle = "bold"
-                    }
-                    "normal" -> {
-                        println("selected normal")
-                        //  binding.etTodoTitle.textStyle = "bold"
-                        // binding.etTodoContent.textStyle = "bold"
-                    }
-                    "italic" -> {
-                        println("selected italic")
-                        //  binding.etTodoTitle.textStyle = "bold"
-                        // binding.etTodoContent.textStyle = "bold"
-                    }
+                    "bold" -> {binding.Content.setTypeface(null, Typeface.BOLD)
+                        binding.Title.setTypeface(null, Typeface.BOLD)}
+                    "normal" ->  {binding.Content.setTypeface(null, Typeface.NORMAL)
+                        binding.Title.setTypeface(null, Typeface.NORMAL) }
+                    "italic" -> { binding.Content.setTypeface(null, Typeface.ITALIC)
+                        binding.Title.setTypeface(null, Typeface.ITALIC) }
+                    "bold | italic" -> { binding.Content.setTypeface(null, Typeface.BOLD_ITALIC)
+                        binding.Title.setTypeface(null, Typeface.BOLD_ITALIC) }
                 }
             }
 
