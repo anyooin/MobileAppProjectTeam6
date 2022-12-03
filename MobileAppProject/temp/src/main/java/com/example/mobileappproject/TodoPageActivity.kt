@@ -99,9 +99,7 @@ class TodoPageActivity : AppCompatActivity() {
 
             if (type.equals("ADD")) {  //추가하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val todo = Todo(0, title, content,
-                        startDate, endDate, startTime, endTime,
-                        date,false, isTimer, category,"0","0","0")
+                    val todo = Todo(0, title, content, startDate, endDate, startTime, endTime, date,false, isTimer, category)
                     val intent = Intent().apply {
                         putExtra("todo", todo)
                         putExtra("flag", 0)
@@ -111,9 +109,7 @@ class TodoPageActivity : AppCompatActivity() {
                 }
             } else { // 수정하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
-                    val todo = Todo(todo!!.id, title, content,
-                        startDate, endDate, startTime, endTime,
-                        date, todo!!.isChecked, isTimer, category,"0","0","0")
+                    val todo = Todo(todo!!.id, title, content, startDate, endDate, startTime, endTime, date, todo!!.isChecked, isTimer, category)
                     val intent = Intent().apply {
                         putExtra("todo", todo)
                         putExtra("flag", 1)

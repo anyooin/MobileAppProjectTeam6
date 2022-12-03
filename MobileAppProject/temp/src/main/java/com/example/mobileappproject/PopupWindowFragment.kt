@@ -12,7 +12,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.mobileappproject.databinding.PopupWindowFragementBinding
@@ -27,6 +32,8 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
                           private var supportFragmentManager: FragmentManager) : DialogFragment() {
 
     lateinit var binding: PopupWindowFragementBinding
+   // lateinit var todoViewModel: TodoViewModel
+   // lateinit var todoAdapter: TodoAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,7 +89,7 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
                         transaction.replace(R.id.tabContent, ToDoTab(position, dayInMonth, mainActivity, RESULT_OK))
                     }
                     "Diary" -> {
-                        dateInPopupGlobal.text = dayInMonth[position].toString()
+                        dateInPopupGlobal.text = "Diary"
                         transaction.replace(R.id.tabContent, DairyTab(mainActivity, RESULT_OK))
                     }
                 }
@@ -103,7 +110,7 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
                         transaction.replace(R.id.tabContent, ToDoTab(position, dayInMonth, mainActivity, RESULT_OK))
                     }
                     "Diary" -> {
-                        dateInPopupGlobal.text = dayInMonth[position].toString()
+                        dateInPopupGlobal.text = "Diary"
                         transaction.replace(R.id.tabContent, DairyTab(mainActivity, RESULT_OK))
                     }
                 }

@@ -10,89 +10,48 @@
     tools:context=".WritingDiaryPageActivity">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/backBt"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/prev"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/etTodoTitle"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/backBt"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/prev"
-            android:layout_gravity="start"/>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/diary_page_deleteBt"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/delete"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:visibility="invisible"
-            android:layout_gravity="end"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="7dp"
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
-        <ImageButton
-            android:id="@+id/btnSave"
-            android:layout_width="50dp"
-            android:layout_marginStart="5dp"
-            android:layout_height="match_parent"
-            android:text="Save"
-            android:src="@drawable/save_icon"
-            android:textAllCaps="false" />
-
-        <!-- color select -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/writing_toolbar"
-            android:layout_marginStart="5dp"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"/>
-
         <Spinner
             android:id="@+id/font_picker"
-            android:layout_marginStart="15dp"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/font" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/img" />
 
         <Spinner
             android:id="@+id/text_size_picker"
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="30dp"
             android:background="@drawable/size" />
 
-        <TextView
-            android:id="@+id/font"
-            android:layout_width="80dp"
+        <Spinner
+            android:id="@+id/text_color_picker"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:text="Set Font"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
-
-    </LinearLayout>
+            android:layout_marginStart="15dp"
+             />
 
 
+
+    </androidx.appcompat.widget.Toolbar>
 
     <EditText
-        android:id="@+id/Title"
+        android:id="@+id/etTodoTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:hint="Add Title"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -101,24 +60,42 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_gravity="center"
-        android:src="@drawable/image_empty"
-        />
-
     <EditText
-        android:id="@+id/Content"
+        android:id="@+id/etTodoContent"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="wrap_content"
         android:hint="Add content"
-        android:background="@color/white"
-        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:singleLine="false" />
+
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="Save"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/diary_page_deleteBt"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="300dp"
+        android:background="@drawable/delete"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </LinearLayout>

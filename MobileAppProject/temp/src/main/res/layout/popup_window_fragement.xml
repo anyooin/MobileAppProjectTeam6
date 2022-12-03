@@ -20,25 +20,24 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
         <TextView
             android:id="@+id/dateInPopup"
-            android:layout_width="0dp"
-            android:layout_weight="0.6"
+            android:layout_width="125dp"
             android:layout_height="35dp"
             android:text="15"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:layout_marginLeft="75dp"
-            android:layout_gravity="center"/>
+            android:layout_marginLeft="75dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancelBt"
-            android:layout_width="0dp"
-            android:layout_weight="0.3"
-            android:layout_height="35dp"
+            android:layout_width="46dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="50dp"
             android:background="@color/white"
             android:backgroundTint="@null"
             android:text="X"
+            android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -47,7 +46,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
     <FrameLayout
         android:id="@+id/tabContent"
-        android:layout_width="match_parent"
+        android:layout_width="330dp"
         android:layout_height="400dp"
         android:layout_marginTop="10dp" />
 

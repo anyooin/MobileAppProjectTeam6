@@ -3,9 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mobileappproject">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
     <application
         android:name=".ApplicationClass"
         android:allowBackup="true"
@@ -16,14 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        tools:targetApi="31"
-        android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true">
-        <activity
-            android:name=".WritingFontActivity"
-            android:exported="false"
-            android:label="@string/title_activity_writing_font"
-            android:theme="@style/Theme.MobileAppProject.NoActionBar" />
+        tools:targetApi="31">
         <activity
             android:name=".StatisticsMainActivity"
             android:exported="false">

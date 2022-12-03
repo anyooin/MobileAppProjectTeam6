@@ -17,56 +17,86 @@
         >
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:background="@color/light_blue"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/light_blue"/>
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp">
+            android:layout_height="300dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="20dp"
                 android:gravity="center">
 
-                <androidx.appcompat.widget.AppCompatButton
+                <Button
                     android:id="@+id/basicTimer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:text="basicTimer"
-                    android:textColor="#FFFFFF"
-                    android:background="@drawable/timer_selected_button"
-                    />
+                    android:backgroundTint="#ff0000"/>
 
-                <androidx.appcompat.widget.AppCompatButton
+                <Button
                     android:id="@+id/pomodoro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/timer_button"
-                    android:textColor="#ffffff"
+                    android:backgroundTint="#00ff00"
                     android:text="pomodoro" />
 
-                <androidx.appcompat.widget.AppCompatButton
+                <Button
                     android:id="@+id/timebox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="timeBox"
-                    android:textColor="#ffffff"
-                    android:background="@drawable/timer_button"/>
+                    android:backgroundTint="#0000ff"/>
             </LinearLayout>
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/basicTimerScreen"-->
+            <!--                android:layout_width="100dp"-->
+            <!--                android:layout_height="100dp"-->
+            <!--                android:layout_marginLeft="100dp"-->
+            <!--                android:layout_marginTop="80dp"-->
+            <!--                android:background="#ff0000"-->
+            <!--                android:text="basic"-->
+            <!--                android:textSize="30sp"-->
+            <!--                android:gravity="right|bottom"-->
+            <!--                android:visibility="visible"/>-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/pomodoroScreen"-->
+            <!--                android:layout_width="100dp"-->
+            <!--                android:layout_height="80dp"-->
+            <!--                android:layout_marginLeft="100dp"-->
+            <!--                android:layout_marginTop="100dp"-->
+            <!--                android:background="#00ff00"-->
+            <!--                android:text="pomodoro"-->
+            <!--                android:textSize="30sp"-->
+            <!--                android:gravity="right|bottom"-->
+            <!--                android:visibility="invisible" />-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/timeboxScreen"-->
+            <!--                android:layout_width="100dp"-->
+            <!--                android:layout_height="80dp"-->
+            <!--                android:layout_marginLeft="100dp"-->
+            <!--                android:layout_marginTop="100dp"-->
+            <!--                android:background="#0000FF"-->
+            <!--                android:text="timeBox"-->
+            <!--                android:textSize="30sp"-->
+            <!--                android:gravity="right|bottom"-->
+            <!--                android:visibility="invisible" />-->
+
 
             <Chronometer
                 android:id="@+id/chronometer"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="300dp"
                 android:format="%s"
                 android:gravity="center"
-                android:textSize="70sp"
-                android:textStyle="bold"
+                android:textSize="60dp"
                 android:visibility="visible"/>
 
             <!-- pomodoro 시, 분, 초 -->
@@ -74,7 +104,7 @@
                 android:id="@+id/remainHourTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
+                android:layout_marginLeft="50dp"
                 android:layout_marginTop="80dp"
                 android:text="00:"
                 android:textColor="@color/black"
@@ -87,7 +117,7 @@
                 android:id="@+id/remainMinutesTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="160dp"
+                android:layout_marginLeft="150dp"
                 android:layout_marginTop="80dp"
                 android:text="00:"
                 android:textColor="@color/black"
@@ -100,7 +130,7 @@
                 android:id="@+id/remainSecondsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="260dp"
+                android:layout_marginLeft="250dp"
                 android:layout_marginTop="80dp"
                 android:text="00"
                 android:textColor="@color/black"
@@ -132,7 +162,7 @@
                 android:id="@+id/timeBoxremainHourTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
+                android:layout_marginLeft="50dp"
                 android:layout_marginTop="80dp"
                 android:text="03:"
                 android:textColor="#000000"
@@ -145,7 +175,7 @@
                 android:id="@+id/timeBoxremainMinutesTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="160dp"
+                android:layout_marginLeft="150dp"
                 android:layout_marginTop="80dp"
                 android:text="00:"
                 android:textColor="@color/black"
@@ -158,7 +188,7 @@
                 android:id="@+id/timeBoxremainSecondsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="260dp"
+                android:layout_marginLeft="250dp"
                 android:layout_marginTop="80dp"
                 android:text="00"
                 android:textColor="@color/black"
@@ -173,7 +203,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginLeft="100dp"
-                android:layout_marginTop="160dp"
+                android:layout_marginTop="180dp"
                 android:max="10800"
                 android:thumb="@drawable/ic_thumb"
                 app:tickMark="@drawable/drawable_tick_mark"
@@ -183,8 +213,8 @@
             <LinearLayout
                 android:id="@+id/basictimerBtn"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginTop="180dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="200dp"
                 android:gravity="center"
                 >
 
@@ -193,8 +223,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
+                    android:backgroundTint="#ff0000"
                     android:text="start" />
 
                 <Button
@@ -202,16 +231,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
+                    android:backgroundTint="#ff0000"
                     android:text="stop" />
 
                 <Button
                     android:id="@+id/basictimerresetBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
+                    android:backgroundTint="#ff0000"
                     android:text="reset" />
             </LinearLayout>
 
@@ -219,8 +246,8 @@
             <LinearLayout
                 android:id="@+id/pomodoroBtn"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginTop="180dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="200dp"
                 android:gravity="center"
                 android:visibility="invisible" >
 
@@ -229,16 +256,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
+                    android:backgroundTint="#00ff00"
                     android:text="start" />
 
                 <Button
                     android:id="@+id/pomodororesetBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
+                    android:backgroundTint="#00ff00"
                     android:text="reset" />
             </LinearLayout>
 
@@ -246,8 +271,8 @@
             <LinearLayout
                 android:id="@+id/timeboxBtn"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginTop="180dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="200dp"
                 android:gravity="center"
                 android:visibility="invisible" >
 
@@ -256,8 +281,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
+                    android:backgroundTint="#0000ff"
                     android:text="start" />
 
                 <Button
@@ -265,109 +289,80 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
+                    android:backgroundTint="#0000ff"
                     android:text="stop" />
 
                 <Button
                     android:id="@+id/timeboxresetBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
+                    android:backgroundTint="#0000ff"
                     android:text="reset"
                     />
             </LinearLayout>
 
         </FrameLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/timerListAddButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="add item"/>
+            <TextView
+                android:id="@+id/currentSelectedTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textStyle="bold"
+                android:text="Selected Timer = None" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/dateSelectButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="select Day"/>
+            <TextView
+                android:id="@+id/CurrentSelectedDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textStyle="bold"
+                android:text="SelectedDate = None" />
+        </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <Button
-                    android:id="@+id/timerListAddButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="add timer"
-                    android:backgroundTint="#000000"
-                    android:textColor="#ffffff"
-                    android:layout_gravity="center_horizontal"/>
-                <TextView
-                    android:id="@+id/currentSelectedTimer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:textStyle="bold"
-                    android:text="Selected Timer = None" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2sp"
-                    android:background="#000000"/>
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/selectRecyclerView"
+                tools:listitem="@layout/activity_timer_list_todo_popup"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <Button
-                        android:id="@+id/dateSelectButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="#000000"
-                        android:textColor="#ffffff"
-                        android:text="select Day"/>
-
-                    <Button
-                        android:id="@+id/selectNoneday"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:backgroundTint="#ffffff"
-                        android:minHeight="0dp"
-                        android:outlineProvider="none"
-                        android:padding="0dp"
-                        android:text="ALL list"
-                        android:textColor="#000000" />
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/CurrentSelectedDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:textStyle="bold"
-                    android:text="SelectedDate = None" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2sp"
-                    android:background="#000000"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/selectRecyclerView"
-                    tools:listitem="@layout/activity_timer_list_todo_popup"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
         </LinearLayout>
+
+
     </LinearLayout>
 
 
