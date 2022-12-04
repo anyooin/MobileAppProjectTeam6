@@ -13,15 +13,9 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mobileappproject.*
-
 import com.example.mobileappproject.databinding.ActivityMainBinding
-
 import com.google.android.material.navigation.NavigationView
 import java.time.LocalDate
 import java.time.YearMonth

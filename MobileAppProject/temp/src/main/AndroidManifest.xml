@@ -20,11 +20,6 @@
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true">
         <activity
-            android:name=".WritingFontActivity"
-            android:exported="false"
-            android:label="@string/title_activity_writing_font"
-            android:theme="@style/Theme.MobileAppProject.NoActionBar" />
-        <activity
             android:name=".StatisticsMainActivity"
             android:exported="false">
             <meta-data

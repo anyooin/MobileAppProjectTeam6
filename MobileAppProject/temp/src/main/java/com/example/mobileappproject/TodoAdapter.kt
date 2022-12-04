@@ -89,6 +89,16 @@ class TodoAdapter(val context: Context, val currentDay: String, val items: Array
         fun onClick(view: View, position: Int, itemId: Long)
     }
 
+    fun filterList(filterlist: MutableList<Todo>) {
+        // below line is to add our filtered
+        // list in our course array list.
+        list = filterlist
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged()
+    }
+
+
     private lateinit var itemCheckBoxClickListener: ItemCheckBoxClickListener
 
     fun setItemCheckBoxClickListener(itemCheckBoxClickListener: ItemCheckBoxClickListener) {
