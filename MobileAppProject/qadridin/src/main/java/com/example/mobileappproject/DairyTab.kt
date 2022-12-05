@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
@@ -16,9 +17,10 @@ import com.example.mobileappproject.databinding.FragmentDairyTabBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Locale.filter
 
 
-class DairyTab(private val mainActivity: Activity, private val RESULT_OK: Int): Fragment() {
+class DairyTab(private val mainActivity: Activity, private val RESULT_OK: Int, private val searchView: androidx.appcompat.widget.SearchView): Fragment() {
 
 
     lateinit var binding: FragmentDairyTabBinding
@@ -70,8 +72,40 @@ class DairyTab(private val mainActivity: Activity, private val RESULT_OK: Int): 
                 }
             }
         })
+        searchView.setOnCloseListener { true }
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(msg: String): Boolean {
+                filter(msg)
+                return false
+            }
+
+            override fun onQueryTextSubmit(msg: String): Boolean {
+               // filter(msg)
+                return false
+            }
+        })
 
         return binding.root
+    }
+
+    private fun filter(text: String)
+    {
+        val filteredList: MutableList<Diary> = mutableListOf()
+        diaryViewModel.diaryItemsList.observe(viewLifecycleOwner) {
+            for (item in it) {
+                if ((item.title.toLowerCase().contains(text.toLowerCase())) || (item.content.toLowerCase().contains(text.toLowerCase()))){
+                    filteredList.add(item)
+                }
+            }
+            if (filteredList.isEmpty()) {
+                Toast.makeText(mainActivity, "No Such Todo Found In This Date..", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                diaryAdapter.filterList(filteredList)
+            }
+        }
     }
 
     private val requestActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {

@@ -1,4 +1,5 @@
 package com.example.mobileappproject
+import android.annotation.SuppressLint
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
@@ -55,6 +56,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
     lateinit var navigationView: NavigationView
     lateinit var drawerLayout: DrawerLayout
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityStatisticsMainBinding.inflate(layoutInflater)
@@ -69,8 +71,25 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
         drawerLayout = binding.statisticsdrawer
         navigationView = binding.statisticsnaView
+        navigationView.itemIconTintList = null
         navigationView.setNavigationItemSelectedListener(this)
         //navigation f
+
+        //background frame
+        val date = CalendarUtil.today.toString().split("-")
+        if (switchOffOn == 1) {
+            binding.statisticsdrawer.background = when (date[1]) {
+                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.spring1_removebg_preview)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.summer1_removebg_preview)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.autumn1)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            binding.statisticsdrawer.background = null
+        }
 
         //init widgets
         calendar = findViewById(R.id.daysView)
@@ -320,10 +339,10 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_item1-> {
-            Toast.makeText(this,"Calendar 실행", Toast.LENGTH_SHORT).show()
-            val mainIntent: Intent = Intent(this, MainActivity::class.java)
-            startActivity(mainIntent)
-        }
+                Toast.makeText(this,"Calendar 실행", Toast.LENGTH_SHORT).show()
+                val mainIntent: Intent = Intent(this, MainActivity::class.java)
+                startActivity(mainIntent)
+            }
             R.id.menu_item2-> {
                 Toast.makeText(this,"Timer 실행", Toast.LENGTH_SHORT).show()
                 val timerIntent:Intent = Intent(this, TimerMainActivity::class.java)
@@ -334,7 +353,11 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
                 val statisticsIntent:Intent = Intent(this, StatisticsMainActivity::class.java)
                 startActivity(statisticsIntent)
             }
-            R.id.menu_item4-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
+            R.id.menu_item4-> {
+                Toast.makeText(this, "Settings 실행", Toast.LENGTH_SHORT).show()
+                val settingIntent = Intent(this, SettingsActivity::class.java)
+                startActivity(settingIntent)
+            }
         }
         return false
     }
