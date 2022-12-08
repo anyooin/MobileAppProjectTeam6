@@ -1,5 +1,6 @@
 package com.example.mobileappproject
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -15,9 +16,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.example.mobileappproject.databinding.ActivityMainBinding
-
 import com.google.android.material.navigation.NavigationView
 import java.time.LocalDate
 import java.time.YearMonth
@@ -46,6 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawerLayout = binding.drawer
         navigationView = binding.naView
+        navigationView.itemIconTintList = null
         navigationView.setNavigationItemSelectedListener(this)
         //navigation f
 
@@ -84,10 +84,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             setMonthView()
         }
+
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun setMonthView() {
         monthYear.text = monthYearFromDate(CalendarUtil.selectedDate)
+
+        //background frame
+        val date = monthYear.text.toString().split(" ")
+        if (switchOffOn == 1) {
+            println(" ${monthYear.text}========================${date[1]}")
+            drawerLayout.background = when (date[0]) {
+                "December", "January", "February" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "March", "April", "May" -> resources.getDrawable(R.drawable.spring1_removebg_preview)
+                "June", "July", "August" -> resources.getDrawable(R.drawable.summer1_removebg_preview)
+                "September", "October", "November" -> resources.getDrawable(R.drawable.autumn1)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            drawerLayout.background = null
+        }
+
         val daysInMonth = daysInMonthArray(CalendarUtil.selectedDate)
         val calendarAdapter = CalendarAdapter(daysInMonth, this@MainActivity)
         println("CalendarAdapter size is ${calendarAdapter.itemCount}")
@@ -184,7 +204,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val statisticsIntent = Intent(this, StatisticsMainActivity::class.java)
                 startActivity(statisticsIntent)
             }
-            R.id.menu_item4-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
+            R.id.menu_item4-> {
+                Toast.makeText(this, "Settings 실행", Toast.LENGTH_SHORT).show()
+                val settingIntent = Intent(this, SettingsActivity::class.java)
+                startActivity(settingIntent)
+            }
         }
         return false
     }

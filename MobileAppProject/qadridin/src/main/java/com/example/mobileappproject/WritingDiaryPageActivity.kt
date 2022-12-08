@@ -54,14 +54,14 @@ class WritingDiaryPageActivity : AppCompatActivity() {
         binding.fontPicker.adapter = fontAdapter
 
         if (type.equals("ADD")) {
-           // binding.btnSave.text = "추가하기"
+            // binding.btnSave.text = "추가하기"
             binding.fontPicker.setSelection(fontAdapter.getPosition(titleFont))
             println("IN ADD ------- ${fontAdapter.getPosition(titleFont)}")
             binding.textSizePicker.setSelection(sizeAdapter.getPosition(titleSize.toString()))
             binding.diaryPageDeleteBt.visibility = View.INVISIBLE
         } else {
             diary = intent.getSerializableExtra("item") as Diary?
-         //   binding.btnSave.text = "수정하기"
+            //   binding.btnSave.text = "수정하기"
             // color & text size attr
             diary?.let { binding.Title.setTextColor(it.tTextColor) }
             binding.Content.setTextColor(diary!!.cTextColor)
@@ -146,13 +146,13 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 when (binding.fontPicker.selectedItem) {
                     "bold" -> {binding.Content.setTypeface(null, Typeface.BOLD)
-                    binding.Title.setTypeface(null, Typeface.BOLD)}
+                        binding.Title.setTypeface(null, Typeface.BOLD)}
                     "normal" ->  {binding.Content.setTypeface(null, Typeface.NORMAL)
-                    binding.Title.setTypeface(null, Typeface.NORMAL) }
+                        binding.Title.setTypeface(null, Typeface.NORMAL) }
                     "italic" -> { binding.Content.setTypeface(null, Typeface.ITALIC)
-                    binding.Title.setTypeface(null, Typeface.ITALIC) }
+                        binding.Title.setTypeface(null, Typeface.ITALIC) }
                     "bold | italic" -> { binding.Content.setTypeface(null, Typeface.BOLD_ITALIC)
-                    binding.Title.setTypeface(null, Typeface.BOLD_ITALIC) }
+                        binding.Title.setTypeface(null, Typeface.BOLD_ITALIC) }
                 }
             }
 
