@@ -6,7 +6,19 @@
         android:title="search"
         app:showAsAction="always"
         android:icon="@android:drawable/ic_menu_search"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+        app:actionViewClass="androidx.appcompat.widget.SearchView" >
+
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/item_list"
+                    android:title="list"
+                    app:showAsAction="ifRoom"
+                    />
+            </group>
+        </menu>
+
+    </item>
 
     <item
         android:id="@+id/menu_etc"

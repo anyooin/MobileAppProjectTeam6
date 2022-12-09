@@ -35,7 +35,7 @@ class DairyTab(private val mainActivity: Activity, private val RESULT_OK: Int, p
         binding = FragmentDairyTabBinding.inflate(inflater, container, false)
 
         val addButton = binding.addDiaryItem
-         val diaryItems = binding.DiaryListContext
+        val diaryItems = binding.DiaryListContext
 
         addButton.setOnClickListener {
             Log.d("qadridin", "add button in diary page clicked ")
@@ -45,7 +45,7 @@ class DairyTab(private val mainActivity: Activity, private val RESULT_OK: Int, p
             requestActivity.launch(intent)
         }
 
-      diaryViewModel = ViewModelProvider(this)[DiaryViewModel::class.java]
+        diaryViewModel = ViewModelProvider(this)[DiaryViewModel::class.java]
         println("diary view model")
 
         diaryViewModel.diaryItemsList.observe(viewLifecycleOwner) {
