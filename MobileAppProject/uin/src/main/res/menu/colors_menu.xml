@@ -5,6 +5,7 @@
     <item
         android:id="@+id/overflowMenu"
         android:icon="@drawable/color"
+        android:title=""
         app:showAsAction="always">
         <menu>
             <item
