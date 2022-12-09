@@ -38,9 +38,11 @@ class TodoViewModel: ViewModel() {
 
 class DiaryViewModel: ViewModel() {
     val diaryItemsList: LiveData<MutableList<Diary>>
+    val diaryInCurrentDayList: LiveData<MutableList<Diary>>
     val diaryRepository: DiaryRepository = DiaryRepository.get()
     init {
         diaryItemsList = diaryRepository.list()
+        diaryInCurrentDayList = diaryRepository.getCurrentDay(date)
     }
 
     fun getCurrentDay(days: String) = diaryRepository.getCurrentDay(days)

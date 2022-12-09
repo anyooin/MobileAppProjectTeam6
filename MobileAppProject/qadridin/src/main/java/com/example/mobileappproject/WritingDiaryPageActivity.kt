@@ -21,7 +21,6 @@ class WritingDiaryPageActivity : AppCompatActivity() {
     private lateinit var sizeAdapter: ArrayAdapter<String>
     private val sizeList = arrayOf<String?>("9.0", "12.0", "14.0", "16.0", "18.0", "20.0", "22.0", "24.0", "32.0", "36.0", "48.0", "72.0")
     private var titleFont = "normal"
-    private var contentFont = "normal"
     private var mDefaultColor = 0
     var mDefaultTittleTextColor = -16777216
     var mDefaultContentTextColor = -16777216
@@ -98,14 +97,14 @@ class WritingDiaryPageActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener {
             val title = binding.Title.text.toString()
             val content = binding.Content.text.toString()
-            val date = CalendarUtil.today.toString()
+            val date = date
             val titleTextSize =   binding.textSizePicker.selectedItem.toString().toFloat()
             val contentTextSize =   binding.textSizePicker.selectedItem.toString().toFloat()
             val titleFont = binding.fontPicker.selectedItem.toString()
             val contentFont = binding.fontPicker.selectedItem.toString()
 
             // get Image src
-            uriString = binding.imageView.tag.toString()
+            uriString = if (binding.imageView.tag != null) binding.imageView.tag.toString() else R.drawable.image_empty.toString()
             // println("=====================>${binding.imageView.toString()}")
 
             if (type.equals("ADD")) {  //추가하기

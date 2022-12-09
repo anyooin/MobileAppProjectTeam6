@@ -85,7 +85,7 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
                     }
                     "Diary" -> {
                         dateInPopupGlobal.text = dayInMonth[position].toString()
-                        transaction.replace(R.id.tabContent, DairyTab(mainActivity, RESULT_OK, searchView))
+                        transaction.replace(R.id.tabContent, DairyTab(position, dayInMonth, mainActivity, RESULT_OK, searchView))
                     }
                 }
                 transaction.commit()
@@ -106,7 +106,7 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
                     }
                     "Diary" -> {
                         dateInPopupGlobal.text = dayInMonth[position].toString()
-                        transaction.replace(R.id.tabContent, DairyTab(mainActivity, RESULT_OK, searchView))
+                        transaction.replace(R.id.tabContent, DairyTab(position, dayInMonth, mainActivity, RESULT_OK, searchView))
                     }
                 }
                 transaction.commit()
