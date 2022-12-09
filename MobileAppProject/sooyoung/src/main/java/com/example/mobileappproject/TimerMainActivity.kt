@@ -27,7 +27,6 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 var timerTodoSelectedDay = "ALL"
-var timelist = mutableListOf<timerList>() //저장된 timerList
 var timerModeRecord = arrayOf("00:00:00","0회 성공","03:00:00")
 
 class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener , SeekBar.OnSeekBarChangeListener{
@@ -60,8 +59,7 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private var selectPos = -1 // 선택된 list
     private var type = -1 // 선택된 timermode = 0 : pomodoro, 1 : timebox
-    private lateinit var RecordTimerMode: TextView
-    private lateinit var RecordTime: TextView
+    private var todoID:Long = (-1).toLong() // datebase id
 
     lateinit var binding:ActivityTimerMainBinding
 
@@ -123,15 +121,12 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             binding.basictimerBtn.visibility = View.VISIBLE
             binding.pomodoroBtn.visibility = View.INVISIBLE
             binding.timeboxBtn.visibility = View.INVISIBLE
-
             binding.remainHourTextView.visibility = View.INVISIBLE
             binding.remainMinutesTextView.visibility = View.INVISIBLE
             binding.remainSecondsTextView.visibility = View.INVISIBLE
-
             binding.timeBoxremainHourTextView.visibility = View.INVISIBLE
             binding.timeBoxremainMinutesTextView.visibility = View.INVISIBLE
             binding.timeBoxremainSecondsTextView.visibility = View.INVISIBLE
-
             binding.pomodoroSeekBar.visibility = View.INVISIBLE
             binding.timeboxSeekBar.visibility = View.INVISIBLE
             binding.chronometer.visibility = View.VISIBLE
@@ -140,26 +135,12 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             binding.pomodoro.setBackgroundResource(R.drawable.timer_button)
             binding.timebox.setBackgroundResource(R.drawable.timer_button)
 
-            if (selectPos != -1) {
-                RecordTimerMode.text = "Mode = basicTimer"
-                timelist[selectPos].timerMode = "Mode = basicTimer"
-                if(timelist[selectPos].basictimeVar.size == 0) {
-                    timelist[selectPos].timeRecord = "time = 00:00:00"
-                    RecordTime.text = "time = 00:00:00"
-                }
-                else {
-                    val timeP = timelist[selectPos].basictimeVar[timelist[selectPos].basictimeVar.size-1]
-                    timelist[selectPos].timeRecord = "time = %02d:%02d:%02d".format(timeP/3600, timeP/60, timeP%60)
-                    RecordTime.text = "time = %02d:%02d:%02d".format(timeP/3600, timeP/60, timeP%60)
-                }
-            }
             binding.recordH.text = "%s:".format(timerModeRecord[0].split(":")[0])
             binding.recordM.text = "%s:".format(timerModeRecord[0].split(":")[1])
-            binding.recordS.text = "%s:".format(timerModeRecord[0].split(":")[2])
+            binding.recordS.text = "%s".format(timerModeRecord[0].split(":")[2])
         }
 
         binding.pomodoro.setOnClickListener {
-
             type = 0
             binding.basictimerBtn.visibility = View.INVISIBLE
             binding.pomodoroBtn.visibility = View.VISIBLE
@@ -180,11 +161,7 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
 
             updateRemainTime(60 * 30 * 1000L)
             updateSeekBar(60 * 30 * 1000L, pomodoroSeekBar)
-            if (selectPos != -1) {
-                RecordTimerMode.text = "Mode = pomodoro"
-                timelist[selectPos].timerMode = "Mode = pomodoro"
-                RecordTime.text = "포모도로 %d회 성공".format(timelist[selectPos].pomodorotimeVar)
-            }
+
             binding.recordH.text = timerModeRecord[1]
             binding.recordM.text = ""
             binding.recordS.text = ""
@@ -215,15 +192,10 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
 
             updateRemainTime((hourToken * 60 * 60 + minToken * 60 + secToken) * 1000L)
             updateSeekBar((hourToken * 60 * 60 + minToken * 60 + secToken) * 1000L, timeboxSeekBar)
-            if (selectPos != -1) {
-                RecordTimerMode.text = "Mode = timebox"
-                timelist[selectPos].timerMode = "Mode = timebox"
-                timelist[selectPos].timeRecord = "time = %02d:%02d:%02d".format(hourToken, minToken, secToken)
-                RecordTime.text = "time = %02d:%02d:%02d".format(hourToken, minToken, secToken)
-            }
+
             binding.recordH.text = "%s:".format(timerModeRecord[2].split(":")[0])
             binding.recordM.text = "%s:".format(timerModeRecord[2].split(":")[1])
-            binding.recordS.text = "%s:".format(timerModeRecord[2].split(":")[2])
+            binding.recordS.text = "%s".format(timerModeRecord[2].split(":")[2])
         }
 
         //Basic TIMER
@@ -240,58 +212,26 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             var m = (recordPauseTime - h * 3600000) / 60000
             var s = (recordPauseTime - h * 3600000 - m * 60000) / 1000
 
-            if (selectPos != -1) {
-                //BASICTIMER 기록되어 있는 시간 기록 받아와서 카운트 한 시간에 더하기
-                if (isNotEmpty(timelist[selectPos].basictimeVar))//timerList[selectPos].timeRecord 얘 넣으면 안되서 저거 넣음
-                {
-                    val timeRecordStrData = timelist[selectPos].basictimeVar[timelist[selectPos].basictimeVar.size-1]
+            binding.recordH.text = "%02d:".format(h + timerModeRecord[0].split(":")[0].toLong())
+            binding.recordM.text = "%02d:".format(m + timerModeRecord[0].split(":")[1].toLong())
+            binding.recordS.text = "%02d".format(s + timerModeRecord[0].split(":")[2].toLong())
 
-                    val recordedH = timeRecordStrData / 3600  //timeRecordStrArr[0].split(" ")[2]
-                    val recordedM = timeRecordStrData / 60   //timeRecordStrArr[1]
-                    val recordedS = timeRecordStrData % 60   //timeRecordStrArr[2]
-
-                    h += recordedH
-                    m += recordedM
-                    s += recordedS
+            CoroutineScope(Dispatchers.IO).launch {
+                if (todoID != (-1).toLong()) {
+                    val todo = todoViewModel.getOne(todoID)
+                    val time = "%s%s%s".format(binding.recordH.text,binding.recordM.text,binding.recordS.text)
+                    todo.basicTimer = "%s".format(time)
+                    todoViewModel.update(todo)
                 }
-
-                val textH = "%02d".format(h)
-                val textM = "%02d".format(m)
-                val textS = "%02d".format(s)
-
-                RecordTime.text = "time = ${textH}:${textM}:${textS}"
-                timelist[selectPos].timeRecord = "time = ${textH}:${textM}:${textS}"
-
-                //database에 추가
-                CoroutineScope(Dispatchers.IO).launch {
-                    if (timelist[selectPos].timeConnectedID != (-1).toLong()) {
-                        val todo = todoViewModel.getOne(timelist[selectPos].timeConnectedID)
-                        todo.basicTimer = "%s".format(timelist[selectPos].timeRecord)
-                        todoViewModel.update(todo)
-                    }
-                }
-            }
-            else {
-                binding.recordH.text = "%02d:".format(h + timerModeRecord[0].split(":")[0].toLong())
-                binding.recordM.text = "%02d:".format(m + timerModeRecord[0].split(":")[1].toLong())
-                binding.recordS.text = "%02d".format(s + timerModeRecord[0].split(":")[2].toLong())
             }
         }
 
         binding.basictimerresetBtn.setOnClickListener {
-            if(selectPos != -1) {
-                val h = timelist[selectPos].timeRecord.split(":")[0].split(" ")[2]
-                val m = timelist[selectPos].timeRecord.split(":")[1]
-                val s = timelist[selectPos].timeRecord.split(":")[2]
-                timelist[selectPos].basictimeVar.add(h.toLong() * 3600 + m.toLong() * 60 + s.toLong())
-            }
+
             pauseTime = 0L
             binding.chronometer.base = SystemClock.elapsedRealtime()
             binding.chronometer.stop()
-
-
             timerModeRecord[0] = "%s%s%s".format(binding.recordH.text,binding.recordM.text,binding.recordS.text)
-
         }
 
         //POMODORO
@@ -323,34 +263,28 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             val m = timeBoxremainMinutesTextView.text
             val s = timeBoxremainSecondsTextView.text
 
-            if (selectPos != -1) {
-                RecordTime.text = "time = ${h}${m}${s}"
-                timelist[selectPos].timeRecord = "time = ${h}${m}${s}"
-                timelist[selectPos].timeboxtimeVar.add(
-                    h.substring(0..1).toLong() * 3600 + m.substring(0..1)
-                        .toLong() * 60 + s.toString().toLong()
-                )
-                //database에 추가
-                if(timelist[selectPos].timeConnectedID != (-1).toLong()) {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val todo = todoViewModel.getOne(timelist[selectPos].timeConnectedID)
-                        todo.timeBox = "%s".format(timelist[selectPos].timeRecord)
-                        todoViewModel.update(todo)
-                    }
-                }
-            }
             binding.recordH.text = "%02d:".format(h.substring(0..1).toLong())
             binding.recordM.text = "%02d:".format(m.substring(0..1).toLong())
             binding.recordS.text = "%02d".format(s.toString().toLong())
             timerModeRecord[2] = "%02d:%02d:%02d".format(h.substring(0..1).toLong(), m.substring(0..1).toLong(),s.toString().toLong())
+
+            if(todoID != (-1).toLong()) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val todo = todoViewModel.getOne(todoID)
+                    val time = "%s%s%s".format(binding.recordH.text,binding.recordM.text,binding.recordS.text)
+                    todo.timeBox = "%s".format(time)
+                    todoViewModel.update(todo)
+                }
+            }
+
         }
         binding.timeboxresetBtn.setOnClickListener {
             timeboxSeekBar.progress = 0
             updateRemainTime(10800 * 1000L)
             updateSeekBar(10800 * 1000L, timeboxSeekBar)
 
-            binding.recordH.text = "03 : "
-            binding.recordM.text = "00 : "
+            binding.recordH.text = "03:"
+            binding.recordM.text = "00:"
             binding.recordS.text = "00"
             timerModeRecord[2] = "%02d:%02d:%02d".format(3,0,0)
 
@@ -363,19 +297,45 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
                 binding.recordM.text = ""
                 binding.recordS.text = ""
                 timerModeRecord[1] = "0회 성공"
+
+                if(todoID != (-1).toLong()) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val todo = todoViewModel.getOne(todoID)
+                        val time = "%s%s%s".format(binding.recordH.text,binding.recordM.text,binding.recordS.text)
+                        todo.pomodoro = "%s".format(time)
+                        todoViewModel.update(todo)
+                    }
+                }
             }
             else if(type == -1) {
                 binding.recordH.text = "00:"
                 binding.recordM.text = "00:"
                 binding.recordS.text = "00"
                 timerModeRecord[0] = "00:00:00"
+
+                if(todoID != (-1).toLong()) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val todo = todoViewModel.getOne(todoID)
+                        val time = "%s%s%s".format(binding.recordH.text,binding.recordM.text,binding.recordS.text)
+                        todo.basicTimer = "%s".format(time)
+                        todoViewModel.update(todo)
+                    }
+                }
             }
             else if(type == 1) {
                 binding.recordH.text = "03:"
                 binding.recordM.text = "00:"
                 binding.recordS.text = "00"
-
                 timerModeRecord[2] = "03:00:00"
+
+                if(todoID != (-1).toLong()) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val todo = todoViewModel.getOne(todoID)
+                        val time = "%s%s%s".format(binding.recordH.text,binding.recordM.text,binding.recordS.text)
+                        todo.timeBox = "%s".format(time)
+                        todoViewModel.update(todo)
+                    }
+                }
             }
         }
 
@@ -390,36 +350,103 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             timerTodoAdapter.updating()
         }
 
-        binding.nonSelectBtn.setOnClickListener {
-            selectPos = -1
-        }
-
         timerTodoAdapter = timerTodoListAdapter(this,
             onShowDB = { showTimerDB(it) },
             onSelectTimer = {selectTimerDB(it)})
         binding.selectRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.selectRecyclerView.adapter = timerTodoAdapter
+
+        var checkScreen = 0
+        timerTodoAdapter.setItemClickListener(object: timerTodoListAdapter.ItemClickListener{
+            override fun onClick(preView: View?, view: View, timeArray:Array<String>) {
+                preView?.setBackgroundColor(Color.parseColor("#000000"))
+                if (preView != null) {
+                    if((preView.equals(view) && (checkScreen%2 == 1))) {
+                        view.setBackgroundColor(Color.parseColor("#000000"))
+                        checkScreen = 0
+                        todoID = -1
+                    }
+                    else{
+                        view.setBackgroundColor(Color.parseColor("#D0A4ED"))
+                        checkScreen = 1
+                    }
+                }
+                else {
+                    view.setBackgroundColor(Color.parseColor("#D0A4ED"))
+                    checkScreen = 1
+                }
+
+                Log.d("soo","todoID = $todoID")
+                settingRecord(todoID, type, timeArray)
+            }
+        })
+    }
+
+    private fun settingRecord(id : Long, type : Int, timearray : Array<String>) {
+        if (type == -1) { // basic
+            if (id == (-1).toLong() || timearray[1] == "0") {
+                binding.recordH.text = "00:"
+                binding.recordM.text = "00:"
+                binding.recordS.text = "00"
+            } else {
+                binding.recordH.text = "%s:".format(timearray[1].split(":")[0])
+                binding.recordM.text = "%s:".format(timearray[1].split(":")[1])
+                binding.recordS.text = "%s".format(timearray[1].split(":")[2])
+            }
+        } else if (type == 0) { // pomo
+            if (id == (-1).toLong() || timearray[2] == "0") {
+                binding.recordH.text = "0회 성공"
+                binding.recordM.text = ""
+                binding.recordS.text = ""
+            } else {
+                binding.recordH.text = timearray[2]
+                binding.recordM.text = ""
+                binding.recordS.text = ""
+            }
+        } else if (type == 1) {// timebox
+            if (id == (-1).toLong() || timearray[3] == "0") {
+                binding.recordH.text = "03:"
+                binding.recordM.text = "00:"
+                binding.recordS.text = "00"
+            } else {
+                binding.recordH.text = "%s:".format(timearray[3].split(":")[0])
+                binding.recordM.text = "%s:".format(timearray[3].split(":")[1])
+                binding.recordS.text = "%s".format(timearray[3].split(":")[2])
+            }
+        }
+
+        if(id == (-1).toLong()) {
+            timerModeRecord[0] = "00:00:00"
+            timerModeRecord[1] = "0회 성공"
+            timerModeRecord[2] = "03:00:00"
+        }
+        else {
+            if(timearray[1] == "0"){ timerModeRecord[0] = "00:00:00"}
+            else {timerModeRecord[0] = timearray[1]}
+
+            if(timearray[2] == "0"){ timerModeRecord[1] = "0회 성공"}
+            else {timerModeRecord[1] = timearray[2]}
+
+            if(timearray[3] == "0"){ timerModeRecord[2] = "03:00:00"}
+            else {timerModeRecord[2] = timearray[3]}
+        }
     }
 
     private fun showTimerDB(timeArray: Array<String>) { //DB정보출력
         val dig = timerListTodoPopup(this)
-        dig.show(timeArray[0], timeArray[1], timeArray[2])
+        var basic = timeArray[0]
+        var pomo = timeArray[1]
+        var timebox = timeArray[2]
+
+        if(basic == "0") basic = "00:00:00"
+        if(pomo == "0") pomo = "0회 성공"
+        if(timebox == "0") timebox = "00:00:00"
+
+        dig.show(basic, pomo, timebox)
     }
 
-    private fun selectTimerDB(position : Int) {
-        selectPos = position
-    }
-
-    // timerList 삭제함수
-    private fun deleteTimerList(id : Long) {
-        if(timelist.size == 0){
-            return
-        }
-        for(i in 0 .. timelist.size) {
-            if( id == timelist[i].timeConnectedID) {
-                timelist.removeAt(i)
-            }
-        }
+    private fun selectTimerDB(id : Long) {
+        todoID = id
     }
 
     override fun onResume() {
@@ -492,18 +519,12 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             binding.recordS.text = ""
             timerModeRecord[1] = "%d회 성공".format(successPomo)
 
-            if(selectPos != -1) {
-                RecordTime.text = "포모도로 %d회 성공!".format(timelist[selectPos].pomodorotimeVar+1)
-                timelist[selectPos].timeRecord = "포모도로 %d회 성공!".format(timelist[selectPos].pomodorotimeVar+1)
-                timelist[selectPos].pomodorotimeVar = timelist[selectPos].pomodorotimeVar+1
-
-                //database에 추가
-                if(timelist[selectPos].timeConnectedID != -1.toLong()) {
-                    CoroutineScope(Dispatchers.IO).launch{
-                        val todo = todoViewModel.getOne(timelist[selectPos].timeConnectedID)
-                        todo.pomodoro = "%s".format(timelist[selectPos].timeRecord)
-                        todoViewModel.update(todo)
-                    }
+            if(todoID != -1.toLong()) {
+                CoroutineScope(Dispatchers.IO).launch{
+                    val todo = todoViewModel.getOne(todoID)
+                    val time = "%s%s%s".format(binding.recordH.text,binding.recordM.text,binding.recordS.text)
+                    todo.pomodoro = "%s".format(time)
+                    todoViewModel.update(todo)
                 }
             }
         }
@@ -618,10 +639,5 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
         }, year, month, day)
 
         mDatePicker.show()
-    }
-
-    //BASICTIMER 리스트 비어있는지 확인용
-    fun isNotEmpty(list: List<*>?): Boolean {
-        return list != null && list.isNotEmpty()
     }
 }

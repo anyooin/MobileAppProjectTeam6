@@ -15,7 +15,7 @@ import kotlinx.coroutines.NonDisposableHandle.parent
 class timerTodoListAdapter(
     val context: Context,
     val onShowDB: (Array<String>) -> Unit,
-    val onSelectTimer : (Int) -> Unit
+    val onSelectTimer : (Long) -> Unit
 ) : RecyclerView.Adapter<timerTodoListAdapter.TimerListViewHolder>(){
 
     private var list = mutableListOf<Todo>()
@@ -74,7 +74,12 @@ class timerTodoListAdapter(
         }
 
         holder.itemView.findViewById<Button>(R.id.timerselectBtn).setOnClickListener {
-            onSelectTimer(position)
+            val to = list[position]
+            val timeArray = arrayOf(to.id.toString(), to.basicTimer, to.pomodoro, to.timeBox)
+
+            onSelectTimer(list[position].id)
+            itemClickListener.onClick(preView, it, timeArray)
+            preView = it
         }
     }
 
@@ -84,5 +89,14 @@ class timerTodoListAdapter(
     }
     fun updating(){
         notifyDataSetChanged()
+    }
+
+    interface ItemClickListener {
+        fun onClick(preView: View?, view: View, timearray: Array<String>)
+    }
+    private lateinit var itemClickListener : ItemClickListener
+
+    fun setItemClickListener(itemClickListener: ItemClickListener) {
+        this.itemClickListener = itemClickListener
     }
 }
