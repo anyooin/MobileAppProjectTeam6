@@ -82,6 +82,9 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             mDefaultContentTextColor = diary!!.cTextColor
             mDefaultContentBackColor = diary!!.cBackColor
             binding.imageView.setImageURI(Uri.parse(diary!!.image))
+            binding.imageView.tag = diary!!.image
+            println("diary image in open writing page----------------> ${diary!!.image}")
+            println("diare image after Uri.parse -----> ${Uri.parse(diary!!.image)}")
 
             //set backBtn and deleteBtn
             binding.diaryPageDeleteBt.visibility = View.VISIBLE
@@ -100,6 +103,10 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             val contentTextSize =   binding.textSizePicker.selectedItem.toString().toFloat()
             val titleFont = binding.fontPicker.selectedItem.toString()
             val contentFont = binding.fontPicker.selectedItem.toString()
+
+            // get Image src
+            uriString = binding.imageView.tag.toString()
+            // println("=====================>${binding.imageView.toString()}")
 
             if (type.equals("ADD")) {  //추가하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
@@ -176,6 +183,7 @@ class WritingDiaryPageActivity : AppCompatActivity() {
         }
     }
 
+
     private val activityResult: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()){
 
@@ -186,6 +194,8 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             uriString = uri.toString()
 
             binding.imageView.setImageURI(Uri.parse(uriString))
+            binding.imageView.tag = uriString
+            println("tag ========== ${binding.imageView.tag}")
 
             //화면에 보여주기
             //Glide.with(this)
