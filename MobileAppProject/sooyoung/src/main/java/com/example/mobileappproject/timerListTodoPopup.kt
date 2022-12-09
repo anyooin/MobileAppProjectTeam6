@@ -1,10 +1,13 @@
 package com.example.mobileappproject
 
 import android.app.Dialog
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
+import android.view.WindowManager
+import androidx.core.content.ContextCompat.getSystemService
 import com.example.mobileappproject.databinding.ActivityTimerListTodoPopupBinding
 import com.example.mobileappproject.databinding.ActivityTimerPopupBinding
 
@@ -19,6 +22,9 @@ class timerListTodoPopup(private val context: AppCompatActivity ) {
         dig.requestWindowFeature(Window.FEATURE_NO_TITLE) // 타이틀 바 제거
         dig.setContentView(binding.root) // 다이얼로그에 사용할 xml 파일을 불러옴
         dig.setCancelable(false)
+
+        dig.window!!.setLayout(800,500)
+
 
         //부모 액티비티에서 전달받은 텍스트 세팅
         binding.timertodoPopupBasic.text = "basic = %s".format(basic)

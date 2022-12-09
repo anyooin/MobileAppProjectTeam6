@@ -20,6 +20,7 @@
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/drawable-v24/ic_thumb.xml" value="0.1" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/drawable/delete.xml" value="0.213" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/drawable/ic_launcher_background.xml" value="0.1105" />
+        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/drawable/line.xml" value="0.1" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/drawable/navi_menu.xml" value="0.165" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/drawable/timer_buton.xml" value="0.1" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/drawable/timer_button.xml" value="0.2315" />
@@ -30,9 +31,10 @@
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/drawable/timer_setting.xml" value="0.1105" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_statics_main.xml" value="0.2296875" />
+        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_statistics_main.xml" value="0.20925925925925926" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_timer_list.xml" value="0.14791666666666667" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_timer_list_todo_popup.xml" value="0.24561403508771928" />
-        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_timer_main.xml" value="0.2596491228070175" />
+        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_timer_main.xml" value="0.2" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_timer_popup.xml" value="0.25625" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_todo_page.xml" value="0.16041666666666668" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_writing_diary_page.xml" value="0.25" />
@@ -52,6 +54,10 @@
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/recycler_view.xml" value="0.271875" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/menu/menu_list.xml" value="0.1" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/menu/menu_main.xml" value="0.2037037037037037" />
+        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/temp/src/main/res/layout/activity_main.xml" value="0.13425925925925927" />
+        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/temp/src/main/res/layout/activity_statistics_main.xml" value="0.17685185185185184" />
+        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/temp/src/main/res/layout/days_cell.xml" value="0.19479166666666667" />
+        <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/temp/src/main/res/layout/font_list.xml" value="0.19479166666666667" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_main.xml" value="0.11203703703703703" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_todo_page.xml" value="0.23958333333333334" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/menu_item.xml" value="0.11203703703703703" />

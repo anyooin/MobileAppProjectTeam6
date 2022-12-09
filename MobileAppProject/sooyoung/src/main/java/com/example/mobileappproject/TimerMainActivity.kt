@@ -17,6 +17,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mobileappproject.databinding.ActivityTimerMainBinding
 
@@ -355,6 +356,8 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             onSelectTimer = {selectTimerDB(it)})
         binding.selectRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.selectRecyclerView.adapter = timerTodoAdapter
+        binding.selectRecyclerView.addItemDecoration(DividerItemDecoration(this,
+        LinearLayoutManager.VERTICAL))
 
         var checkScreen = 0
         timerTodoAdapter.setItemClickListener(object: timerTodoListAdapter.ItemClickListener{
