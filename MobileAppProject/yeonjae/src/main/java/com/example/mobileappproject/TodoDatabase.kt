@@ -17,7 +17,10 @@ class Todo(
     @ColumnInfo(name = "date") val date: String,  //생성한 날짜 -> 선택한날짜?
     @ColumnInfo(name = "isChecked") var isChecked: Boolean,
     @ColumnInfo(name = "isTimer") var isTimer: Boolean,
-    @ColumnInfo(name = "categoryNum") var categoryNum: Int
+    @ColumnInfo(name = "categoryNum") var categoryNum: Int,
+    @ColumnInfo(name = "basicTimer") var basicTimer: String,
+    @ColumnInfo(name = "pomodoro") var pomodoro: String,
+    @ColumnInfo(name = "timeBox") var timeBox: String
 ): Serializable {
 }
 
@@ -33,6 +36,9 @@ interface TodoDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(dto: Todo)
+
+    @Query("select * from todoTable")
+    fun readAllData() : LiveData<MutableList<Todo>>
 
     @Query("select * from todoTable where date = (:date)")
     fun list(date: String): LiveData<MutableList<Todo>>

@@ -1,26 +1,24 @@
 package com.example.mobileappproject
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.media.AsyncPlayer
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.mobileappproject.databinding.PopupWindowFragementBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.android.material.tabs.TabLayout.TAB_LABEL_VISIBILITY_LABELED
 import java.time.LocalDate
 
 var date = ""
@@ -29,8 +27,6 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
                           private var supportFragmentManager: FragmentManager) : DialogFragment() {
 
     lateinit var binding: PopupWindowFragementBinding
-    lateinit var todoViewModel: TodoViewModel
-    lateinit var todoAdapter: TodoAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,12 +45,11 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
         println("On view Created ")
         val cancel = view.findViewById<Button>(R.id.cancelBt)
         val dateInPopupGlobal = view.findViewById<TextView>(R.id.dateInPopup)
-        val addButton = view.findViewById<ImageView>(R.id.addTodo)
-        val toDoListContext = view.findViewById<RecyclerView>(R.id.toDoListContext)
 
+        // set dialog frame size
         if (dialog != null) dialog!!.window!!.setLayout(
-            300.toPx(requireContext()),
-            450.toPx(requireContext())
+            350.toPx(requireContext()),
+            520.toPx(requireContext())
         )
 
         cancel.setOnClickListener {
@@ -62,86 +57,60 @@ class PopupWindowFragment(private var position: Int, private var dayInMonth: Mut
             super.dismiss()
         }
 
-        addButton.setOnClickListener {
-            Log.d("qadridin", "clicked add button in popup Window")
-
-            //Move to do list maker page
-            val intent = Intent(mainActivity, TodoPageActivity::class.java).apply {
-                putExtra("type", "ADD")
-            }
-            requestActivity.launch(intent)
-        }
-
-        setPopWindowAttr(toDoListContext, dateInPopupGlobal)
-    }
-
-    private val requestActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == RESULT_OK) {
-            val todo = it.data?.getSerializableExtra("todo") as Todo
-
-            when(it.data?.getIntExtra("flag", -1)) {
-                0 -> {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        todoViewModel.insert(todo)
-                    }
-                    Toast.makeText(mainActivity, "추가되었습니다.", Toast.LENGTH_SHORT).show()
-                }
-                1 -> {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        todoViewModel.update(todo)
-                    }
-                    Toast.makeText(mainActivity, "수정되었습니다.", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
-
-
-    private fun setPopWindowAttr(toDoListContext: RecyclerView, dateInPopupGlobal: TextView)  {
         dateInPopupGlobal.text = (dayInMonth[position]).toString()
         date = dateInPopupGlobal.text.toString()
-        println("setPopWinAttr before todoViewModel")
-        todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
-        println("setPopWinAttr after todoViewModel")
 
+        // setting tabs
+        val tabLayout = binding.tabs
+        val todoTab = tabLayout.newTab()
+        todoTab.text = "TodoList"
+        val diaryTab = tabLayout.newTab()
+        diaryTab.text = "Diary"
+        tabLayout.addTab(todoTab)
+        tabLayout.addTab(diaryTab)
 
-        todoViewModel.todoList.observe(this) {
-            todoAdapter.update(it)
-        }
+        tabLayout.selectTab(todoTab)
+        childFragmentManager.beginTransaction().replace(R.id.tabContent, ToDoTab(position, dayInMonth, mainActivity, RESULT_OK)).commit()
 
-
-        todoAdapter = TodoAdapter(mainActivity, dayInMonth[position].toString(), resources.getStringArray(R.array.category_list))
-        toDoListContext.layoutManager = LinearLayoutManager(mainActivity)
-        toDoListContext.adapter = todoAdapter
-
-
-        todoAdapter.setItemCheckBoxClickListener(object: TodoAdapter.ItemCheckBoxClickListener {
-            override fun onClick(view: View, position: Int, itemId: Long) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val todo = todoViewModel.getOne(itemId)
-                    todo.isChecked = !todo.isChecked
-                    todoViewModel.update(todo)
-                }
-            }
-        })
-
-        todoAdapter.setItemClickListener(object: TodoAdapter.ItemClickListener {
-            override fun onClick(view: View, position: Int, itemId: Long) {
-                Toast.makeText(mainActivity, "$itemId", Toast.LENGTH_SHORT).show()
-                CoroutineScope(Dispatchers.IO).launch {
-                    val todo = todoViewModel.getOne(itemId)
-
-                    val intent = Intent(mainActivity, TodoPageActivity::class.java).apply {
-                        putExtra("type", "EDIT")
-                        putExtra("item", todo)
+        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+            // called when tab selected
+                val transaction = childFragmentManager.beginTransaction()
+                when (tab?.text) {
+                    "TodoList" -> {
+                        dateInPopupGlobal.text = dayInMonth[position].toString()
+                        transaction.replace(R.id.tabContent, ToDoTab(position, dayInMonth, mainActivity, RESULT_OK))
                     }
-                    requestActivity.launch(intent)
+                    "Diary" -> {
+                        dateInPopupGlobal.text = dayInMonth[position].toString()
+                        transaction.replace(R.id.tabContent, DairyTab(mainActivity, RESULT_OK))
+                    }
                 }
+                transaction.commit()
+
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            // called when tab unselected
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            // called when a tab is reselected
+                val transaction = childFragmentManager.beginTransaction()
+                when (tab?.text) {
+                    "TodoList" -> {
+                        dateInPopupGlobal.text = dayInMonth[position].toString()
+                        transaction.replace(R.id.tabContent, ToDoTab(position, dayInMonth, mainActivity, RESULT_OK))
+                    }
+                    "Diary" -> {
+                        dateInPopupGlobal.text = dayInMonth[position].toString()
+                        transaction.replace(R.id.tabContent, DairyTab(mainActivity, RESULT_OK))
+                    }
+                }
+                transaction.commit()
             }
         })
     }
-    private fun Int.toPx(context: Context): Int =
-        (this * context.resources.displayMetrics.density).toInt()
 
+    private fun Int.toPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 }

@@ -21,6 +21,7 @@ class TodoRepository private constructor(context: Context){
         println("Date in TodoRepository Class $dateInPopup")
         return  todoDao.list(dateInPopup)
     }
+    fun readAllData() : LiveData<MutableList<Todo>> = todoDao.readAllData()
 
     fun getCurrentDay(day: String): LiveData<MutableList<Todo>> = todoDao.getCurrentDay(day)
 
@@ -44,6 +45,47 @@ class TodoRepository private constructor(context: Context){
         fun get(): TodoRepository {
             return INSTANCE ?:
             throw IllegalStateException("TodoRepository must be initialized")
+        }
+    }
+}
+
+private const val DATABASE_Diary = "diary-database.db"
+class DiaryRepository private constructor(context: Context){
+
+    private val database: DiaryDatabase = Room.databaseBuilder(
+        context.applicationContext,
+        DiaryDatabase::class.java,
+        DATABASE_Diary
+    ).build()
+
+    private val DiaryDao = database.DiaryDao()
+
+    fun list(): LiveData<MutableList<Diary>> {
+        return  DiaryDao.list()
+    }
+
+    fun getCurrentDay(day: String): LiveData<MutableList<Diary>> = DiaryDao.getCurrentDay(day)
+
+    fun getTodo(id: Long): Diary = DiaryDao.selectOne(id)
+
+    fun insert(dto: Diary) = DiaryDao.insert(dto)
+
+    suspend fun update(dto: Diary) = DiaryDao.update(dto)
+
+    fun delete(dto: Diary) = DiaryDao.delete(dto)
+
+    companion object {
+        private var INSTANCE: DiaryRepository?=null
+
+        fun initialize(context: Context) {
+            if (INSTANCE == null) {
+                INSTANCE = DiaryRepository(context)
+            }
+        }
+
+        fun get(): DiaryRepository {
+            return INSTANCE ?:
+            throw IllegalStateException("DiaryRepository must be initialized")
         }
     }
 }

@@ -11,4 +11,12 @@
     <color name="blue">#FF0000FF</color>
     <color name="red">#FFFF0000</color>
     <color name="light_gray">#818181</color>
+
+    <!-- statistics calander cell 용 색상 -->
+
+    <color name="less2H_blue">#110000FF</color>
+    <color name="less4H_blue">#440000FF</color>
+    <color name="less6H_blue">#770000FF</color>
+    <color name="less8H_blue">#AA0000FF</color>
+    <color name="more8H_blue">#FF0000FF</color>
 </resources>

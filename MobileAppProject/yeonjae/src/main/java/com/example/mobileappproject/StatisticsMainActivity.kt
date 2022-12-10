@@ -1,4 +1,5 @@
 package com.example.mobileappproject
+import android.annotation.SuppressLint
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
@@ -10,6 +11,12 @@ import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarEntry
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+
+//import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
 import android.content.Intent
 import android.graphics.Color
@@ -25,6 +32,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,7 +42,9 @@ import com.example.mobileappproject.*
 import com.example.mobileappproject.databinding.ActivityMainBinding
 import com.example.mobileappproject.databinding.ActivityStatisticsMainBinding
 import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.ChartData
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -45,6 +55,11 @@ import com.google.android.material.navigation.NavigationView
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+
+
+
+
+
 class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var toggle: ActionBarDrawerToggle
@@ -55,11 +70,34 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
     lateinit var navigationView: NavigationView
     lateinit var drawerLayout: DrawerLayout
 
+    private val timerList = mutableListOf<timerList>() //저장된 timerList
+    private var selectPos = -1 // 선택된 list
+    private var type = -1 // 선택된 timermode = 0 : pomodoro, 1 : timebox
+
+    private var DBselected = 0
+    private var titleChange = "None"
+    private var DBid = (-1).toLong()
+
+    //room
+    lateinit var timerTodoAdapter: timerTodoListAdapter
+    lateinit var todoViewModel: TodoViewModel
+
+    //linechart
+    private val TAG = this.javaClass.simpleName
+    lateinit var lineChart: LineChart
+    private val chartData = ArrayList<ChartData>()
+
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityStatisticsMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //room data access
+        todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
+        todoViewModel.readAllData.observe(this) {
+            timerTodoAdapter.update(it)
+        }
 
         //Toolbar setting
         setSupportActionBar(binding.toolbar)
@@ -120,6 +158,23 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             }
             setMonthView()
         }
+
+        //line chart
+        /*var lineChart: LineChart = findViewById(R.id.lineChart)
+
+        private val lineChartData = ArrayList<ChartData>()*/
+        // 서버에서 데이터 가져오기 (서버에서 가져온 데이터로 가정하고 직접 추가)
+        chartData.clear()
+        addChartItem("1월", 7.9)
+        addChartItem("2월", 8.2)
+        addChartItem("3월", 8.3)
+        addChartItem("4월", 8.5)
+        addChartItem("5월", 7.3)
+
+        // 그래프 그릴 자료 넘기기
+        LineChart(chartData)
+
+
 
         //bar chart
         var barChart: BarChart = findViewById(R.id.barChart)// barChart 생성
@@ -211,24 +266,24 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         colorsItems.add(ColorTemplate.getHoloBlue())
 
         val pieDataSet = PieDataSet(entriespie, "")
-            pieDataSet.apply {
-                colors = colorsItems
-                valueTextColor = Color.BLACK
-                valueTextSize = 16f
-            }
+        pieDataSet.apply {
+            colors = colorsItems
+            valueTextColor = Color.BLACK
+            valueTextSize = 16f
+        }
 
 
         val pieData = PieData(pieDataSet)
-            pieChart.apply{
-                this.data = pieData
-                description.isEnabled = false
-                isRotationEnabled = false
-                centerText = "This is Center"
-                setEntryLabelColor(Color.BLACK)
-                animateY(1400, Easing.EaseInOutQuad)
-                animate()
+        pieChart.apply{
+            this.data = pieData
+            description.isEnabled = false
+            isRotationEnabled = false
+            centerText = "This is Center"
+            setEntryLabelColor(Color.BLACK)
+            animateY(1400, Easing.EaseInOutQuad)
+            animate()
 
-            }
+        }
 /*
         pieChart.run {
             this.data = data//차트의 데이터를 data로 설정해줌.
@@ -254,8 +309,8 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         calendar.layoutManager = layoutManager
         calendar.adapter = calendarAdapter
 
-        // clickEvent
-        calendarAdapter.setOnItemClickListener(object :
+        // clickEvent 제거
+        /*calendarAdapter.setOnItemClickListener(object :
             CalendarAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 Log.d("uin", "item click")
@@ -264,7 +319,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
                 popupFragment.show(supportFragmentManager, "custom Dialog")
             }
         }
-        )
+        )*/
     }
 
     private fun daysInMonthArray(date: LocalDate): MutableList<LocalDate?> {
@@ -333,22 +388,21 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_item1-> {
-            Toast.makeText(this,"Calendar 실행", Toast.LENGTH_SHORT).show()
-            val MainIntent: Intent = Intent(this, MainActivity::class.java)
-            startActivity(MainIntent)
-        }
+                Toast.makeText(this,"Calendar 실행", Toast.LENGTH_SHORT).show()
+                val mainIntent: Intent = Intent(this, MainActivity::class.java)
+                startActivity(mainIntent)
+            }
             R.id.menu_item2-> {
                 Toast.makeText(this,"Timer 실행", Toast.LENGTH_SHORT).show()
-                val TimerIntent:Intent = Intent(this, TimerMainActivity::class.java)
-                startActivity(TimerIntent)
+                val timerIntent:Intent = Intent(this, TimerMainActivity::class.java)
+                startActivity(timerIntent)
             }
-            R.id.menu_item3-> Toast.makeText(this,"TodoList 실행", Toast.LENGTH_SHORT).show()
-            R.id.menu_item4-> {
+            R.id.menu_item3-> {
                 Toast.makeText(this,"Statistics 실행", Toast.LENGTH_SHORT).show()
-                val StatisticsIntent:Intent = Intent(this, StatisticsMainActivity::class.java)
-                startActivity(StatisticsIntent)
+                val statisticsIntent:Intent = Intent(this, StatisticsMainActivity::class.java)
+                startActivity(statisticsIntent)
             }
-            R.id.menu_item5-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
+            R.id.menu_item4-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
         }
         return false
     }
