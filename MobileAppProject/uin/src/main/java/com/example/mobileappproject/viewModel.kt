@@ -12,7 +12,7 @@ class TodoViewModel: ViewModel() {
 
     private val todoRepository: TodoRepository = TodoRepository.get()
     init {
-        println("date in to do ViewModel $date")
+        //println("date in to do ViewModel $date")
         todoList = todoRepository.list(date)
         readAllData = todoRepository.readAllData()
     }
@@ -38,9 +38,11 @@ class TodoViewModel: ViewModel() {
 
 class DiaryViewModel: ViewModel() {
     val diaryItemsList: LiveData<MutableList<Diary>>
+    val diaryInCurrentDayList: LiveData<MutableList<Diary>>
     val diaryRepository: DiaryRepository = DiaryRepository.get()
     init {
         diaryItemsList = diaryRepository.list()
+        diaryInCurrentDayList = diaryRepository.getCurrentDay(date)
     }
 
     fun getCurrentDay(days: String) = diaryRepository.getCurrentDay(days)

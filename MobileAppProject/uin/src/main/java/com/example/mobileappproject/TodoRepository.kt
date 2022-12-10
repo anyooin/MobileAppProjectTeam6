@@ -18,7 +18,7 @@ class TodoRepository private constructor(context: Context){
     private val todoDao = database.todoDao()
 
     fun list(dateInPopup: String): LiveData<MutableList<Todo>> {
-        println("Date in TodoRepository Class $dateInPopup")
+        //println("Date in TodoRepository Class $dateInPopup")
         return  todoDao.list(dateInPopup)
     }
     fun readAllData() : LiveData<MutableList<Todo>> = todoDao.readAllData()

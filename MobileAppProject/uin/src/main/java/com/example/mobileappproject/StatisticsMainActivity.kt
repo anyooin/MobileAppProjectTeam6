@@ -1,4 +1,5 @@
 package com.example.mobileappproject
+import android.annotation.SuppressLint
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
@@ -55,6 +56,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
     lateinit var navigationView: NavigationView
     lateinit var drawerLayout: DrawerLayout
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityStatisticsMainBinding.inflate(layoutInflater)
@@ -82,8 +84,25 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         )*/
         drawerLayout = binding.statisticsdrawer
         navigationView = binding.statisticsnaView
+        navigationView.itemIconTintList = null
         navigationView.setNavigationItemSelectedListener(this)
         //navigation f
+
+        //background frame
+        val date = CalendarUtil.today.toString().split("-")
+        if (switchOffOn == 1) {
+            binding.statisticsdrawer.background = when (date[1]) {
+                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            binding.statisticsdrawer.background = null
+        }
 
         //init widgets
         calendar = findViewById(R.id.daysView)
@@ -260,8 +279,8 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             override fun onItemClick(view: View, position: Int) {
                 Log.d("uin", "item click")
 
-                val popupFragment = PopupWindowFragment(position, daysInMonth, this@StatisticsMainActivity, RESULT_OK, supportFragmentManager)
-                popupFragment.show(supportFragmentManager, "custom Dialog")
+                //val popupFragment = PopupWindowFragment(position, daysInMonth, this@StatisticsMainActivity, RESULT_OK, supportFragmentManager)
+                //popupFragment.show(supportFragmentManager, "custom Dialog")
             }
         }
         )

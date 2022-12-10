@@ -11,7 +11,6 @@ import android.view.View
 import android.widget.*
 import com.example.mobileappproject.Todo
 import com.example.mobileappproject.databinding.ActivityTodoPageBinding
-import com.example.mobileappproject.databinding.PopupWindowFragementBinding
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -49,14 +48,6 @@ class TodoPageActivity : AppCompatActivity() {
        val categoryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,items)
 
        binding.category.adapter = categoryAdapter
-//       binding.category.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//           override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-//               when(position) {
-//                   1 ->
-//               }
-//           }
-//       }
-
 
         val type = intent.getStringExtra("type")
 
