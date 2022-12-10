@@ -56,10 +56,6 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-
-
-
-
 class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var toggle: ActionBarDrawerToggle
@@ -70,22 +66,14 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
     lateinit var navigationView: NavigationView
     lateinit var drawerLayout: DrawerLayout
 
-    private val timerList = mutableListOf<timerList>() //저장된 timerList
-    private var selectPos = -1 // 선택된 list
-    private var type = -1 // 선택된 timermode = 0 : pomodoro, 1 : timebox
-
-    private var DBselected = 0
-    private var titleChange = "None"
-    private var DBid = (-1).toLong()
-
     //room
-    lateinit var timerTodoAdapter: timerTodoListAdapter
+    private lateinit var statisticsCalendarAdapter: StatisticsCalendarAdapter
     lateinit var todoViewModel: TodoViewModel
 
     //linechart
     private val TAG = this.javaClass.simpleName
     lateinit var lineChart: LineChart
-    private val chartData = ArrayList<ChartData>()
+    //private val chartData = ArrayList<ChartData>()
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,7 +84,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         //room data access
         todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
         todoViewModel.readAllData.observe(this) {
-            timerTodoAdapter.update(it)
+            statisticsCalendarAdapter.update(it)
         }
 
         //Toolbar setting
@@ -164,15 +152,17 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
         private val lineChartData = ArrayList<ChartData>()*/
         // 서버에서 데이터 가져오기 (서버에서 가져온 데이터로 가정하고 직접 추가)
-        chartData.clear()
+        //chartData.clear()
+/*
         addChartItem("1월", 7.9)
         addChartItem("2월", 8.2)
         addChartItem("3월", 8.3)
         addChartItem("4월", 8.5)
         addChartItem("5월", 7.3)
+*/
 
         // 그래프 그릴 자료 넘기기
-        LineChart(chartData)
+        //LineChart(chartData)
 
 
 
@@ -302,12 +292,14 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         // println(todo.date)
         // println(todo)
         //todo.observe(this) { findViewById<TextView>().todoTitle1.text = it[0].title.toString() }
-
-        val calendarAdapter = CalendarAdapter(daysInMonth, this@StatisticsMainActivity)
-        println("CalendarAdapter size is ${calendarAdapter.itemCount}")
+        statisticsCalendarAdapter = StatisticsCalendarAdapter(daysInMonth, this@StatisticsMainActivity, monthYear.text.toString())
         val layoutManager = GridLayoutManager(applicationContext, 7)
         calendar.layoutManager = layoutManager
-        calendar.adapter = calendarAdapter
+        calendar.adapter = statisticsCalendarAdapter
+
+      /*
+        binding.selectRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.selectRecyclerView.adapter = timerTodoAdapter*/
 
         // clickEvent 제거
         /*calendarAdapter.setOnItemClickListener(object :
