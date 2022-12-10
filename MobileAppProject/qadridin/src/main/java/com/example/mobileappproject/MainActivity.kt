@@ -178,15 +178,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val dayOfWeek = firstOfMonth.dayOfWeek.value
 
             println("day in month == $daysInMonth")
+            println("firstOfMonth =- ${firstOfMonth}")
+            println("dayOfWeek == ${dayOfWeek}")
             val daysInMonthArray: MutableList<LocalDate?> = mutableListOf()
-            for (i in 1..42) {
+            val loopRange = if (dayOfWeek < 7 && daysInMonth + dayOfWeek > 35) 1..42 else if (dayOfWeek == 7 && daysInMonth + dayOfWeek > 35) 8..42
+            else 1..35
+            for (i in loopRange) {
                 //SHOULD BE DEVELOPED LATER
                 if(i <= dayOfWeek) {
-                    //  daysInMonthArray.add((daysInMonth - dayOfWeek + i).toString())
-                    daysInMonthArray.add(null)
+                    daysInMonthArray.add(LocalDate.of(CalendarUtil.selectedDate.year,
+                    CalendarUtil.selectedDate.minusMonths(1).monthValue,
+                        (CalendarUtil.selectedDate.minusMonths(1).lengthOfMonth()-dayOfWeek+i)))
+                //daysInMonthArray.add((daysInMonth - dayOfWeek + i).toString())
+
+                    //daysInMonthArray.add(null)
                 } else if (i > daysInMonth + dayOfWeek) {
                     //      daysInMonthArray.add((i - daysInMonth + dayOfWeek).toString())
-                    daysInMonthArray.add(null)
+                   // daysInMonthArray.add(null)
+                    daysInMonthArray.add(LocalDate.of(CalendarUtil.selectedDate.year,
+                    CalendarUtil.selectedDate.plusMonths(1).monthValue,
+                        (i - dayOfWeek - daysInMonth)))
                 }
                 else {
                     daysInMonthArray.add(LocalDate.of(CalendarUtil.selectedDate.year,
