@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.SwitchCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.mobileappproject.databinding.ActivitySettingsBinding
 import com.google.android.material.navigation.NavigationView
@@ -37,11 +38,30 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         navigationView = binding.naView
         navigationView.itemIconTintList = null
         navigationView.setNavigationItemSelectedListener(this)
+        navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).setOnCheckedChangeListener {
+                _, isChecked ->
+            if (isChecked) {
+                switchOffOn = 1
+               setBackgroundFrame()
 
+            } else {
+
+                switchOffOn = 0
+                setBackgroundFrame()
+            }
+        }
+
+        setBackgroundFrame()
+
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun setBackgroundFrame()
+    {
         if (switchOffOn == 1) {
-            //  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
             val date = CalendarUtil.today.toString().split("-")
-            binding.drawerSetting.background = when (date[1]) {
+            drawerLayout.background = when (date[1]) {
                 "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
                 "03", "04", "05" -> resources.getDrawable(R.drawable.spring1_removebg_preview)
                 "06", "07", "08" -> resources.getDrawable(R.drawable.summer1_removebg_preview)
@@ -50,47 +70,13 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     null
                 }
             }
-            binding.switchField.isChecked = true
-            switchOffOn = 1
-
         } else {
-            //    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            binding.drawerSetting.background = null
-            binding.switchField.isChecked = false
-            switchOffOn = 0
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = false
+            drawerLayout.background= null
+
         }
-
-
-        binding.switchField.setOnCheckedChangeListener { _, isChecked ->
-            //background
-            if (binding.switchField.isChecked) {
-             //  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                val date = CalendarUtil.today.toString().split("-")
-                    binding.drawerSetting.background = when (date[1]) {
-                        "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                        "03", "04", "05" -> resources.getDrawable(R.drawable.spring1_removebg_preview)
-                        "06", "07", "08" -> resources.getDrawable(R.drawable.summer1_removebg_preview)
-                        "09", "10", "11" -> resources.getDrawable(R.drawable.autumn1)
-                        else -> {
-                            null
-                        }
-                    }
-
-                switchOffOn = 1
-                binding.switchField.isChecked = true
-
-            } else {
-            //    AppCompatDelegate.setDefaultNightMode(App
-                //    CompatDelegate.MODE_NIGHT_NO)
-                binding.drawerSetting.background= null
-                binding.switchField.isChecked = false
-                switchOffOn = 0
-            }
-        }
-
 
     }
-
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){

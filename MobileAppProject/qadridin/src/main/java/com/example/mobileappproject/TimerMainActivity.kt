@@ -20,6 +20,8 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
@@ -129,25 +131,22 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         // 네비게이션 드로어 내에있는 화면의 이벤트를 처리하기 위해 생성
         navigationView = binding.navView
+        navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).setOnCheckedChangeListener {
+                _, isChecked ->
+            if (isChecked) {
+                switchOffOn = 1
+                setBackgroundFrame()
+
+            } else {
+                switchOffOn = 0
+                setBackgroundFrame()
+            }
+        }
+
+        setBackgroundFrame()
         navigationView.itemIconTintList = null
         navigationView.setNavigationItemSelectedListener(this) //navigation 리스너
         //navigation f
-
-        //background frame
-        val date = CalendarUtil.today.toString().split("-")
-        if (switchOffOn == 1) {
-            binding.drawerLayout.background = when (date[1]) {
-                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "03", "04", "05" -> resources.getDrawable(R.drawable.spring1_removebg_preview)
-                "06", "07", "08" -> resources.getDrawable(R.drawable.summer1_removebg_preview)
-                "09", "10", "11" -> resources.getDrawable(R.drawable.autumn1)
-                else -> {
-                    null
-                }
-            }
-        } else {
-            binding.drawerLayout.background = null
-        }
 
         //seekbar event handler
         binding.pomodoroSeekBar.setOnSeekBarChangeListener(this)
@@ -429,6 +428,27 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
         })
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun setBackgroundFrame()
+    {
+        if (switchOffOn == 1) {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
+            val date = CalendarUtil.today.toString().split("-")
+            drawerLayout.background = when (date[1]) {
+                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.spring1_removebg_preview)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.summer1_removebg_preview)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.autumn1)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = false
+            drawerLayout.background= null
+        }
+    }
+
     private fun connectTimerDB(position: Int) {
         if(timelist[position].timeConnected) {
             val dig = timerListTodoPopup(this)
@@ -653,13 +673,13 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         //toggle 버튼 선택시 navigation 창 열림
-        if(toggle.onOptionsItemSelected(item)) {
+        if (toggle.onOptionsItemSelected(item)) {
             return true
         }
 
         // 클릭한 툴바 메뉴 아이템 id 마다 다르게 실행하도록 설정
-        when(item.itemId){
-            android.R.id.home->{
+        when (item.itemId) {
+            android.R.id.home -> {
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }

@@ -3,7 +3,6 @@ package com.example.mobileappproject
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -12,7 +11,10 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +23,7 @@ import com.google.android.material.navigation.NavigationView
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -31,10 +34,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     //navigation ADD
     lateinit var navigationView: NavigationView
     lateinit var drawerLayout: DrawerLayout
+    lateinit var binding: ActivityMainBinding
 
+    @SuppressLint("UseSwitchCompatOrMaterialCode", "UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         //Toolbar setting
@@ -45,6 +50,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawerLayout = binding.drawer
         navigationView = binding.naView
+
+        navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField)
+            .setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    switchOffOn = 1
+                    setBackgroundFrame()
+
+                } else {
+                    switchOffOn = 0
+                    setBackgroundFrame()
+                }
+            }
+        setBackgroundFrame()
         navigationView.itemIconTintList = null
         navigationView.setNavigationItemSelectedListener(this)
         //navigation f
@@ -91,11 +109,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun setMonthView() {
         monthYear.text = monthYearFromDate(CalendarUtil.selectedDate)
 
-        //background frame
-        val date = monthYear.text.toString().split(" ")
         if (switchOffOn == 1) {
-            println(" ${monthYear.text}========================${date[1]}")
-            drawerLayout.background = when (date[0]) {
+            //  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            println("Here in switch is checked =====================================")
+            val date = monthYear.text.toString().split(" ")
+            println("date ==== ${date[0]}")
+            binding.drawer.background = when (date[0]) {
                 "December", "January", "February" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
                 "March", "April", "May" -> resources.getDrawable(R.drawable.spring1_removebg_preview)
                 "June", "July", "August" -> resources.getDrawable(R.drawable.summer1_removebg_preview)
@@ -105,7 +124,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
         } else {
-            drawerLayout.background = null
+            binding.drawer.background = null
         }
 
         val daysInMonth = daysInMonthArray(CalendarUtil.selectedDate)
@@ -126,6 +145,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
         )
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun setBackgroundFrame()
+    {
+        if (switchOffOn == 1) {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
+            val date = CalendarUtil.today.toString().split("-")
+            drawerLayout.background = when (date[1]) {
+                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.spring1_removebg_preview)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.summer1_removebg_preview)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.autumn1)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = false
+            drawerLayout.background= null
+
+        }
     }
 
     private fun daysInMonthArray(date: LocalDate): MutableList<LocalDate?> {
@@ -182,15 +223,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 return true
             }
         })
+
+
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item))
             return true
+
         return super.onOptionsItemSelected(item)
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_item1-> Toast.makeText(this,"Calendar 실행", Toast.LENGTH_SHORT).show()
@@ -209,7 +254,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val settingIntent = Intent(this, SettingsActivity::class.java)
                 startActivity(settingIntent)
             }
+            R.id.switch_menu-> {
+                Toast.makeText(this, "Switch ON/Off", Toast.LENGTH_SHORT).show()
+            }
         }
+
+
         return false
     }
 }

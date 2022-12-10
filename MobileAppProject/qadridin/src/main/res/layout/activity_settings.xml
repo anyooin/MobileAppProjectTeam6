@@ -22,7 +22,7 @@
 
 
         <Switch
-            android:id="@+id/switchField"
+            android:id="@+id/switchField1"
             android:layout_marginStart="50dp"
             android:layout_width="300dp"
             android:switchMinWidth="70dp"

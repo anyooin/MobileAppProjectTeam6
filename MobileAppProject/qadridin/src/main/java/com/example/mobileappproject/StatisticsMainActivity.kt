@@ -20,10 +20,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -56,7 +59,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
     lateinit var navigationView: NavigationView
     lateinit var drawerLayout: DrawerLayout
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityStatisticsMainBinding.inflate(layoutInflater)
@@ -71,25 +74,23 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
         drawerLayout = binding.statisticsdrawer
         navigationView = binding.statisticsnaView
+        navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).setOnCheckedChangeListener {
+                _, isChecked ->
+            if (isChecked) {
+                switchOffOn = 1
+                setBackgroundFrame()
+
+            } else {
+                switchOffOn = 0
+                setBackgroundFrame()
+            }
+        }
+        setBackgroundFrame()
         navigationView.itemIconTintList = null
         navigationView.setNavigationItemSelectedListener(this)
         //navigation f
 
-        //background frame
-        val date = CalendarUtil.today.toString().split("-")
-        if (switchOffOn == 1) {
-            binding.statisticsdrawer.background = when (date[1]) {
-                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "03", "04", "05" -> resources.getDrawable(R.drawable.spring1_removebg_preview)
-                "06", "07", "08" -> resources.getDrawable(R.drawable.summer1_removebg_preview)
-                "09", "10", "11" -> resources.getDrawable(R.drawable.autumn1)
-                else -> {
-                    null
-                }
-            }
-        } else {
-            binding.statisticsdrawer.background = null
-        }
+        setBackgroundFrame()
 
         //init widgets
         calendar = findViewById(R.id.daysView)
@@ -243,6 +244,27 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 */
 
 
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun setBackgroundFrame()
+    {
+       if (switchOffOn == 1) {
+           navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
+           val date = CalendarUtil.today.toString().split("-")
+           drawerLayout.background = when (date[1]) {
+               "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+               "03", "04", "05" -> resources.getDrawable(R.drawable.spring1_removebg_preview)
+               "06", "07", "08" -> resources.getDrawable(R.drawable.summer1_removebg_preview)
+               "09", "10", "11" -> resources.getDrawable(R.drawable.autumn1)
+               else -> {
+                   null
+               }
+           }
+       } else {
+           navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = false
+           drawerLayout.background = null
+       }
     }
 
     private fun setMonthView() {
