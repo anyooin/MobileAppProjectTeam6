@@ -6,11 +6,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileappproject.databinding.ActivityTimerListTodoPopupBinding
+import kotlinx.coroutines.NonDisposableHandle.parent
 
-class timerTodoListAdapter(val context: Context) : RecyclerView.Adapter<timerTodoListAdapter.TimerListViewHolder>(){
+class timerTodoListAdapter(
+    val context: Context,
+    val onShowDB: (Array<String>) -> Unit,
+    val onSelectTimer : (Long) -> Unit
+) : RecyclerView.Adapter<timerTodoListAdapter.TimerListViewHolder>(){
 
     private var list = mutableListOf<Todo>()
     var preView: View? = null
@@ -26,11 +32,6 @@ class timerTodoListAdapter(val context: Context) : RecyclerView.Adapter<timerTod
             startTime.text = "time = ${TodoS} ~ ${TodoE}"
             content.text = "context = ${TodoC}"
             date.text = "date = ${TodoD}"
-
-            itemView.setOnClickListener {
-                itemClickListener.onClick(preView, it, layoutPosition, list[layoutPosition].id)
-                preView = it
-            }
         }
     }
 
@@ -42,6 +43,7 @@ class timerTodoListAdapter(val context: Context) : RecyclerView.Adapter<timerTod
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: TimerListViewHolder, position: Int) {
+
         if(!list[position].isTimer){ //isTimer == false
             holder.itemView.visibility = View.GONE
             holder.itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
@@ -49,7 +51,7 @@ class timerTodoListAdapter(val context: Context) : RecyclerView.Adapter<timerTod
         }
         else if(timerTodoSelectedDay.equals(list[position].date) || timerTodoSelectedDay.equals("ALL")) {
             // 선택된 date || date == None
-            var to = list[position]
+            val to = list[position]
             holder.itemView.visibility = View.VISIBLE
             holder.itemView.layoutParams =
                 RecyclerView.LayoutParams(
@@ -64,6 +66,21 @@ class timerTodoListAdapter(val context: Context) : RecyclerView.Adapter<timerTod
             holder.itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
             holder.onBind("-","-","-","-","-")
         }
+
+        holder.itemView.findViewById<Button>(R.id.timertodoBtn).setOnClickListener {
+            val to = list[position]
+            val timeArray = arrayOf(to.basicTimer, to.pomodoro, to.timeBox)
+            onShowDB(timeArray)
+        }
+
+        holder.itemView.findViewById<Button>(R.id.timerselectBtn).setOnClickListener {
+            val to = list[position]
+            val timeArray = arrayOf(to.id.toString(), to.basicTimer, to.pomodoro, to.timeBox)
+
+            onSelectTimer(list[position].id)
+            itemClickListener.onClick(preView, it, timeArray)
+            preView = it
+        }
     }
 
     fun update(newList: MutableList<Todo>) {
@@ -73,8 +90,9 @@ class timerTodoListAdapter(val context: Context) : RecyclerView.Adapter<timerTod
     fun updating(){
         notifyDataSetChanged()
     }
+
     interface ItemClickListener {
-        fun onClick(preView: View?, view: View, position: Int, itemId: Long)
+        fun onClick(preView: View?, view: View, timearray: Array<String>)
     }
     private lateinit var itemClickListener : ItemClickListener
 

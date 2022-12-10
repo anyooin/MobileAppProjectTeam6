@@ -10,5 +10,6 @@ class ApplicationClass: Application() {
 
         TodoRepository.initialize(this)
         DiaryRepository.initialize(this)
+
     }
 }

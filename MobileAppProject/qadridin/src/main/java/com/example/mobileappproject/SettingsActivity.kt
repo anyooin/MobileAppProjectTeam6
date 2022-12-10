@@ -13,7 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.example.mobileappproject.databinding.ActivitySettingsBinding
 import com.google.android.material.navigation.NavigationView
 
-var switchOffOn = 0
+
 class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var toggle: ActionBarDrawerToggle
