@@ -153,14 +153,15 @@ class StatisticsCalendarAdapter(private val days: MutableList<LocalDate?>, priva
         var basicTimer = mutableListOf<String>()
         var pomodoro = mutableListOf<String>()
         var timeBox = mutableListOf<String>()
-        var t = ""
+
+
         val setCellColors = TodoViewModel().getCurrentDay(day.toString())
         setCellColors.observe(activity) { it ->
             // when there is to do in current day
             println("======================> ${it.size}")
             if (it.size == 0)
             {
-                binding.cellRoot.setBackgroundColor(Color.GREEN)
+                //binding.cellRoot.setBackgroundColor(Color.GREEN)
             }
 
             // all to do datas in current cell
@@ -200,7 +201,7 @@ class StatisticsCalendarAdapter(private val days: MutableList<LocalDate?>, priva
                         val (hs, ms) = startTime[i].split(":").map { it1 -> it1.toInt() }
                         val (he, me) = endTime[i].split(":").map { it2 -> it2.toInt() }
                         // convert hours to min and add
-                        startEndTImeInTodo += (he * 60 + me) - (hs * 60 - ms)
+                        startEndTImeInTodo += (he * 60 + me) - (hs * 60 + ms)
                     }
                 }
 
@@ -218,15 +219,18 @@ class StatisticsCalendarAdapter(private val days: MutableList<LocalDate?>, priva
                 // or depend on timer type time
 
                 if(startEndTImeInTodo < 120) {
-                    binding.cellRoot.setBackgroundColor(R.color.less2H_blue)
+                    binding.cellRoot.setBackgroundColor(Color.parseColor("#110000FF"))
                 }
                 else if (startEndTImeInTodo in 121..239)
-                    binding.cellRoot.setBackgroundColor(R.color.less4H_blue)
+                    binding.cellRoot.setBackgroundColor(Color.parseColor("#440000FF"))
                 else if (startEndTImeInTodo in 241..359)
-                    binding.cellRoot.setBackgroundColor(R.color.less6H_blue)
+                    binding.cellRoot.setBackgroundColor(Color.parseColor("#770000FF"))
                 else if(startEndTImeInTodo in 360..479)
-                    binding.cellRoot.setBackgroundColor(R.color.less8H_blue)
-
+                    binding.cellRoot.setBackgroundColor(Color.parseColor("#AA0000FF"))
+                else if(startEndTImeInTodo > 480) {
+                    println("in more 8 hours")
+                    binding.cellRoot.setBackgroundColor(Color.parseColor("#FF0000FF"))
+                }
             }
 
 
