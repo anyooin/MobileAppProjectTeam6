@@ -117,9 +117,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         searchView = binding.searchView
         tabLayout = binding.tabs
         todoTab = tabLayout.newTab()
-        todoTab.text = "TodoList"
+        todoTab.text = "할 일"
         diaryTab = tabLayout.newTab()
-        diaryTab.text = "Diary"
+        diaryTab.text = "일기"
         tabLayout.addTab(todoTab)
         tabLayout.addTab(diaryTab)
 
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 // called when tab selected
                 val transaction = supportFragmentManager.beginTransaction()
                 when (tab?.text) {
-                    "TodoList" -> {
+                    "할 일" -> {
                         //dateInPopupGlobal.text = dayInMonth[position].toString()
                         println("오늘날짜 : $selectPosition, ")
                         transaction.replace(
@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             ToDoTab(selectPosition, selectDayInMonth, this@MainActivity, RESULT_OK, searchView)
                         )
                     }
-                    "Diary" -> {
+                    "일기" -> {
                         //dateInPopupGlobal.text = dayInMonth[position].toString()
                         transaction.replace(
                             R.id.tabContent,
