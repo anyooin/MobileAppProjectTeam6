@@ -1,19 +1,11 @@
 package com.example.mobileappproject
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
-import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.formatter.ValueFormatter
-import com.github.mikephil.charting.components.XAxis
-import androidx.core.content.ContextCompat
-import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.data.BarEntry
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 
+
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -22,9 +14,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,10 +31,14 @@ import com.example.mobileappproject.*
 import com.example.mobileappproject.databinding.ActivityMainBinding
 import com.example.mobileappproject.databinding.ActivityStatisticsMainBinding
 import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
@@ -45,6 +46,10 @@ import com.google.android.material.navigation.NavigationView
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+
+
+
+
 class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var toggle: ActionBarDrawerToggle
@@ -55,11 +60,40 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
     lateinit var navigationView: NavigationView
     lateinit var drawerLayout: DrawerLayout
 
+    //private val timerList = mutableListOf<timerList>() //저장된 timerList
+    /*private var selectPos = -1 // 선택된 list
+    private var type = -1 // 선택된 timermode = 0 : pomodoro, 1 : timebox
+
+    private var DBselected = 0
+    private var titleChange = "None"
+    private var DBid = (-1).toLong()*/
+
+    //room
+    lateinit var timerTodoAdapter: timerTodoListAdapter
+    lateinit var todoViewModel: TodoViewModel
+
+    //linechart
+    /*
+    private val TAG = this.javaClass.simpleName
+    lateinit var lineChart: LineChart
+    private val chartData = ArrayList<ChartData>()
+
+     */
+
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityStatisticsMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
+
+        //room data access
+      //  todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
+       // todoViewModel.readAllData.observe(this) {
+        //    timerTodoAdapter.update(it)
+        //}
 
         //Toolbar setting
         setSupportActionBar(binding.toolbar)
@@ -67,21 +101,25 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toggle.syncState()
 
-        // Menu items
-        /*
-        val data = mutableListOf("Calendar", "Timer", "Todo List", "Statistics", "Settings")
-
-        val layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = MenuItemsAdapter(data)
-        binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                this,
-                LinearLayoutManager.VERTICAL
-            )
-        )*/
         drawerLayout = binding.statisticsdrawer
         navigationView = binding.statisticsnaView
+        navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).setOnCheckedChangeListener {
+                _, isChecked ->
+            if (isChecked) {
+                switchOffOn = 1
+                setBackgroundFrame()
+
+            } else {
+                switchOffOn = 0
+                setBackgroundFrame()
+            }
+        }
+
+        setBackgroundFrame()
+        navigationView.itemIconTintList = null
+        navigationView.setNavigationItemSelectedListener(this) //navigation 리스너
+        //navigation f
+
         navigationView.setNavigationItemSelectedListener(this)
         //navigation f
 
@@ -120,6 +158,26 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             }
             setMonthView()
         }
+
+        //line chart
+        /*var lineChart: LineChart = findViewById(R.id.lineChart)
+
+        private val lineChartData = ArrayList<ChartData>()*/
+        // 서버에서 데이터 가져오기 (서버에서 가져온 데이터로 가정하고 직접 추가)
+        /*
+        chartData.clear()
+        addChartItem("1월", 7.9)
+        addChartItem("2월", 8.2)
+        addChartItem("3월", 8.3)
+        addChartItem("4월", 8.5)
+        addChartItem("5월", 7.3)
+
+        // 그래프 그릴 자료 넘기기
+        LineChart(chartData)
+
+         */
+
+
 
         //bar chart
         var barChart: BarChart = findViewById(R.id.barChart)// barChart 생성
@@ -193,69 +251,97 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
          }
      */
+    }
 
+    private fun printPieChart(categoryList : MutableList<Int>) {
         //pie chart
-        var pieChart: PieChart = findViewById(R.id.pieChart)// pieChart 생성
+        val pieChart: PieChart = findViewById(R.id.pieChart)// pieChart 생성
 
+        Log.d("soo","categoryList.size == ${categoryList.size}")
         pieChart.setUsePercentValues(true)
         //임시 데이터
         val entriespie = ArrayList<PieEntry>()
-        entriespie.add(PieEntry(508f, "Study"))
-        entriespie.add(PieEntry(600f, "Todo"))
-        entriespie.add(PieEntry(750f, "work out"))
-
         val colorsItems = ArrayList<Int>()
-        for (c in ColorTemplate.VORDIPLOM_COLORS) colorsItems.add(c)
+
+        if(categoryList.size == 0) {
+            entriespie.add(PieEntry(1.toFloat(), "NoCategory"))
+
+            colorsItems.add(Color.parseColor("#808080"))
+        }
+        else {
+            var study = 0
+            var exercise = 0
+            var meeting = 0
+            var plan = 0
+            for (i in 0..categoryList.size - 1) {
+                when (categoryList[i]) {
+                    1 -> study += 1
+                    2 -> exercise += 1
+                    3 -> meeting += 1
+                    4 -> plan += 1
+                }
+            }
+            Log.d("soo", "1:2:3:4 = $study, $exercise, $meeting, $plan")
+
+            if (study != 0)
+                entriespie.add(PieEntry(study.toFloat(), "Study"))
+            if (exercise != 0)
+                entriespie.add(PieEntry(exercise.toFloat(), "exercise"))
+            if (meeting != 0)
+                entriespie.add(PieEntry(meeting.toFloat(), "meeting"))
+            if (plan != 0)
+                entriespie.add(PieEntry(plan.toFloat(), "plan"))
+
+
+            colorsItems.add(Color.parseColor("#67d5b5"))
+            colorsItems.add(Color.parseColor("#ee7785"))
+            colorsItems.add(Color.parseColor("#aaabd3"))
+            colorsItems.add(Color.parseColor("#ffda8e"))
+        }
+
+        /*for (c in ColorTemplate.VORDIPLOM_COLORS) colorsItems.add(c)
         for (c in ColorTemplate.PASTEL_COLORS) colorsItems.add(c)
         for (c in ColorTemplate.LIBERTY_COLORS) colorsItems.add(c)
-        colorsItems.add(ColorTemplate.getHoloBlue())
+        colorsItems.add(ColorTemplate.getHoloBlue())*/
 
         val pieDataSet = PieDataSet(entriespie, "")
-            pieDataSet.apply {
-                colors = colorsItems
-                valueTextColor = Color.BLACK
-                valueTextSize = 16f
-            }
-
+        pieDataSet.apply {
+            colors = colorsItems
+            valueTextColor = Color.BLACK
+            valueTextSize = 16f
+        }
 
         val pieData = PieData(pieDataSet)
-            pieChart.apply{
-                this.data = pieData
-                description.isEnabled = false
-                isRotationEnabled = false
-                centerText = "This is Center"
-                setEntryLabelColor(Color.BLACK)
-                animateY(1400, Easing.EaseInOutQuad)
-                animate()
-
-            }
+        pieChart.apply{
+            this.data = pieData
+            description.isEnabled = false
+            isRotationEnabled = false
+            centerText = "CATEGORY"
+            setEntryLabelColor(Color.BLACK)
+            animateY(1400, Easing.EaseInOutQuad)
+            animate()
+        }
 /*
         pieChart.run {
             this.data = data//차트의 데이터를 data로 설정해줌.
             invalidate()
-        }
-*/
-
-
+        }*/
     }
 
     private fun setMonthView() {
         monthYear.text = monthYearFromDate(CalendarUtil.selectedDate)
         val daysInMonth = daysInMonthArray(CalendarUtil.selectedDate)
-        //
-        //  val todo = TodoViewModel().getCurrentDay(day.toString())
-        // println(todo.date)
-        // println(todo)
-        //todo.observe(this) { findViewById<TextView>().todoTitle1.text = it[0].title.toString() }
 
-        val calendarAdapter = CalendarAdapter(daysInMonth, this@StatisticsMainActivity)
-        println("CalendarAdapter size is ${calendarAdapter.itemCount}")
+        val calendarAdapter = StatisticsCalendarAdapter(daysInMonth,
+            this@StatisticsMainActivity,
+            applicationContext,
+            onPieChart = {printPieChart(it)})
         val layoutManager = GridLayoutManager(applicationContext, 7)
         calendar.layoutManager = layoutManager
         calendar.adapter = calendarAdapter
 
-        // clickEvent
-        calendarAdapter.setOnItemClickListener(object :
+        // clickEvent 제거
+        /*calendarAdapter.setOnItemClickListener(object :
             CalendarAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 Log.d("uin", "item click")
@@ -264,7 +350,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
                 popupFragment.show(supportFragmentManager, "custom Dialog")
             }
         }
-        )
+        )*/
     }
 
     private fun daysInMonthArray(date: LocalDate): MutableList<LocalDate?> {
@@ -276,15 +362,26 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             val dayOfWeek = firstOfMonth.dayOfWeek.value
 
             println("day in month == $daysInMonth")
+            println("firstOfMonth =- ${firstOfMonth}")
+            println("dayOfWeek == ${dayOfWeek}")
             val daysInMonthArray: MutableList<LocalDate?> = mutableListOf()
-            for (i in 1..42) {
+            val loopRange = if (dayOfWeek < 7 && daysInMonth + dayOfWeek > 35) 1..42 else if (dayOfWeek == 7 && daysInMonth + dayOfWeek > 35) 8..42
+            else 1..35
+            for (i in loopRange) {
                 //SHOULD BE DEVELOPED LATER
                 if(i <= dayOfWeek) {
-                    //  daysInMonthArray.add((daysInMonth - dayOfWeek + i).toString())
-                    daysInMonthArray.add(null)
+                    daysInMonthArray.add(LocalDate.of(CalendarUtil.selectedDate.year,
+                        CalendarUtil.selectedDate.minusMonths(1).monthValue,
+                        (CalendarUtil.selectedDate.minusMonths(1).lengthOfMonth()-dayOfWeek+i)))
+                    //daysInMonthArray.add((daysInMonth - dayOfWeek + i).toString())
+
+                    //daysInMonthArray.add(null)
                 } else if (i > daysInMonth + dayOfWeek) {
                     //      daysInMonthArray.add((i - daysInMonth + dayOfWeek).toString())
-                    daysInMonthArray.add(null)
+                    // daysInMonthArray.add(null)
+                    daysInMonthArray.add(LocalDate.of(CalendarUtil.selectedDate.year,
+                        CalendarUtil.selectedDate.plusMonths(1).monthValue,
+                        (i - dayOfWeek - daysInMonth)))
                 }
                 else {
                     daysInMonthArray.add(LocalDate.of(CalendarUtil.selectedDate.year,
@@ -295,6 +392,29 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             return daysInMonthArray
         }
         return ArrayList()
+    }
+
+
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun setBackgroundFrame()
+    {
+        if (switchOffOn == 1) {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
+            val date = CalendarUtil.today.toString().split("-")
+            drawerLayout.background = when (date[1]) {
+                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.spring1_removebg_preview)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.summer1_removebg_preview)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.autumn1)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = false
+            drawerLayout.background= null
+        }
     }
 
 
