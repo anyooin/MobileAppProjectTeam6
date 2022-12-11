@@ -112,7 +112,7 @@ class ToDoTab(private var position: Int, private var dayInMonth: MutableList<Loc
 
         todoAdapter.setItemClickListener(object: TodoAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int, itemId: Long) {
-                Toast.makeText(mainActivity, "$itemId", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(mainActivity, "$itemId", Toast.LENGTH_SHORT).show()
                 CoroutineScope(Dispatchers.IO).launch {
                     val todo = todoViewModel.getOne(itemId)
 

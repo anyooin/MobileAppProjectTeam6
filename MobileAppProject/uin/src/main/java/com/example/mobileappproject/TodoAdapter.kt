@@ -1,4 +1,5 @@
 package com.example.mobileappproject
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
@@ -13,11 +14,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileappproject.Todo
 
-class TodoAdapter(val context: Context, val currentDay: String, val items: Array<String>): RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
+class TodoAdapter(val context: Context, val currentDay: String, val items: Array<String>) :
+    RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
     private var list = mutableListOf<Todo>()
 
-    inner class TodoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var title = itemView.findViewById<TextView>(R.id.todoListItem_data)
         var checkDone = itemView.findViewById<CheckBox>(R.id.checkDone)
@@ -29,9 +31,18 @@ class TodoAdapter(val context: Context, val currentDay: String, val items: Array
         fun onBind(data: Todo) {
             title.text = data.title
             checkDone.isChecked = data.isChecked
-            timestamp.text = data.startDate + " " + data.startTime + " ~ " +
-                    data.endDate + " " + data.endTime
-            categoryText.text = items[data.categoryNum]
+
+            if (data.startTime == "시작시간" || data.endTime == "종료시간") {
+                timestamp.text = "하루종일"
+            } else {
+                timestamp.text = data.startTime + " ~ " + data.endTime
+            }
+
+            if (data.categoryNum == 0) {
+                categoryText.text = ""
+            } else {
+                categoryText.text = items[data.categoryNum]
+            }
 
             if (data.isChecked) {
                 title.paintFlags = title.paintFlags or STRIKE_THRU_TEXT_FLAG
@@ -53,12 +64,12 @@ class TodoAdapter(val context: Context, val currentDay: String, val items: Array
             itemView.setOnClickListener {
                 itemClickListner.onClick(it, layoutPosition, list[layoutPosition].id)
             }
-
         }
+
     }
 
     interface ItemClickListener {
-        fun onClick(view: View,  position: Int, itemId: Long)
+        fun onClick(view: View, position: Int, itemId: Long)
     }
 
     private lateinit var itemClickListner: ItemClickListener
@@ -68,7 +79,9 @@ class TodoAdapter(val context: Context, val currentDay: String, val items: Array
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.memos_item_recyclerview, parent, false)
+        val view =
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.memos_item_recyclerview, parent, false)
         return TodoViewHolder(view)
     }
 

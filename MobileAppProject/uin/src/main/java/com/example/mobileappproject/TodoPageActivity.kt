@@ -33,14 +33,14 @@ class TodoPageActivity : AppCompatActivity() {
            setupTimePicker("endTime")
            Log.d("uin", "endTime")
        }
-       binding.startDate.setOnClickListener{
-           setupDatePicker("startDate")
-           Log.d("uin", "startDate")
-       }
-       binding.endDate.setOnClickListener{
-           setupDatePicker("endDate")
-           Log.d("uin", "endDate")
-       }
+//       binding.startDate.setOnClickListener{
+//           setupDatePicker("startDate")
+//           Log.d("uin", "startDate")
+//       }
+//       binding.endDate.setOnClickListener{
+//           setupDatePicker("endDate")
+//           Log.d("uin", "endDate")
+//       }
        binding.todolistBackBt.setOnClickListener {
            finish()
        }
@@ -61,8 +61,8 @@ class TodoPageActivity : AppCompatActivity() {
             binding.etTodoTitle.setText(todo!!.title)
             binding.etTodoContent.setText(todo!!.content)
             //날짜 + 시간정보
-            binding.startDate.text = todo!!.startDate
-            binding.endDate.setText(todo!!.endDate)
+            //binding.startDate.text = todo!!.startDate
+            //binding.endDate.setText(todo!!.endDate)
             binding.startTime.setText(todo!!.startTime)
             binding.endTime.setText(todo!!.endTime)
             //그외 세팅정보
@@ -81,8 +81,8 @@ class TodoPageActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener {
             val title = binding.etTodoTitle.text.toString()
             val content = binding.etTodoContent.text.toString()
-            val startDate = binding.startDate.text.toString()
-            val endDate = binding.endDate.text.toString()
+            val startDate = "안씀"
+            val endDate = "안씀"
             val startTime = binding.startTime.text.toString()
             val endTime = binding.endTime.text.toString()
             val isTimer = binding.isTimer.isChecked()
@@ -135,7 +135,7 @@ class TodoPageActivity : AppCompatActivity() {
 
         mTimePicker.show()
     }
-
+/*
     private fun setupDatePicker(id: String) {
         val mDatePicker: DatePickerDialog
         val mCurrentDate = Calendar.getInstance()
@@ -157,4 +157,5 @@ class TodoPageActivity : AppCompatActivity() {
 
         mDatePicker.show()
     }
+ */
 }

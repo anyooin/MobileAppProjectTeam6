@@ -70,6 +70,7 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
     lateinit var timerTodoAdapter: timerTodoListAdapter
     lateinit var todoViewModel: TodoViewModel
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTimerMainBinding.inflate(layoutInflater)
@@ -127,6 +128,21 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
         navigationView.setNavigationItemSelectedListener(this) //navigation 리스너
         //navigation f
 
+        //background frame
+        val date = CalendarUtil.today.toString().split("-")
+        if (switchOffOn == 1) {
+            binding.drawerLayout.background = when (date[1]) {
+                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            binding.drawerLayout.background = null
+        }
 
         //seekbar event handler
         binding.pomodoroSeekBar.setOnSeekBarChangeListener(this)
@@ -401,6 +417,26 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             }
         })
     }
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun setBackgroundFrame()
+    {
+        if (switchOffOn == 1) {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
+            val date = CalendarUtil.today.toString().split("-")
+            drawerLayout.background = when (date[1]) {
+                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = false
+            drawerLayout.background= null
+        }
+    }
 
     private fun settingRecord(id : Long, type : Int, timearray : Array<String>) {
         if (type == -1) { // basic
@@ -552,27 +588,6 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
         soundPool.autoPause()
         bellSoundId?.let {soundId->
             soundPool.play(soundId, 1F,1F,0,0,1F)
-        }
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    fun setBackgroundFrame()
-    {
-        if (switchOffOn == 1) {
-            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
-            val date = CalendarUtil.today.toString().split("-")
-            drawerLayout.background = when (date[1]) {
-                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "03", "04", "05" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "06", "07", "08" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "09", "10", "11" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                else -> {
-                    null
-                }
-            }
-        } else {
-            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = false
-            drawerLayout.background= null
         }
     }
 

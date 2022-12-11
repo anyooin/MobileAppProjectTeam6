@@ -1,7 +1,9 @@
 package com.example.mobileappproject
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Build
+import android.util.Log.w
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,33 +56,46 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>, private var act
             })
         }
         val day : LocalDate? = days[position]
+        val dayDel = days[15].toString().split("-")[1] == day.toString().split("-")[1]
 
         // 날짜표시 & 오늘날짜 바탕색
         if (day == null) {
             binding.cellDayText.text = ""
-            binding.todoTitle1.text = ""
-            binding.todoTitle2.text = ""
+            binding.todoCount.text = ""
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 binding.cellDayText.text = day.dayOfMonth.toString()
+                //if(!dayDel) {
+                //    binding.cellDayText.setTextColor(Color.LTGRAY)
+                    //binding.cellDayText.setTypeface(null, Typeface.NORMAL)
+                    //binding.cellRoot.setBackgroundColor(Color.LTGRAY)
+                //}
             }
             println("selectPos == $selectPos")
             if(selectPos == position) {  //선택한 날짜라면-->?
                 binding.cellRoot.setBackgroundResource(R.drawable.day_cell_select)
                 binding.cellDayText.setTextColor(Color.WHITE)
+                binding.todoCount.setTextColor(Color.WHITE)
             }else if (day.equals(CalendarUtil.today)) { //오늘날짜라면
                 binding.cellRoot.setBackgroundResource(R.drawable.day_cell_today)
                 binding.cellDayText.setTextColor(Color.WHITE)
+                binding.todoCount.setTextColor(Color.WHITE)
             }
             else {
-                binding.cellRoot.setBackgroundResource(R.drawable.day_cell_normal)
+                binding.cellRoot.setBackgroundResource(0)
                 binding.cellDayText.setTextColor(Color.BLACK)
+                binding.todoCount.setTextColor(Color.parseColor("#276DD6"))
 
                 // change weekend textColor
-                if((position+1) % 7 == 0) {
+                if((position+1) % 7 == 0  && dayDel) {
                     binding.cellDayText.setTextColor(Color.BLUE)
-                } else if (position == 0 || position % 7 == 0) {
+                } else if (position == 0 || position % 7 == 0  && dayDel) {
                     binding.cellDayText.setTextColor(Color.RED)
+                }
+
+                if(!dayDel) {
+                    binding.cellDayText.setTextColor(Color.LTGRAY)
+                    binding.todoCount.setTextColor(Color.LTGRAY)
                 }
             }
         }
@@ -88,11 +103,17 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>, private var act
         //set to do list title for day
         val todo = TodoViewModel().getCurrentDay(day.toString())
         todo.observe(activity) {
-            if (it.size > 0) {
-                binding.todoTitle1.text = it[0].title
-                if (it.size > 1) {
-                    binding.todoTitle2.text = it[1].title
+            var nonCheck = 0
+            for(i in it) {
+                if(i.isChecked == false){
+                    nonCheck += 1
                 }
+            }
+            if (nonCheck > 0) {
+                binding.todoCount.text = nonCheck.toString()
+            }
+            else {
+                binding.todoCount.text = ""
             }
         }
     }

@@ -25,7 +25,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:background="@color/light_blue">
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -154,8 +154,9 @@
             <!-- Day -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/daysView"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="400dp">
+                android:layout_height="420dp">
 
             </androidx.recyclerview.widget.RecyclerView>
 
@@ -182,8 +183,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                app:tabIndicatorHeight="0dp"
                 app:tabMode="scrollable"
-                app:tabGravity="center"/>
+                app:tabBackground="@drawable/tab_selector"
+                app:tabSelectedTextColor="@color/white"
+                app:tabGravity="center"
+                app:tabTextColor="@color/light_gray"/>
 
             <FrameLayout
                 android:id="@+id/tabContent"
