@@ -1,4 +1,5 @@
 package com.example.mobileappproject
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
@@ -14,6 +15,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
@@ -108,8 +110,23 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         // 네비게이션 드로어 내에있는 화면의 이벤트를 처리하기 위해 생성
         navigationView = binding.navView
+        navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).setOnCheckedChangeListener {
+                _, isChecked ->
+            if (isChecked) {
+                switchOffOn = 1
+                setBackgroundFrame()
+
+            } else {
+                switchOffOn = 0
+                setBackgroundFrame()
+            }
+        }
+
+        setBackgroundFrame()
+        navigationView.itemIconTintList = null
         navigationView.setNavigationItemSelectedListener(this) //navigation 리스너
         //navigation f
+
 
         //seekbar event handler
         binding.pomodoroSeekBar.setOnSeekBarChangeListener(this)
@@ -535,6 +552,27 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
         soundPool.autoPause()
         bellSoundId?.let {soundId->
             soundPool.play(soundId, 1F,1F,0,0,1F)
+        }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun setBackgroundFrame()
+    {
+        if (switchOffOn == 1) {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
+            val date = CalendarUtil.today.toString().split("-")
+            drawerLayout.background = when (date[1]) {
+                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.spring1_removebg_preview)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.summer1_removebg_preview)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.autumn1)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = false
+            drawerLayout.background= null
         }
     }
 

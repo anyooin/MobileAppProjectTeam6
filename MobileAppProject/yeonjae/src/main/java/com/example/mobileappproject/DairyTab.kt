@@ -8,17 +8,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileappproject.databinding.FragmentDairyTabBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.util.Locale.filter
 
 
-class DairyTab(private val mainActivity: Activity, private val RESULT_OK: Int): Fragment() {
+class DairyTab(private var position: Int, private var dayInMonth: MutableList<LocalDate?>, private val mainActivity: Activity, private val RESULT_OK: Int, private val searchView: androidx.appcompat.widget.SearchView): Fragment() {
 
 
     lateinit var binding: FragmentDairyTabBinding
@@ -42,11 +46,17 @@ class DairyTab(private val mainActivity: Activity, private val RESULT_OK: Int): 
             }
             requestActivity.launch(intent)
         }
+        //
+        setDiaryItems(diaryItems)
+        return binding.root
+    }
 
-      diaryViewModel = ViewModelProvider(this)[DiaryViewModel::class.java]
+    private fun setDiaryItems(diaryItems: RecyclerView)
+    {
+        diaryViewModel = ViewModelProvider(this)[DiaryViewModel::class.java]
         println("diary view model")
 
-        diaryViewModel.diaryItemsList.observe(viewLifecycleOwner) {
+        diaryViewModel.diaryInCurrentDayList.observe(viewLifecycleOwner) {
             diaryAdapter.update(it)
         }
 
@@ -70,8 +80,40 @@ class DairyTab(private val mainActivity: Activity, private val RESULT_OK: Int): 
                 }
             }
         })
+        searchView.setOnCloseListener { true }
 
-        return binding.root
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(msg: String): Boolean {
+                filter(msg)
+                return false
+            }
+
+            override fun onQueryTextSubmit(msg: String): Boolean {
+                // filter(msg)
+                return false
+            }
+        })
+
+    }
+
+
+    private fun filter(text: String)
+    {
+        val filteredList: MutableList<Diary> = mutableListOf()
+        diaryViewModel.diaryInCurrentDayList.observe(viewLifecycleOwner) {
+            for (item in it) {
+                if ((item.title.toLowerCase().contains(text.toLowerCase())) || (item.content.toLowerCase().contains(text.toLowerCase()))){
+                    filteredList.add(item)
+                }
+            }
+            if (filteredList.isEmpty()) {
+                Toast.makeText(mainActivity, "No Such Todo Found In This Date..", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                diaryAdapter.filterList(filteredList)
+            }
+        }
     }
 
     private val requestActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {

@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_item1"
+        android:icon="@drawable/calendar_icon"
         android:title="Calendar" />
     <item
         android:id="@+id/menu_item2"
+        android:icon="@drawable/timer_icon"
         android:title="Timer" />
     <item
         android:id="@+id/menu_item3"
+        android:icon="@drawable/statistics_icon"
         android:title="Statistics" />
     <item
         android:id="@+id/menu_item4"
+        android:icon="@drawable/settings_icon"
         android:title="Settings" />
+
+    <item
+        android:id="@+id/switch_menu"
+        android:title="Enable Frame"
+        app:actionLayout="@layout/switch_layout" />
 </menu>
