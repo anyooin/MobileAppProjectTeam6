@@ -66,28 +66,42 @@
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/yeonjae/src/main/res/layout/memos_item_recyclerview.xml" value="0.13177083333333334" />
         <entry key="..\:/Users/LGPC/Desktop/MobileAppProjectTeam6/MobileAppProject/yeonjae/src/main/res/menu/menu_main.xml" value="0.21041666666666667" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_statistics_main.xml" value="0.14479166666666668" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_timer_list_todo_popup.xml" value="0.15572916666666667" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_timer_main.xml" value="0.14479166666666668" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_todo_page.xml" value="0.2111111111111111" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/activity_writing_diary_page.xml" value="0.1" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/days_cell.xml" value="0.1578125" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/layout/menu_item.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/menu/main_menu.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/qadridin/src/main/res/menu/menu_list.xml" value="0.15052083333333333" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_timer_list_todo_popup.xml" value="0.2526041666666667" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_timer_main.xml" value="0.2526041666666667" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_timer_popup.xml" value="0.2526041666666667" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_todo_page.xml" value="0.2" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/activity_writing_diary_page.xml" value="0.14479166666666668" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/days_cell.xml" value="0.11614583333333334" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/diary_items.xml" value="0.14479166666666668" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/fragment_to_do_tab.xml" value="0.11614583333333334" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/item_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/sooyoung/src/main/res/layout/memos_item_recyclerview.xml" value="0.11614583333333334" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/temp/src/main/res/layout/activity_timer_list_todo_popup.xml" value="0.12037037037037036" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/temp/src/main/res/layout/activity_writing_diary_page.xml" value="0.1" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/drawable/day_cell_normal.xml" value="0.165" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/drawable/day_cell_select.xml" value="0.2285" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/drawable/day_cell_today.xml" value="0.2285" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/drawable/delete.xml" value="0.162" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/drawable/tab_selector.xml" value="0.1535" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_edit_todo.xml" value="0.1609375" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_statistics_main.xml" value="0.15572916666666667" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_timer_list_todo_popup.xml" value="0.15052083333333333" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_timer_main.xml" value="0.15052083333333333" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_timer_popup.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_todo_page.xml" value="0.264" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_writing_diary_page.xml" value="0.264" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_writing_font.xml" value="0.12037037037037036" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/appbar.xml" value="0.14479166666666668" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/days_cell.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/diary_items.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/font_list.xml" value="0.2526041666666667" />
@@ -97,6 +111,7 @@
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/memos_item_recyclerview.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/menu_item.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/popup_window_fragement.xml" value="0.1609375" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/statistics_days_cell.xml" value="0.14479166666666668" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/switch_layout.xml" value="0.15572916666666667" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/menu/colors_menu.xml" value="0.11851851851851852" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/menu/main_menu.xml" value="0.25364583333333335" />

@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var tabLayout: TabLayout
     lateinit var todoTab: TabLayout.Tab
     lateinit var diaryTab: TabLayout.Tab
-    lateinit var selectDayInMonth: MutableList<LocalDate?> // 월안에서 선택한 날짜
+    lateinit var selectDayInMonth: MutableList<LocalDate?> // 화면에 보여지는 월 리스트
     var selectPosition = 0 //처음에는 오늘날짜위치, 그다음부터는 선택날짜위치
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         selectMonthYear = findViewById(R.id.monthYear)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CalendarUtil.selectedDate = LocalDate.now()
-            selectDayInMonth = daysInMonthArray(CalendarUtil.selectedDate)
+            selectDayInMonth = daysInMonthArray(LocalDate.now())
             selectPosition = FinddayOfWeek(1)
         }
         setMonthView()
@@ -117,15 +117,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         searchView = binding.searchView
         tabLayout = binding.tabs
         todoTab = tabLayout.newTab()
-        todoTab.text = "TodoList"
+        todoTab.text = "할 일"
         diaryTab = tabLayout.newTab()
-        diaryTab.text = "Diary"
+        diaryTab.text = "일기"
         tabLayout.addTab(todoTab)
         tabLayout.addTab(diaryTab)
 
         date = (selectDayInMonth[selectPosition]).toString()
 
         tabLayout.selectTab(todoTab)
+        println("오늘날짜 : $selectPosition ")
         supportFragmentManager.beginTransaction().replace(R.id.tabContent, ToDoTab(selectPosition, selectDayInMonth, this@MainActivity, RESULT_OK, searchView)).commit()
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -133,14 +134,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 // called when tab selected
                 val transaction = supportFragmentManager.beginTransaction()
                 when (tab?.text) {
-                    "TodoList" -> {
+                    "할 일" -> {
                         //dateInPopupGlobal.text = dayInMonth[position].toString()
+                        println("오늘날짜 : $selectPosition, ")
                         transaction.replace(
                             R.id.tabContent,
                             ToDoTab(selectPosition, selectDayInMonth, this@MainActivity, RESULT_OK, searchView)
                         )
                     }
-                    "Diary" -> {
+                    "일기" -> {
                         //dateInPopupGlobal.text = dayInMonth[position].toString()
                         transaction.replace(
                             R.id.tabContent,
@@ -149,7 +151,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                 }
                 transaction.commit()
-
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -158,24 +159,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // called when a tab is reselected
-                val transaction = supportFragmentManager.beginTransaction()
-                when (tab?.text) {
-                    "TodoList" -> {
-                        //dateInPopupGlobal.text = dayInMonth[position].toString()
-                        transaction.replace(
-                            R.id.tabContent,
-                            ToDoTab(selectPosition, selectDayInMonth, this@MainActivity, RESULT_OK, searchView)
-                        )
-                    }
-                    "Diary" -> {
-                        //dateInPopupGlobal.text = dayInMonth[position].toString()
-                        transaction.replace(
-                            R.id.tabContent,
-                            DairyTab(selectPosition, selectDayInMonth, this@MainActivity, RESULT_OK, searchView)
-                        )
-                    }
-                }
-                transaction.commit()
             }
         })
     }
@@ -184,7 +167,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         selectMonthYear.text = monthYearFromDate(CalendarUtil.selectedDate)
 
         //background frame
-        //val date = monthYear.text.toString().split(" ")
         if (switchOffOn == 1) {
             //  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             println("Here in switch is checked =====================================")
@@ -204,7 +186,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             binding.drawer.background = null
         }
 
-
         selectDayInMonth = daysInMonthArray(CalendarUtil.selectedDate)
         val calendarAdapter = CalendarAdapter(selectDayInMonth, this@MainActivity)
         println("CalendarAdapter size is ${calendarAdapter.itemCount}")
@@ -220,7 +201,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 //************Tab layout*********
                 selectPosition = position
+                date = (selectDayInMonth[selectPosition]).toString()
                 tabLayout.selectTab(todoTab)
+                val transaction = supportFragmentManager.beginTransaction()
+
+                transaction.replace(
+                    R.id.tabContent,
+                    ToDoTab(selectPosition, selectDayInMonth, this@MainActivity,RESULT_OK, searchView)
+                )
+                transaction.commit()
+
+                println("선택날짜: ${selectPosition}")
 
                 //val popupFragment = PopupWindowFragment(position, dayInMonth, this@MainActivity, RESULT_OK, supportFragmentManager)
                 //popupFragment.show(supportFragmentManager, "custom Dialog")
@@ -259,15 +250,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             //val firstOfMonth = CalendarUtil.selectedDate.withDayOfMonth(1)
             val dayOfWeek = FinddayOfWeek(0)
 
-            println("day in month == $dayOfWeek")
+            println("day in month == $daysInMonth")
+            //println("firstOfMonth =- ${firstOfMonth}")
+            println("dayOfWeek == ${dayOfWeek}")
             val daysInMonthArray: MutableList<LocalDate?> = mutableListOf()
-            for (i in 1..42) {
+//            val loopRange = if (dayOfWeek < 7 && daysInMonth + dayOfWeek > 35) 1..42
+//            else if (dayOfWeek == 7 && daysInMonth + dayOfWeek > 35) 8..42
+//            else 1..35
+            val loopRange = if (dayOfWeek == 7 && daysInMonth + dayOfWeek > 35) 8..42
+            else 1..42
+            for (i in loopRange) {
                 if(i <= dayOfWeek && dayOfWeek != 0) {
+                    daysInMonthArray.add(LocalDate.of(CalendarUtil.selectedDate.year,
+                        CalendarUtil.selectedDate.minusMonths(1).monthValue,
+                        (CalendarUtil.selectedDate.minusMonths(1).lengthOfMonth()-dayOfWeek+i)))
                     //daysInMonthArray.add((daysInMonth - dayOfWeek + i).toString())
-                    daysInMonthArray.add(null)
+                    //daysInMonthArray.add(null)
                 } else if (i > daysInMonth + dayOfWeek) {
+                    daysInMonthArray.add(LocalDate.of(CalendarUtil.selectedDate.year,
+                        CalendarUtil.selectedDate.plusMonths(1).monthValue,
+                        (i - dayOfWeek - daysInMonth)))
                     //daysInMonthArray.add((i - daysInMonth + dayOfWeek).toString())
-                    daysInMonthArray.add(null)
+                    //daysInMonthArray.add(null)
                 }
                 else {
                     daysInMonthArray.add(LocalDate.of(CalendarUtil.selectedDate.year,
@@ -284,20 +288,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val firstOfMonth = CalendarUtil.selectedDate.withDayOfMonth(1)
             var dayOfWeek = firstOfMonth.dayOfWeek.value
 
-            if (dayOfWeek == 7){
-                dayOfWeek = 0
-            }
             if (isToday == 0) {
                 return dayOfWeek
             }
             else {
+                if (dayOfWeek == 7){
+                    dayOfWeek = 0
+                }
                 val today = LocalDate.now()
-                return today.dayOfMonth + dayOfWeek
+                println("계산날짜: ${today.dayOfMonth + dayOfWeek - 1}")
+                return today.dayOfMonth + dayOfWeek -  1
             }
         }
         return 0
     }
-
 
     private fun monthYearFromDate(date: LocalDate): String {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
