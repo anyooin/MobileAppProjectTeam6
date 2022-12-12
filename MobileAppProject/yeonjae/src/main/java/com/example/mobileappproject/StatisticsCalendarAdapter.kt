@@ -21,12 +21,18 @@ import com.example.mobileappproject.databinding.StatisticsDaysCellBinding
 
 
 class StatisticsCalendarAdapter(private val days: MutableList<LocalDate?>, private var activity: LifecycleOwner, val context: Context,
-val onStatisticsValues: (Array<Long>) -> Unit) :
+/*val onStatisticsValues: (Array<Long>) -> Unit*/
+val onPieChart : (MutableList<Int>)->Unit,
+val onLineChart : (MutableList<String>)->Unit,
+val onBarChart : (MutableList<String>)->Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class StatisticsCalendarViewHolder(val binding: StatisticsDaysCellBinding):
         RecyclerView.ViewHolder(binding.root)
     private var list = mutableListOf<Todo>()
+    var pieList = mutableListOf<Int>()
+    var lineList = mutableListOf<String>()
+    var barList = mutableListOf<String>()
 
 
 
@@ -145,7 +151,7 @@ val onStatisticsValues: (Array<Long>) -> Unit) :
                 }
             }
         }
-
+/*
         var totalBasic: Long = 0
         var totalPomodoro: Long = 0
         var totalTimebox: Long = 0
@@ -201,6 +207,7 @@ val onStatisticsValues: (Array<Long>) -> Unit) :
                 }
             }
         }
+
         valuesArray[0] = totalBasic
         valuesArray[1] = totalPomodoro
         valuesArray[2] = totalTimebox
@@ -210,10 +217,15 @@ val onStatisticsValues: (Array<Long>) -> Unit) :
         valuesArray[6] = totalMeeting
         valuesArray[7] = totalPromise
 
+
+        Log.d("adapter_yeon", "b:p:t = $totalBasic, $totalPomodoro, $totalTimebox")
         onStatisticsValues(valuesArray)
+
+        */
 
 
         // set Colors to cells
+
         var title: MutableList<String> = mutableListOf()
         var startTime = mutableListOf<String>()
         var endTime = mutableListOf<String>()
@@ -231,7 +243,11 @@ val onStatisticsValues: (Array<Long>) -> Unit) :
         val setCellColors = TodoViewModel().getCurrentDay(day.toString())
         setCellColors.observe(activity) { it ->
             // when there is to do in current day
-            println("======================> ${it.size}")
+            //println("======================> ${it.size}")
+            if(position == itemCount-1){
+                onPieChart(pieList)
+            }
+
             if (it.size == 0)
             {
                 //binding.cellRoot.setBackgroundColor(Color.GREEN)
@@ -241,29 +257,50 @@ val onStatisticsValues: (Array<Long>) -> Unit) :
             // you can't get db data out of this block So work here
             else if (it.size > 0) {
                 for (i in 0 until it.size) {
-                    title.add(it[i].title)
-                    startTime.add(it[i].startTime)
-                    endTime.add(it[i].endTime)
-                    content.add(it[i].content)
-                    date.add(it[i].date)
-                    isTimer.add(it[i].isTimer)
-                    categoryNum.add(it[i].categoryNum)
-                    basicTimer.add(it[i].basicTimer)
-                    pomodoro.add(it[i].pomodoro)
-                    timeBox.add(it[i].timeBox)
+                    if(it[i].isTimer) {
+                        categoryNum.add(it[i].categoryNum)
+                        basicTimer.add(it[i].basicTimer)
+                        pomodoro.add(it[i].pomodoro)
+                        timeBox.add(it[i].timeBox)
+                    }
+                    //pieList add
+                    //if(it[i].categoryNum != 0) {
+                    //}
+                    pieList.add(it[i].categoryNum)
+                    //lineList add
+                    lineList.add(it[i].pomodoro)
+                    //barList add
+                    barList.add(it[i].basicTimer)
                 }
-                // all to do list that was add in one day
-                println("title === ${title.toString()}")
-                println("startTime == $startTime")
-                println("endTime == $endTime")
-                println("content == $content")
-                println("date == $date")
-                println("isTime == $isTimer")
-                println("CategoryNum = $categoryNum")
-                println("basicTime == $basicTimer")
-                println("pomodoro == $pomodoro")
-                println("timebox == $timeBox")
+                Log.d("soo", "barListsize == ${barList.size}")
 
+                        /*
+                        for (i in 0 until it.size) {
+                            title.add(it[i].title)
+                            startTime.add(it[i].startTime)
+                            endTime.add(it[i].endTime)
+                            content.add(it[i].content)
+                            date.add(it[i].date)
+                            isTimer.add(it[i].isTimer)
+                            categoryNum.add(it[i].categoryNum)
+                            basicTimer.add(it[i].basicTimer)
+                            pomodoro.add(it[i].pomodoro)
+                            timeBox.add(it[i].timeBox)
+                        }
+                        // all to do list that was add in one day
+                        println("title === ${title.toString()}")
+                        println("startTime == $startTime")
+                        println("endTime == $endTime")
+                        println("content == $content")
+                        println("date == $date")
+                        println("isTime == $isTimer")
+                        println("CategoryNum = $categoryNum")
+                        println("basicTime == $basicTimer")
+                        println("pomodoro == $pomodoro")
+                        println("timebox == $timeBox")
+
+
+                         */
 
                 // calculate
                 var startEndTImeInTodo = 0
@@ -334,5 +371,6 @@ val onStatisticsValues: (Array<Long>) -> Unit) :
     }
 
     override fun getItemCount(): Int = days.size
+
 
 }
