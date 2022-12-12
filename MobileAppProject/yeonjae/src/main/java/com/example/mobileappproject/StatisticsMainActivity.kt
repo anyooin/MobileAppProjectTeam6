@@ -203,13 +203,21 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
         // 최근 추가 항목(날짜) 부터 7일치
         val entries = ArrayList<BarEntry>()
-        entries.add(BarEntry(1.2f,basicList[6].toFloat()))
-        entries.add(BarEntry(2.2f,basicList[5].toFloat()))
-        entries.add(BarEntry(3.2f,basicList[4].toFloat()))
-        entries.add(BarEntry(4.2f,basicList[3].toFloat()))
-        entries.add(BarEntry(5.2f,basicList[2].toFloat()))
-        entries.add(BarEntry(6.2f,basicList[1].toFloat()))
-        entries.add(BarEntry(7.2f,basicList[0].toFloat()))
+
+        val value_str_to_float:Array<Float> = Array(7, { 0f })
+        for(i in 0..6){
+            value_str_to_float[i] = basicList[i].split(":")[0].toFloat() * 3600 +
+                    basicList[i].split(":")[1].toFloat() * 60 +
+                    basicList[i].split(":")[2].toFloat()
+        }
+
+        entries.add(BarEntry(1.2f,value_str_to_float[6]))
+        entries.add(BarEntry(2.2f,value_str_to_float[5]))
+        entries.add(BarEntry(3.2f,value_str_to_float[4]))
+        entries.add(BarEntry(4.2f,value_str_to_float[3]))
+        entries.add(BarEntry(5.2f,value_str_to_float[2]))
+        entries.add(BarEntry(6.2f,value_str_to_float[1]))
+        entries.add(BarEntry(7.2f,value_str_to_float[0]))
 
         //bar chart용 값들
 
