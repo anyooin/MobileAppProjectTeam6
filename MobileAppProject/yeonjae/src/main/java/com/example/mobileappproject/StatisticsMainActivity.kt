@@ -205,22 +205,43 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         val entries = ArrayList<BarEntry>()
 
         val value_str_to_float:Array<Float> = Array(7, { 0f })
-        for(i in 0..6){
-            value_str_to_float[i] = basicList[i].split(":")[0].toFloat() * 3600 +
-                    basicList[i].split(":")[1].toFloat() * 60 +
-                    basicList[i].split(":")[2].toFloat()
+        for(i in 0..basicList.size-1){
+            if(i > 7) {
+                break
+            }
+            if(basicList[i] == "0"){
+                value_str_to_float[i] = 0f
+            }
+            else {
+                value_str_to_float[i] = basicList[i].split(":")[0].toFloat() * 3600 +
+                        basicList[i].split(":")[1].toFloat() * 60 +
+                        basicList[i].split(":")[2].toFloat()
+            }
         }
 
-        entries.add(BarEntry(1.2f,value_str_to_float[6]))
-        entries.add(BarEntry(2.2f,value_str_to_float[5]))
-        entries.add(BarEntry(3.2f,value_str_to_float[4]))
-        entries.add(BarEntry(4.2f,value_str_to_float[3]))
-        entries.add(BarEntry(5.2f,value_str_to_float[2]))
-        entries.add(BarEntry(6.2f,value_str_to_float[1]))
-        entries.add(BarEntry(7.2f,value_str_to_float[0]))
+        //entries.add(BarEntry(1.2f,value_str_to_float[6]))
+        //entries.add(BarEntry(2.2f,value_str_to_float[5]))
+        //entries.add(BarEntry(3.2f,value_str_to_float[4]))
+        //entries.add(BarEntry(4.2f,value_str_to_float[3]))
+        //entries.add(BarEntry(5.2f,value_str_to_float[2]))
+        //entries.add(BarEntry(6.2f,value_str_to_float[1]))
+        //entries.add(BarEntry(7.2f,value_str_to_float[0]))
+
+
+        for(idx in 0..basicList.size-1){
+            if(idx > 7){
+                break
+            }
+            val num = idx.toFloat() + (0.2).toFloat()
+            entries.add(BarEntry(num, value_str_to_float[0]))
+        }
+
+        val size = basicList.size
+        for(idx in size-1..6) {
+            basicList.add("0")
+        }
 
         //bar chart용 값들
-
         var d_day_total = findViewById(R.id.D_day_total) as TextView
         d_day_total.setText(basicList[6])
 
@@ -338,13 +359,22 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
              */
             // 최근 추가 항목(날짜) 부터 7일치
             //entry 배열 초기값
-            entriesLine.add(Entry(1F, pomodoroList[6].toFloat()))
-            entriesLine.add(Entry(2F, pomodoroList[5].toFloat()))
-            entriesLine.add(Entry(3F, pomodoroList[4].toFloat()))
-            entriesLine.add(Entry(4F, pomodoroList[3].toFloat()))
-            entriesLine.add(Entry(5F, pomodoroList[2].toFloat()))
-            entriesLine.add(Entry(6F, pomodoroList[1].toFloat()))
-            entriesLine.add(Entry(7F, pomodoroList[0].toFloat()))
+            //entriesLine.add(Entry(1F, pomodoroList[6].toFloat()))
+            //entriesLine.add(Entry(2F, pomodoroList[5].toFloat()))
+            //entriesLine.add(Entry(3F, pomodoroList[4].toFloat()))
+            //entriesLine.add(Entry(4F, pomodoroList[3].toFloat()))
+            //entriesLine.add(Entry(5F, pomodoroList[2].toFloat()))
+            //entriesLine.add(Entry(6F, pomodoroList[1].toFloat()))
+            //entriesLine.add(Entry(7F, pomodoroList[0].toFloat()))
+
+            for(idx in 0..pomodoroList.size-1){
+                if(idx > 7){
+                    break
+                }
+                var num : Float = pomodoroList[idx].split("회")[0].toFloat()
+                entriesLine.add(Entry(idx.toFloat(), num))
+            }
+
 
             // 그래프 구현을 위한 LineDataSet 생성
             var dataset: LineDataSet = LineDataSet(entriesLine, "포모도로 횟수")

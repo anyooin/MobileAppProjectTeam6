@@ -246,8 +246,8 @@ val onBarChart : (MutableList<String>)->Unit) :
             //println("======================> ${it.size}")
             if(position == itemCount-1){
                 onPieChart(pieList)
-                //onLineChart(lineList)
-                //onBarChart(barList)
+                onLineChart(lineList)
+                onBarChart(barList)
             }
 
             if (it.size == 0)
