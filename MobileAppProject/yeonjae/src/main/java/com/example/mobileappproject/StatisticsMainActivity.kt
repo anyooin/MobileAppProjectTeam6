@@ -173,16 +173,12 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         }
 
 
-        //총시간
 
-        var basic_total = findViewById(R.id.BasicTotal) as TextView
-        basic_total.setText(statistics_basic.toString())
 
-        var pomodoro_total = findViewById(R.id.PomodoroTotal) as TextView
-        pomodoro_total.setText(statistics_pomodoro.toString())
 
-        var timebox_total = findViewById(R.id.TimeboxTotal) as TextView
-        timebox_total.setText(statistics_timebox.toString())
+
+
+
 
 
 
@@ -206,7 +202,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
         val value_str_to_float:Array<Float> = Array(7, { 0f })
         for(i in 0..basicList.size-1){
-            if(i > 7) {
+            if(i > 6) {//7
                 break
             }
             if(basicList[i] == "0"){
@@ -219,6 +215,56 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             }
         }
 
+        var total_basic: Int = 0
+        for(i in 0..basicList.size-1){
+            Log.d("check_1","basicList.size == ${basicList.size}")
+
+            if(basicList[i] == "0")
+            {
+                total_basic += 0
+            }
+
+            else{
+                total_basic += (basicList[i].split(":")[0].toInt() * 3600 +
+                        basicList[i].split(":")[1].toInt() * 60 +
+                        basicList[i].split(":")[2].toInt())
+            }
+        }
+
+        var h = total_basic / 3600
+        var m = (total_basic - h * 3600) / 60
+        var s = (total_basic - h * 3600 - m * 60)
+
+        var h_string: String
+        if(h < 10){
+            h_string = "0" + (h).toString()
+        }
+        else{
+            h_string = (h).toString()
+        }
+
+        var m_string: String
+        if(m < 10){
+            m_string = "0" + (m).toString()
+        }
+        else{
+            m_string = (m).toString()
+        }
+
+        var s_string: String
+        if(s < 10){
+            s_string = "0" + (s).toString()
+        }
+        else{
+            s_string = (s).toString()
+        }
+
+
+        var total_basic_string = h_string + ":" + m_string + ":" + s_string
+
+        var basic_total = findViewById(R.id.BasicTotal) as TextView
+        basic_total.setText(total_basic_string)
+
         //entries.add(BarEntry(1.2f,value_str_to_float[6]))
         //entries.add(BarEntry(2.2f,value_str_to_float[5]))
         //entries.add(BarEntry(3.2f,value_str_to_float[4]))
@@ -229,15 +275,15 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
 
         for(idx in 0..basicList.size-1){
-            if(idx > 7){
+            if(idx > 6){//7
                 break
             }
             val num = idx.toFloat() + (0.2).toFloat()
-            entries.add(BarEntry(num, value_str_to_float[0]))
+            entries.add(BarEntry(num, value_str_to_float[idx])) //확인 위해서 초 단위로 넣어둠, 변경 필요!
         }
 
         val size = basicList.size
-        for(idx in size-1..6) {
+        for(idx in size-1..size-7) {/*idx in size-1..size-7idx in size-1..6*/
             basicList.add("0")
         }
 
@@ -375,6 +421,15 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
                 entriesLine.add(Entry(idx.toFloat(), num))
             }
 
+            var total_pomodoro = 0
+            for(idx in 0..pomodoroList.size-1){
+                total_pomodoro += pomodoroList[idx].split("회")[0].toInt()
+            }
+
+            var pomodoro_total = findViewById(R.id.PomodoroTotal) as TextView
+            pomodoro_total.setText(total_pomodoro.toString())
+
+
 
             // 그래프 구현을 위한 LineDataSet 생성
             var dataset: LineDataSet = LineDataSet(entriesLine, "포모도로 횟수")
@@ -504,6 +559,24 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             animate()
         }
     }
+
+    //timebox 총 횟수 측정, 횟수로 측정함, 시간이면 변경 필요
+    private fun printTotalTimeBox(timeBoxList: MutableList<String>){
+        Log.d("soo","timeBoxList.size == ${timeBoxList.size}")
+
+        var timebox_total = findViewById(R.id.TimeboxTotal) as TextView
+        var total_timebox = 0
+
+        if(timeBoxList.size == 0) {
+            timebox_total.setText("0")
+        }
+        else {
+            for (i in 0..timeBoxList.size - 1){
+                total_timebox += timeBoxList[i].toInt()
+            }
+            timebox_total.setText(total_timebox.toString())
+        }
+    }
     /*
     var pieChart: PieChart = findViewById(R.id.pieChart)// pieChart 생성
 
@@ -558,7 +631,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         val daysInMonth = daysInMonthArray(CalendarUtil.selectedDate)
 
         val calendarAdapter = StatisticsCalendarAdapter(daysInMonth, this@StatisticsMainActivity, applicationContext,
-            onPieChart = { printPieChart(it)}, onLineChart = { printLineChart(it)}, onBarChart = { printBarChart(it)})
+            onPieChart = { printPieChart(it)}, onLineChart = { printLineChart(it)}, onBarChart = { printBarChart(it)}, onTotaltime = { printTotalTimeBox(it)})
         val layoutManager = GridLayoutManager(applicationContext, 7)
         calendar.layoutManager = layoutManager
         calendar.adapter = calendarAdapter

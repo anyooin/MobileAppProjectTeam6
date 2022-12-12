@@ -24,7 +24,8 @@ class StatisticsCalendarAdapter(private val days: MutableList<LocalDate?>, priva
 /*val onStatisticsValues: (Array<Long>) -> Unit*/
 val onPieChart : (MutableList<Int>)->Unit,
 val onLineChart : (MutableList<String>)->Unit,
-val onBarChart : (MutableList<String>)->Unit) :
+val onBarChart : (MutableList<String>)->Unit,
+var onTotaltime : (MutableList<String>)->Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class StatisticsCalendarViewHolder(val binding: StatisticsDaysCellBinding):
@@ -33,6 +34,7 @@ val onBarChart : (MutableList<String>)->Unit) :
     var pieList = mutableListOf<Int>()
     var lineList = mutableListOf<String>()
     var barList = mutableListOf<String>()
+    var totalList = mutableListOf<String>()
 
 
 
@@ -248,6 +250,7 @@ val onBarChart : (MutableList<String>)->Unit) :
                 onPieChart(pieList)
                 onLineChart(lineList)
                 onBarChart(barList)
+                onTotaltime(totalList)
             }
 
             if (it.size == 0)
@@ -273,6 +276,8 @@ val onBarChart : (MutableList<String>)->Unit) :
                     lineList.add(it[i].pomodoro)
                     //barList add
                     barList.add(it[i].basicTimer)
+                    //totalList(timebox) add
+                    totalList.add(it[i].timeBox)
                 }
                 Log.d("soo", "barListsize == ${barList.size}")
 
