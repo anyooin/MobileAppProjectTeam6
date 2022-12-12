@@ -57,7 +57,8 @@
                     android:layout_marginBottom="10dp"
                     android:maxLines="3"
                     android:drawablePadding="2dp"
-                    android:text="text" />
+                    android:text="text"
+                    android:textColor="@color/light_gray"/>
 
             </LinearLayout>
         </LinearLayout>

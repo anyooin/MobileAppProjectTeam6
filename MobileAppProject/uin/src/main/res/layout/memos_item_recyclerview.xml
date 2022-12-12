@@ -6,14 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp"
+    android:padding="5dp"
     android:layout_margin="8dp">
+
+    <ImageView
+        android:layout_width="5dp"
+        android:layout_height="40dp"
+        android:background="@color/light_blue"
+        android:layout_marginEnd="10dp"/>
 
     <CheckBox
         android:id="@+id/checkDone"
         android:layout_width="0dp"
-        android:layout_weight="0.2"
-        android:layout_height="35dp" />
+        android:layout_weight="0.1"
+        android:layout_height="35dp"
+        android:layout_marginEnd="5dp"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -39,14 +46,6 @@
 
 
     </LinearLayout>
-
-    <!-- 체크박스 추후에 이미지로 변경
-    <CheckBox
-        android:id="@+id/checkTimer"
-        android:layout_width="0dp"
-        android:layout_weight="0.3"
-        android:layout_height="25dp" />
-        -->
 
     <LinearLayout
         android:layout_width="0dp"

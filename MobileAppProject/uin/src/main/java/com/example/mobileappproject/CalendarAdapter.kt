@@ -84,7 +84,7 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>, private var act
             else {
                 binding.cellRoot.setBackgroundResource(0)
                 binding.cellDayText.setTextColor(Color.BLACK)
-                binding.todoCount.setTextColor(Color.parseColor("#276DD6"))
+                binding.todoCount.setTextColor(Color.parseColor("#5282FF"))
 
                 // change weekend textColor
                 if((position+1) % 7 == 0  && dayDel) {

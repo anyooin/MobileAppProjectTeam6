@@ -165,9 +165,9 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             binding.timeboxSeekBar.visibility = View.INVISIBLE
             binding.chronometer.visibility = View.VISIBLE
 
-            binding.basicTimer.setBackgroundResource(R.drawable.timer_selected_button)
-            binding.pomodoro.setBackgroundResource(R.drawable.timer_button)
-            binding.timebox.setBackgroundResource(R.drawable.timer_button)
+            binding.basicTimer.setBackgroundResource(R.drawable.day_cell_select)
+            binding.pomodoro.setBackgroundResource(R.drawable.day_cell_today)
+            binding.timebox.setBackgroundResource(R.drawable.day_cell_today)
 
             binding.recordH.text = "%s:".format(timerModeRecord[0].split(":")[0])
             binding.recordM.text = "%s:".format(timerModeRecord[0].split(":")[1])
@@ -189,9 +189,9 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             binding.timeboxSeekBar.visibility = View.INVISIBLE
             binding.chronometer.visibility = View.INVISIBLE
 
-            binding.basicTimer.setBackgroundResource(R.drawable.timer_button)
-            binding.pomodoro.setBackgroundResource(R.drawable.timer_selected_button)
-            binding.timebox.setBackgroundResource(R.drawable.timer_button)
+            binding.basicTimer.setBackgroundResource(R.drawable.day_cell_today)
+            binding.pomodoro.setBackgroundResource(R.drawable.day_cell_select)
+            binding.timebox.setBackgroundResource(R.drawable.day_cell_today)
 
             updateRemainTime(60 * 30 * 1000L)
             updateSeekBar(60 * 30 * 1000L, pomodoroSeekBar)
@@ -216,9 +216,9 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             binding.timeboxSeekBar.visibility = View.VISIBLE
             binding.chronometer.visibility = View.INVISIBLE
 
-            binding.basicTimer.setBackgroundResource(R.drawable.timer_button)
-            binding.pomodoro.setBackgroundResource(R.drawable.timer_button)
-            binding.timebox.setBackgroundResource(R.drawable.timer_selected_button)
+            binding.basicTimer.setBackgroundResource(R.drawable.day_cell_today)
+            binding.pomodoro.setBackgroundResource(R.drawable.day_cell_today)
+            binding.timebox.setBackgroundResource(R.drawable.day_cell_select)
 
             val hourToken = timeBoxremainHourTextView.text.split(":")[0].toInt()
             val minToken = timeBoxremainMinutesTextView.text.split(":")[0].toInt()
@@ -398,17 +398,20 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
                 preView?.setBackgroundColor(Color.parseColor("#000000"))
                 if (preView != null) {
                     if((preView.equals(view) && (checkScreen%2 == 1))) {
-                        view.setBackgroundColor(Color.parseColor("#000000"))
+                        //view.setBackgroundColor(Color.parseColor("#000000"))
+                        view.setBackgroundResource(R.drawable.day_cell_today)
                         checkScreen = 0
                         todoID = -1
                     }
                     else{
-                        view.setBackgroundColor(Color.parseColor("#D0A4ED"))
+                        //view.setBackgroundColor(Color.parseColor("#D0A4ED"))
+                        view.setBackgroundResource(R.drawable.day_cell_select)
                         checkScreen = 1
                     }
                 }
                 else {
-                    view.setBackgroundColor(Color.parseColor("#D0A4ED"))
+                    //view.setBackgroundColor(Color.parseColor("#D0A4ED"))
+                    view.setBackgroundResource(R.drawable.day_cell_select)
                     checkScreen = 1
                 }
 

@@ -92,11 +92,14 @@
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/drawable/day_cell_today.xml" value="0.2285" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/drawable/delete.xml" value="0.162" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/drawable/tab_selector.xml" value="0.1535" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/drawable/timer_circle.xml" value="0.211" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/drawable/timer_circle_inner.xml" value="0.211" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/drawable/timer_start.xml" value="0.211" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_edit_todo.xml" value="0.1609375" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_statistics_main.xml" value="0.15572916666666667" />
-        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_timer_list_todo_popup.xml" value="0.15052083333333333" />
-        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_timer_main.xml" value="0.15052083333333333" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_timer_list_todo_popup.xml" value="0.2" />
+        <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_timer_main.xml" value="0.2" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_timer_popup.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_todo_page.xml" value="0.264" />
         <entry key="..\:/Users/blues/whdvm/MobileAppProjectTeam6/MobileAppProject/uin/src/main/res/layout/activity_writing_diary_page.xml" value="0.264" />
