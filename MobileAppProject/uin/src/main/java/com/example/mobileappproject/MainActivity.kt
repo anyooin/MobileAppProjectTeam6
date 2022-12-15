@@ -174,10 +174,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             println("date ==== ${date[0]}")
 
             drawerLayout.background = when (date[0]) {
-                "December", "January", "February" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "March", "April", "May" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "June", "July", "August" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "September", "October", "November" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "12월", "1월", "2월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "3월", "4월", "5월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "6월", "7월", "8월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "9월", "10월", "11월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
                 else -> {
                     null
                 }
@@ -218,28 +218,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
         )
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    fun setBackgroundFrame()
-    {
-        if (switchOffOn == 1) {
-            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
-            val date = CalendarUtil.today.toString().split("-")
-            drawerLayout.background = when (date[1]) {
-                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "03", "04", "05" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "06", "07", "08" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "09", "10", "11" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                else -> {
-                    null
-                }
-            }
-        } else {
-            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = false
-            drawerLayout.background= null
-
-        }
     }
 
     private fun daysInMonthArray(date: LocalDate): MutableList<LocalDate?> {
@@ -283,6 +261,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         return ArrayList()
     }
+
     private fun FinddayOfWeek(isToday : Int): Int{
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val firstOfMonth = CalendarUtil.selectedDate.withDayOfMonth(1)
@@ -309,6 +288,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             return date.format(formatter)
         }
         return "Error in monthYearFromDate Function"
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun setBackgroundFrame()
+    {
+        if (switchOffOn == 1) {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
+            val date = CalendarUtil.today.toString().split("-")
+            drawerLayout.background = when (date[1]) {
+                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = false
+            drawerLayout.background= null
+
+        }
     }
 
     // *****************************Menu items part*******************

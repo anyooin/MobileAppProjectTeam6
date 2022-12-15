@@ -78,6 +78,7 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>, private var act
                 binding.todoCount.setTextColor(Color.WHITE)
             }else if (day.equals(CalendarUtil.today)) { //오늘날짜라면
                 binding.cellRoot.setBackgroundResource(R.drawable.day_cell_today)
+                //binding.cellDayText.setBackgroundResource(R.drawable.day_cell_select)
                 binding.cellDayText.setTextColor(Color.WHITE)
                 binding.todoCount.setTextColor(Color.WHITE)
             }
