@@ -156,11 +156,106 @@
                             android:text="Statistics"
                             android:textSize="30dp"></TextView>-->
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="총 시간"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="16sp">
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <!--app:layout_constraintTop_toBottomOf = "@id/"-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="타이머"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/BasicTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="basic_total"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="포모도로"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/PomodoroTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="pomodoro_total"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="타임박스"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="12sp">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/TimeboxTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="timebox_total"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="12sp">
+
+                </TextView>
+
+
+
+
+
+
+            </LinearLayout>
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginTop="300dp"
+                android:layout_marginTop="50dp"
                 app:layout_constraintRight_toLeftOf="@id/pieChart">
 
                 <LinearLayout
@@ -179,7 +274,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Study"
+                            android:text="카테고리"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp">
@@ -188,11 +283,74 @@
                         </TextView>
 
                         <TextView
-                            android:id="@+id/study_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="study_total"
+                            android:text="      횟수      "
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            app:layout_constraintRight_toRightOf="parent">
+
+                        </TextView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text=" 미선택"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="16sp">
+
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/nonDesignate_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="NonDesignate_total"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            app:layout_constraintRight_toRightOf="parent">
+
+                        </TextView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="공부 "
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="16sp">
+
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/Study_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="   Study_total        "
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -210,7 +368,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Todo"
+                            android:text="운동 "
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp">
@@ -219,11 +377,11 @@
                         </TextView>
 
                         <TextView
-                            android:id="@+id/Todo_total"
+                            android:id="@+id/Workout_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Todo_total"
+                            android:hint="Workout_total      "
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -241,7 +399,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Work Out"
+                            android:text="회의 "
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp">
@@ -250,11 +408,42 @@
                         </TextView>
 
                         <TextView
-                            android:id="@+id/workout_total"
+                            android:id="@+id/Meeting_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="workout_total"
+                            android:hint="Meeting_total      "
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            app:layout_constraintRight_toRightOf="parent">
+
+                        </TextView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="약속 "
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="16sp">
+
+
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/Promise_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Promise_total      "
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -276,6 +465,40 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="7일 포모도로 횟수"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="16sp">
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                tools:ignore="MissingConstraints">
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lineChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="7일 타이머"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="16sp">
+
+            </TextView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -301,7 +524,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="SUN"
+                            android:text="D-6"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp">
@@ -310,11 +533,11 @@
                         </TextView>
 
                         <TextView
-                            android:id="@+id/sun_total"
+                            android:id="@+id/D6_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="sun_total"
+                            android:hint="D6_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -334,7 +557,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="MON"
+                            android:text="D-5"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp">
@@ -343,11 +566,11 @@
                         </TextView>
 
                         <TextView
-                            android:id="@+id/mon_total"
+                            android:id="@+id/D5_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="mon_total"
+                            android:hint="D5_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -366,7 +589,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="TUE"
+                            android:text="D-4"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp">
@@ -375,11 +598,11 @@
                         </TextView>
 
                         <TextView
-                            android:id="@+id/tue_total"
+                            android:id="@+id/D4_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="tue_total"
+                            android:hint="D4_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -398,7 +621,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="WED"
+                            android:text="D-3"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp">
@@ -407,11 +630,11 @@
                         </TextView>
 
                         <TextView
-                            android:id="@+id/wed_total"
+                            android:id="@+id/D3_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="wed_total"
+                            android:hint="D3_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -430,7 +653,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="THU"
+                            android:text="D-2"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp">
@@ -439,11 +662,11 @@
                         </TextView>
 
                         <TextView
-                            android:id="@+id/thu_total"
+                            android:id="@+id/D2_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="thu_total"
+                            android:hint="D2_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -462,7 +685,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="FRI"
+                            android:text="D-1"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp">
@@ -471,11 +694,11 @@
                         </TextView>
 
                         <TextView
-                            android:id="@+id/fri_total"
+                            android:id="@+id/D1_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="fri_total"
+                            android:hint="D1_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -494,7 +717,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="SAT"
+                            android:text="D-day"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp">
@@ -503,11 +726,11 @@
                         </TextView>
 
                         <TextView
-                            android:id="@+id/sat_total"
+                            android:id="@+id/D_day_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="sat_total"
+                            android:hint="D_day_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
