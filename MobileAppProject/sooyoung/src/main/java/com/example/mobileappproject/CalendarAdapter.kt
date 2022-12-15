@@ -1,6 +1,8 @@
 package com.example.mobileappproject
 
 import android.graphics.Color
+import android.graphics.Typeface
+import android.icu.lang.UCharacter.GraphemeClusterBreak.L
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -50,24 +52,33 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>, private var act
 
         // 날짜표시 & 오늘날짜 바탕색
         val day : LocalDate? = days[position]
+        val dayDel = days[15].toString().split("-")[1] == day.toString().split("-")[1]
 
         if (day == null) {
             binding.cellDayText.text = ""
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if(!dayDel) {
+                    binding.cellDayText.setTextColor(Color.BLACK)
+                    binding.cellDayText.setTypeface(null, Typeface.NORMAL)
+                    binding.cellRoot.setBackgroundColor(Color.LTGRAY)
+                }
                 binding.cellDayText.text = day.dayOfMonth.toString()
             }
             if (day.equals(CalendarUtil.today)) {
-                binding.cellDayText.setBackgroundColor(Color.LTGRAY)
+                    binding.cellDayText.setBackgroundColor(Color.LTGRAY)
             }
+
         }
 
         // change weekend textColor
-        if((position+1) % 7 == 0) {
+        if((position+1) % 7 == 0 && dayDel) {
             binding.cellDayText.setTextColor(Color.BLUE)
-        } else if (position == 0 || position % 7 == 0) {
+        } else if (position == 0 || position % 7 == 0 && dayDel) {
             binding.cellDayText.setTextColor(Color.RED)
         }
+
+
 
         //set to do list title for day
 

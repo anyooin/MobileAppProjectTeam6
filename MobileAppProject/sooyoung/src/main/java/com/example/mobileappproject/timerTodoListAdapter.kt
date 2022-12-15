@@ -15,11 +15,13 @@ import kotlinx.coroutines.NonDisposableHandle.parent
 class timerTodoListAdapter(
     val context: Context,
     val onShowDB: (Array<String>) -> Unit,
-    val onSelectTimer : (Long) -> Unit
+    val onSelectTimer : (Long) -> Unit,
+    val onClick : (Array<String>) -> Unit
 ) : RecyclerView.Adapter<timerTodoListAdapter.TimerListViewHolder>(){
 
     private var list = mutableListOf<Todo>()
-    var preView: View? = null
+    private var preView : View? = null
+    private var preId : String = "-1"
 
     inner class TimerListViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         var title = itemView.findViewById<TextView>(R.id.timertodoTitle)
@@ -67,6 +69,14 @@ class timerTodoListAdapter(
             holder.onBind("-","-","-","-","-")
         }
 
+        if(list[position].id == preId.toLong()) {
+            holder.itemView.findViewById<Button>(R.id.timerselectBtn).setBackgroundColor(Color.parseColor("#D0A4ED"))
+            preView = holder.itemView.findViewById<Button>(R.id.timerselectBtn)
+        }
+        else {
+            holder.itemView.findViewById<Button>(R.id.timerselectBtn).setBackgroundColor(Color.parseColor("#000000"))
+        }
+
         holder.itemView.findViewById<Button>(R.id.timertodoBtn).setOnClickListener {
             val to = list[position]
             val timeArray = arrayOf(to.basicTimer, to.pomodoro, to.timeBox)
@@ -77,8 +87,19 @@ class timerTodoListAdapter(
             val to = list[position]
             val timeArray = arrayOf(to.id.toString(), to.basicTimer, to.pomodoro, to.timeBox)
 
+
+            if(preId == to.id.toString()) {
+                it.setBackgroundColor(Color.parseColor("#000000"))
+                timeArray[0] = "-1"
+                preId = "-1"
+            }
+            else {
+                preView?.setBackgroundColor(Color.parseColor("#000000"))
+                it.setBackgroundColor(Color.parseColor("#D0A4ED"))
+                preId = to.id.toString()
+            }
+            onClick(timeArray)
             onSelectTimer(list[position].id)
-            itemClickListener.onClick(preView, it, timeArray)
             preView = it
         }
     }
@@ -89,14 +110,5 @@ class timerTodoListAdapter(
     }
     fun updating(){
         notifyDataSetChanged()
-    }
-
-    interface ItemClickListener {
-        fun onClick(preView: View?, view: View, timearray: Array<String>)
-    }
-    private lateinit var itemClickListener : ItemClickListener
-
-    fun setItemClickListener(itemClickListener: ItemClickListener) {
-        this.itemClickListener = itemClickListener
     }
 }

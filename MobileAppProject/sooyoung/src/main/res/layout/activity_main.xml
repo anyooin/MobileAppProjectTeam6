@@ -16,7 +16,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_blue" />
+            android:background="@color/light_blue" >
+        </androidx.appcompat.widget.Toolbar>
 
         <!-- Year Month text -->
         <LinearLayout
@@ -73,6 +74,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="0dp"

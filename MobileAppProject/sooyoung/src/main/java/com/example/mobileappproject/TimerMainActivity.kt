@@ -1,4 +1,5 @@
 package com.example.mobileappproject
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
@@ -14,6 +15,8 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
@@ -58,7 +61,6 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
     private lateinit var timeBoxremainSecondsTextView: TextView
     private lateinit var timeboxSeekBar: SeekBar
 
-    private var selectPos = -1 // 선택된 list
     private var type = -1 // 선택된 timermode = 0 : pomodoro, 1 : timebox
     private var todoID:Long = (-1).toLong() // datebase id
 
@@ -108,8 +110,23 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         // 네비게이션 드로어 내에있는 화면의 이벤트를 처리하기 위해 생성
         navigationView = binding.navView
+        navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).setOnCheckedChangeListener {
+                _, isChecked ->
+            if (isChecked) {
+                switchOffOn = 1
+                setBackgroundFrame()
+
+            } else {
+                switchOffOn = 0
+                setBackgroundFrame()
+            }
+        }
+
+        setBackgroundFrame()
+        navigationView.itemIconTintList = null
         navigationView.setNavigationItemSelectedListener(this) //navigation 리스너
         //navigation f
+
 
         //seekbar event handler
         binding.pomodoroSeekBar.setOnSeekBarChangeListener(this)
@@ -353,36 +370,18 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         timerTodoAdapter = timerTodoListAdapter(this,
             onShowDB = { showTimerDB(it) },
-            onSelectTimer = {selectTimerDB(it)})
+            onSelectTimer = {selectTimerDB(it)},
+            onClick = {clickTimer(it)})
         binding.selectRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.selectRecyclerView.adapter = timerTodoAdapter
         binding.selectRecyclerView.addItemDecoration(DividerItemDecoration(this,
         LinearLayoutManager.VERTICAL))
+    }
 
-        var checkScreen = 0
-        timerTodoAdapter.setItemClickListener(object: timerTodoListAdapter.ItemClickListener{
-            override fun onClick(preView: View?, view: View, timeArray:Array<String>) {
-                preView?.setBackgroundColor(Color.parseColor("#000000"))
-                if (preView != null) {
-                    if((preView.equals(view) && (checkScreen%2 == 1))) {
-                        view.setBackgroundColor(Color.parseColor("#000000"))
-                        checkScreen = 0
-                        todoID = -1
-                    }
-                    else{
-                        view.setBackgroundColor(Color.parseColor("#D0A4ED"))
-                        checkScreen = 1
-                    }
-                }
-                else {
-                    view.setBackgroundColor(Color.parseColor("#D0A4ED"))
-                    checkScreen = 1
-                }
-
-                Log.d("soo","todoID = $todoID")
-                settingRecord(todoID, type, timeArray)
-            }
-        })
+    private fun clickTimer(timeArray : Array<String>) {
+        todoID = timeArray[0].toLong()
+        Log.d("soo","todoID = $todoID")
+        settingRecord(todoID, type, timeArray)
     }
 
     private fun settingRecord(id : Long, type : Int, timearray : Array<String>) {
@@ -535,6 +534,27 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
         soundPool.autoPause()
         bellSoundId?.let {soundId->
             soundPool.play(soundId, 1F,1F,0,0,1F)
+        }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun setBackgroundFrame()
+    {
+        if (switchOffOn == 1) {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
+            val date = CalendarUtil.today.toString().split("-")
+            drawerLayout.background = when (date[1]) {
+                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.spring1_removebg_preview)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.summer1_removebg_preview)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.autumn1)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = false
+            drawerLayout.background= null
         }
     }
 

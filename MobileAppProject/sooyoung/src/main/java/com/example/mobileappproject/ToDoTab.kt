@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,9 +26,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.nio.file.Files.find
 import java.time.LocalDate
+import java.util.*
+import java.util.Locale.filter
 
 class ToDoTab(private var position: Int, private var dayInMonth: MutableList<LocalDate?>,
-              private var mainActivity: Activity, private var RESULT_OK: Int
+              private var mainActivity: Activity, private var RESULT_OK: Int, private var searchView: androidx.appcompat.widget.SearchView
 ) : Fragment() {
 
     lateinit var binding: FragmentToDoTabBinding
@@ -122,6 +125,38 @@ class ToDoTab(private var position: Int, private var dayInMonth: MutableList<Loc
                 }
             }
         })
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(msg: String): Boolean {
+                    filter(msg)
+                    return false
+            }
+
+            override fun onQueryTextSubmit(msg: String): Boolean {
+              //  filter(msg)
+                return false
+            }
+        })
+        searchView.setOnCloseListener { true }
+    }
+
+    private fun filter(text: String)
+    {
+        val filteredList: MutableList<Todo> = mutableListOf()
+        todoViewModel.todoList.observe(viewLifecycleOwner) {
+            for (item in it) {
+                if ((item.title.toLowerCase().contains(text.toLowerCase())) || (item.content.toLowerCase().contains(text.toLowerCase()))){
+                    filteredList.add(item)
+                }
+            }
+            if (filteredList.isEmpty()) {
+                Toast.makeText(mainActivity, "No Such Todo Found In This Date..", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                todoAdapter.filterList(filteredList)
+            }
+        }
     }
 
 }

@@ -9,8 +9,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -18,17 +16,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileappproject.*
-
-import com.example.mobileappproject.databinding.ActivityMainBinding
 import com.example.mobileappproject.databinding.ActivityStatisticsMainBinding
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.BarChart
@@ -40,14 +31,10 @@ import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
-import com.google.android.material.bottomsheet.BottomSheetDialog
-
 import com.google.android.material.navigation.NavigationView
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
-
-
 
 
 class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -60,17 +47,34 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
     lateinit var navigationView: NavigationView
     lateinit var drawerLayout: DrawerLayout
 
-    //private val timerList = mutableListOf<timerList>() //저장된 timerList
-    /*private var selectPos = -1 // 선택된 list
-    private var type = -1 // 선택된 timermode = 0 : pomodoro, 1 : timebox
-
-    private var DBselected = 0
-    private var titleChange = "None"
-    private var DBid = (-1).toLong()*/
-
     //room
     lateinit var timerTodoAdapter: timerTodoListAdapter
     lateinit var todoViewModel: TodoViewModel
+
+    private val statisticsList = mutableListOf<Todo>()
+
+    var statistics_basic: Long = 0
+    var statistics_pomodoro: Long = 1
+    var statistics_timebox: Long = 2
+    var statistics_nonDesignate: Long = 3
+    var statistics_study: Long = 4
+    var statistics_workout: Long = 5
+    var statistics_meeting: Long = 6
+    var statistics_promise: Long = 7
+    var d_day_basic: Long = 11
+    var d1_basic: Long = 22
+    var d2_basic: Long = 33
+    var d3_basic: Long = 44
+    var d4_basic: Long = 55
+    var d5_basic: Long = 66
+    var d6_basic: Long = 77
+    var d_day_pomodoro: Long = 1
+    var d1_pomodoro: Long = 2
+    var d2_pomodoro: Long = 3
+    var d3_pomodoro: Long = 4
+    var d4_pomodoro: Long = 5
+    var d5_pomodoro: Long = 6
+    var d6_pomodoro: Long = 7
 
     //linechart
     /*
@@ -85,6 +89,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         super.onCreate(savedInstanceState)
         val binding = ActivityStatisticsMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
 
 
@@ -159,38 +164,131 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             setMonthView()
         }
 
-        //line chart
-        /*var lineChart: LineChart = findViewById(R.id.lineChart)
+        //val entry_chart: ArrayList<Map.Entry<*, *>> = ArrayList()
 
-        private val lineChartData = ArrayList<ChartData>()*/
-        // 서버에서 데이터 가져오기 (서버에서 가져온 데이터로 가정하고 직접 추가)
-        /*
-        chartData.clear()
-        addChartItem("1월", 7.9)
-        addChartItem("2월", 8.2)
-        addChartItem("3월", 8.3)
-        addChartItem("4월", 8.5)
-        addChartItem("5월", 7.3)
+        //val entriesline = ArrayList<LineData>()
+        //entriesline.add(LineData(statistics_study.toFloat(), "공부"))
+        //LineDataSet lineDataSet1 = new LineDataSet(data1(), "Data Set1")
 
-        // 그래프 그릴 자료 넘기기
-        LineChart(chartData)
+    }
 
-         */
-
-
-
+    //bar chart
+    private fun printBarChart(basicList: MutableList<String>) {
         //bar chart
         var barChart: BarChart = findViewById(R.id.barChart)// barChart 생성
 
-        //임시 데이터
+        Log.d("soo","basicList.size == ${basicList.size}")
+
+        // 최근 추가 항목(날짜) 부터 7일치
         val entries = ArrayList<BarEntry>()
-        entries.add(BarEntry(1.2f,3.0f))
-        entries.add(BarEntry(2.2f,6.0f))
-        entries.add(BarEntry(3.2f,5.0f))
-        entries.add(BarEntry(4.2f,9.0f))
-        entries.add(BarEntry(5.2f,8.0f))
-        entries.add(BarEntry(6.2f,3.0f))
-        entries.add(BarEntry(7.2f,5.0f))
+
+        val value_str_to_float:Array<Float> = Array(7, { 0f })
+        for(i in 0..basicList.size-1){
+            if(i > 6) {//7
+                break
+            }
+            if(basicList[i] == "0"){
+                value_str_to_float[i] = 0f
+            }
+            else {
+                value_str_to_float[i] = basicList[i].split(":")[0].toFloat() * 3600 +
+                        basicList[i].split(":")[1].toFloat() * 60 +
+                        basicList[i].split(":")[2].toFloat()
+            }
+        }
+
+        var total_basic: Int = 0
+        for(i in 0..basicList.size-1){
+            Log.d("check_1","basicList.size == ${basicList.size}")
+
+            if(basicList[i] == "0")
+            {
+                total_basic += 0
+            }
+
+            else{
+                total_basic += (basicList[i].split(":")[0].toInt() * 3600 +
+                        basicList[i].split(":")[1].toInt() * 60 +
+                        basicList[i].split(":")[2].toInt())
+            }
+        }
+
+        var h = total_basic / 3600
+        var m = (total_basic - h * 3600) / 60
+        var s = (total_basic - h * 3600 - m * 60)
+
+        var h_string: String
+        if(h < 10){
+            h_string = "0" + (h).toString()
+        }
+        else{
+            h_string = (h).toString()
+        }
+
+        var m_string: String
+        if(m < 10){
+            m_string = "0" + (m).toString()
+        }
+        else{
+            m_string = (m).toString()
+        }
+
+        var s_string: String
+        if(s < 10){
+            s_string = "0" + (s).toString()
+        }
+        else{
+            s_string = (s).toString()
+        }
+
+
+        var total_basic_string = h_string + ":" + m_string + ":" + s_string
+
+        var basic_total = findViewById(R.id.BasicTotal) as TextView
+        basic_total.setText(total_basic_string)
+
+        //entries.add(BarEntry(1.2f,value_str_to_float[6]))
+        //entries.add(BarEntry(2.2f,value_str_to_float[5]))
+        //entries.add(BarEntry(3.2f,value_str_to_float[4]))
+        //entries.add(BarEntry(4.2f,value_str_to_float[3]))
+        //entries.add(BarEntry(5.2f,value_str_to_float[2]))
+        //entries.add(BarEntry(6.2f,value_str_to_float[1]))
+        //entries.add(BarEntry(7.2f,value_str_to_float[0]))
+
+
+        for(idx in 0..basicList.size-1){
+            if(idx > 6){//7
+                break
+            }
+            val num = idx.toFloat() + (0.2).toFloat()
+            entries.add(BarEntry(num, value_str_to_float[idx])) //확인 위해서 초 단위로 넣어둠, 변경 필요!
+        }
+
+        for(idx in basicList.size..7) {/*idx in size-1..size-7idx in size-1..6*/
+            basicList.add("0")
+        }
+
+        //bar chart용 값들
+        var d_day_total = findViewById(R.id.D_day_total) as TextView
+        d_day_total.setText(basicList[6])
+
+        var d1_total = findViewById(R.id.D1_total) as TextView
+        d1_total.setText(basicList[5])
+
+        var d2_total = findViewById(R.id.D2_total) as TextView
+        d2_total.setText(basicList[4])
+
+        var d3_total = findViewById(R.id.D3_total) as TextView
+        d3_total.setText(basicList[3])
+
+        var d4_total = findViewById(R.id.D4_total) as TextView
+        d4_total.setText(basicList[2])
+
+        var d5_total = findViewById(R.id.D5_total) as TextView
+        d5_total.setText(basicList[1])
+
+        var d6_total = findViewById(R.id.D6_total) as TextView
+        d6_total.setText(basicList[0])
 
         barChart.run {
             description.isEnabled = false // 차트 옆에 별도로 표기되는 description을 안보이게 설정 (false)
@@ -199,9 +297,9 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             setDrawBarShadow(false) //그래프의 그림자
             setDrawGridBackground(false)//격자구조 넣을건지
             axisLeft.run { //왼쪽 축. 즉 Y방향 축을 뜻한다.
-                axisMaximum = 13f //12 위치에 선을 그리기 위해 13f로 맥시멈값 설정
+                //axisMaximum = 13f //12 위치에 선을 그리기 위해 13f로 맥시멈값 설정
                 axisMinimum = 0f // 최소값 0
-                granularity = 1f // 1시간 마다 선을 그리려고 설정.
+                //granularity = 1f // 1시간 마다 선을 그리려고 설정.
                 setDrawLabels(true) // 값 적는거 허용 (0, 50, 100)
                 setDrawGridLines(true) //격자 라인 활용
                 setDrawAxisLine(false) // 축 그리기 설정
@@ -213,7 +311,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
             // X축 라벨값(밑에 표시되는 글자) 바꿔주기 위해 설정
             class MyXAxisFormatter : ValueFormatter() {
-                private val days = arrayOf("SUN","MON","TUE","WED","THU","FRI","SAT")
+                private val days = arrayOf("D6","D5","D4","D3","D2","D1","D-day")
                 override fun getAxisLabel(value: Float, axis: AxisBase?): String {
                     return days.getOrNull(value.toInt()-1) ?: value.toString()
                 }
@@ -247,12 +345,104 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             setFitBars(true)
             invalidate()
         }
-        /*
-
-         }
-     */
     }
 
+    //line chart
+    private fun printLineChart(pomodoroList: MutableList<String>) {
+
+        var lineChart: LineChart = findViewById(R.id.lineChart)
+
+        Log.d("soo","pomodoroList.size == ${pomodoroList.size}")
+        //val lineInput = Array<Long>(3, {1})
+        //entry 배열 생성
+        var entriesLine: ArrayList<Entry> = ArrayList()
+
+        if(pomodoroList.size == 0){
+            entriesLine.add(Entry(1F, 0F))
+            val dataset: LineDataSet = LineDataSet(entriesLine, "항목 없음")
+
+            dataset.valueTextSize = 12f // 값 폰트 지정해서 사이즈 키우기
+            dataset.setDrawFilled(false) // 그래프 밑부분 색칠
+
+            // 그래프 data 생성 -> 최종 입력 데이터
+            var dataLine: LineData = LineData(dataset)
+            lineChart.data = dataLine
+
+            lineChart.animateXY(10, 10)
+       }
+
+        else{
+            /*
+            var d6_pomo = 0
+            var d5_pomo = 0
+            var d4_pomo = 0
+            var d3_pomo = 0
+            var d2_pomo = 0
+            var d1_pomo = 0
+            var d_dat_pomo = 0
+            for(i in 0 .. 6){
+
+            }
+             */
+            // 최근 추가 항목(날짜) 부터 7일치
+            //entry 배열 초기값
+            //entriesLine.add(Entry(1F, pomodoroList[6].toFloat()))
+            //entriesLine.add(Entry(2F, pomodoroList[5].toFloat()))
+            //entriesLine.add(Entry(3F, pomodoroList[4].toFloat()))
+            //entriesLine.add(Entry(4F, pomodoroList[3].toFloat()))
+            //entriesLine.add(Entry(5F, pomodoroList[2].toFloat()))
+            //entriesLine.add(Entry(6F, pomodoroList[1].toFloat()))
+            //entriesLine.add(Entry(7F, pomodoroList[0].toFloat()))
+
+            for(idx in 0..pomodoroList.size-1){
+                if(idx > 7){
+                    break
+                }
+                var num : Float = pomodoroList[idx].split("회")[0].toFloat()
+                entriesLine.add(Entry(idx.toFloat(), num))
+            }
+
+            var total_pomodoro = 0
+            for(idx in 0..pomodoroList.size-1){
+                total_pomodoro += pomodoroList[idx].split("회")[0].toInt()
+            }
+
+            var pomodoro_total = findViewById(R.id.PomodoroTotal) as TextView
+            pomodoro_total.setText(total_pomodoro.toString())
+
+
+
+            // 그래프 구현을 위한 LineDataSet 생성
+            var dataset: LineDataSet = LineDataSet(entriesLine, "포모도로 횟수")
+
+            dataset.valueTextSize = 12f // 값 폰트 지정해서 사이즈 키우기
+            dataset.setDrawFilled(false) // 그래프 밑부분 색칠
+
+            // 그래프 data 생성 -> 최종 입력 데이터
+            var dataLine: LineData = LineData(dataset)
+            lineChart.data = dataLine
+
+            lineChart.animateXY(10, 10)
+        }
+
+
+/*
+        //entry 배열 초기값
+        entriesLine.add(Entry(1F, d6_pomodoro.toFloat()))
+        entriesLine.add(Entry(2F, d5_pomodoro.toFloat()))
+        entriesLine.add(Entry(3F, d4_pomodoro.toFloat()))
+        entriesLine.add(Entry(4F, d3_pomodoro.toFloat()))
+        entriesLine.add(Entry(5F, d2_pomodoro.toFloat()))
+        entriesLine.add(Entry(6F, d1_pomodoro.toFloat()))
+        entriesLine.add(Entry(7F, d_day_pomodoro.toFloat()))
+        // 그래프 구현을 위한 LineDataSet 생성
+        var dataset: LineDataSet = LineDataSet(entriesLine, "포모도로 횟수")
+
+
+ */
+    }
+
+    //pie chart
     private fun printPieChart(categoryList : MutableList<Int>) {
         //pie chart
         val pieChart: PieChart = findViewById(R.id.pieChart)// pieChart 생성
@@ -269,34 +459,62 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             colorsItems.add(Color.parseColor("#808080"))
         }
         else {
+            var nonDesignate = 0
             var study = 0
             var exercise = 0
             var meeting = 0
             var plan = 0
             for (i in 0..categoryList.size - 1) {
                 when (categoryList[i]) {
+                    0 -> nonDesignate += 1
                     1 -> study += 1
                     2 -> exercise += 1
                     3 -> meeting += 1
                     4 -> plan += 1
                 }
             }
-            Log.d("soo", "1:2:3:4 = $study, $exercise, $meeting, $plan")
+            Log.d("soo", "0:1:2:3:4 = $nonDesignate, $study, $exercise, $meeting, $plan")
 
+
+            if (nonDesignate != 0)
+                entriespie.add(PieEntry(nonDesignate.toFloat(), "미지정"))
             if (study != 0)
-                entriespie.add(PieEntry(study.toFloat(), "Study"))
+                entriespie.add(PieEntry(study.toFloat(), "공부"))
             if (exercise != 0)
-                entriespie.add(PieEntry(exercise.toFloat(), "exercise"))
+                entriespie.add(PieEntry(exercise.toFloat(), "운동"))
             if (meeting != 0)
-                entriespie.add(PieEntry(meeting.toFloat(), "meeting"))
+                entriespie.add(PieEntry(meeting.toFloat(), "약속"))
             if (plan != 0)
-                entriespie.add(PieEntry(plan.toFloat(), "plan"))
+                entriespie.add(PieEntry(plan.toFloat(), "회의"))
 
 
             colorsItems.add(Color.parseColor("#67d5b5"))
             colorsItems.add(Color.parseColor("#ee7785"))
             colorsItems.add(Color.parseColor("#aaabd3"))
             colorsItems.add(Color.parseColor("#ffda8e"))
+            colorsItems.add(Color.parseColor("#3a746a"))
+
+            //pie chart용 값들
+
+            var nonDesignate_total = findViewById(R.id.nonDesignate_total) as TextView
+            nonDesignate_total.setText(nonDesignate.toString())
+            Log.d("check_nondesig", "time = $nonDesignate_total, ${statistics_nonDesignate.toString()}")
+
+            var study_total = findViewById(R.id.Study_total) as TextView
+            study_total.setText(study.toString())
+            Log.d("check_study", "time = $study_total, ${statistics_study.toString()}")
+
+            var workout_total = findViewById(R.id.Workout_total) as TextView
+            workout_total.setText(exercise.toString())
+
+            var meeting_total = findViewById(R.id.Meeting_total) as TextView
+            meeting_total.setText(meeting.toString())
+            Log.d("check_meeting", "time = $meeting_total, ${statistics_meeting.toString()}")
+
+            var promise_total = findViewById(R.id.Promise_total) as TextView
+            promise_total.setText(plan.toString())
+
+
         }
 
         /*for (c in ColorTemplate.VORDIPLOM_COLORS) colorsItems.add(c)
@@ -321,21 +539,81 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             animateY(1400, Easing.EaseInOutQuad)
             animate()
         }
-/*
-        pieChart.run {
-            this.data = data//차트의 데이터를 data로 설정해줌.
-            invalidate()
-        }*/
     }
+
+    //timebox 총 횟수 측정, 횟수로 측정함, 시간이면 변경 필요
+    private fun printTotalTimeBox(timeBoxList: MutableList<String>){
+        Log.d("soo","timeBoxList.size == ${timeBoxList.size}")
+
+        val timebox_total = findViewById(R.id.TimeboxTotal) as TextView
+        var total_timebox = 0
+
+        timebox_total.setText((timeBoxList.size).toString())
+        /*if(timeBoxList.size == 0) {
+            timebox_total.setText("0")
+        }
+        else {
+            for (i in 0..timeBoxList.size - 1){
+                total_timebox += timeBoxList[i].toInt()
+            }
+            timebox_total.setText(total_timebox.toString())
+        } */
+    }
+    /*
+    var pieChart: PieChart = findViewById(R.id.pieChart)// pieChart 생성
+
+    pieChart.setUsePercentValues(true)
+    //임시 데이터
+    val entriespie = ArrayList<PieEntry>()
+    entriespie.add(PieEntry(statistics_nonDesignate.toFloat(), "미지정"))
+    entriespie.add(PieEntry(statistics_study.toFloat(), "공부"))
+    entriespie.add(PieEntry(statistics_workout.toFloat(), "운동"))
+    entriespie.add(PieEntry(statistics_meeting.toFloat(), "회의"))
+    entriespie.add(PieEntry(statistics_promise.toFloat(), "약속"))
+
+    val colorsItems = ArrayList<Int>()
+    for (c in ColorTemplate.VORDIPLOM_COLORS) colorsItems.add(c)
+    for (c in ColorTemplate.PASTEL_COLORS) colorsItems.add(c)
+    for (c in ColorTemplate.LIBERTY_COLORS) colorsItems.add(c)
+    for (c in ColorTemplate.MATERIAL_COLORS) colorsItems.add(c)
+    for (c in ColorTemplate.JOYFUL_COLORS) colorsItems.add(c)
+    colorsItems.add(ColorTemplate.getHoloBlue())
+
+    val pieDataSet = PieDataSet(entriespie, "")
+    pieDataSet.apply {
+        colors = colorsItems
+        valueTextColor = Color.BLACK
+        valueTextSize = 16f
+    }
+
+
+    val pieData = PieData(pieDataSet)
+    pieChart.apply{
+        this.data = pieData
+        description.isEnabled = false
+        isRotationEnabled = false
+        centerText = "카테고리%"
+        setEntryLabelColor(Color.BLACK)
+        animateY(1400, Easing.EaseInOutQuad)
+        animate()
+
+    }
+/*
+    pieChart.run {
+        this.data = data//차트의 데이터를 data로 설정해줌.
+        invalidate()
+    }
+*/
+
+
+     */
 
     private fun setMonthView() {
         monthYear.text = monthYearFromDate(CalendarUtil.selectedDate)
         val daysInMonth = daysInMonthArray(CalendarUtil.selectedDate)
 
-        val calendarAdapter = StatisticsCalendarAdapter(daysInMonth,
-            this@StatisticsMainActivity,
-            applicationContext,
-            onPieChart = {printPieChart(it)})
+        val calendarAdapter = StatisticsCalendarAdapter(daysInMonth, this@StatisticsMainActivity, applicationContext,
+            onPieChart = { printPieChart(it)}, onLineChart = { printLineChart(it)}, onBarChart = { printBarChart(it)}, onTotaltime = { printTotalTimeBox(it)})
         val layoutManager = GridLayoutManager(applicationContext, 7)
         calendar.layoutManager = layoutManager
         calendar.adapter = calendarAdapter
@@ -352,7 +630,40 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         }
         )*/
     }
+/*
+    private fun statisticsValues(statisticsArray: Array<Long>) {
 
+        Log.d("yyy","categoryList.size == ${statisticsArray.size}")
+
+
+        statistics_basic = statisticsArray[0]
+        statistics_pomodoro = statisticsArray[1]
+        statistics_timebox = statisticsArray[2]
+        statistics_nonDesignate = statisticsArray[3]
+        statistics_study = statisticsArray[4]
+        statistics_workout = statisticsArray[5]
+        statistics_meeting = statisticsArray[6]
+        statistics_promise = statisticsArray[7]
+        d_day_basic = statisticsArray[8]
+        d1_basic = statisticsArray[9]
+        d2_basic = statisticsArray[10]
+        d3_basic = statisticsArray[11]
+        d4_basic = statisticsArray[12]
+        d5_basic = statisticsArray[13]
+        d6_basic = statisticsArray[14]
+        d_day_pomodoro = statisticsArray[15]
+        d1_pomodoro = statisticsArray[16]
+        d2_pomodoro = statisticsArray[17]
+        d3_pomodoro = statisticsArray[18]
+        d4_pomodoro = statisticsArray[19]
+        d5_pomodoro = statisticsArray[20]
+        d6_pomodoro = statisticsArray[21]
+
+        Log.d("yeonjae3", "basic:pomodoro:timebox == $statistics_basic, $statistics_pomodoro, $statistics_timebox")
+
+    }
+
+ */
     private fun daysInMonthArray(date: LocalDate): MutableList<LocalDate?> {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

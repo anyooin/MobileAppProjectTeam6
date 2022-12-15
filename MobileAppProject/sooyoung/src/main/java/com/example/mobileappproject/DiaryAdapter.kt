@@ -82,4 +82,9 @@ class DiaryAdapter(val context: Context): RecyclerView.Adapter<DiaryAdapter.Diar
         notifyDataSetChanged()
     }
 
+    fun filterList(filterList: MutableList<Diary>) {
+         list = filterList
+        notifyDataSetChanged()
+    }
+
 }
