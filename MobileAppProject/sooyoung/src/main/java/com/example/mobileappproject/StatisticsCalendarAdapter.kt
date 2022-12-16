@@ -17,7 +17,11 @@ import android.content.Context
 import android.graphics.Typeface
 //import android.graphics.Color
 import android.util.Log
+import androidx.annotation.RequiresApi
+import com.example.mobileappproject.CalendarUtil.Companion.today
 import com.example.mobileappproject.databinding.StatisticsDaysCellBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class StatisticsCalendarAdapter(private val days: MutableList<LocalDate?>, private var activity: LifecycleOwner, val context: Context,
@@ -32,9 +36,11 @@ var onTotaltime : (MutableList<String>)->Unit) :
         RecyclerView.ViewHolder(binding.root)
     private var list = mutableListOf<Todo>()
     var pieList = mutableListOf<Int>()
-    var lineList = mutableListOf<String>()
-    var barList = mutableListOf<String>()
+    var lineList = mutableListOf<String>("0","0","0","0","0","0","0")
+    var barList = mutableListOf<String>("0","0","0","0","0","0","0")
     var totalList = mutableListOf<String>()
+    var totalBasic = 0
+    var totalPomodoro = 0
 
 
 
@@ -86,6 +92,7 @@ var onTotaltime : (MutableList<String>)->Unit) :
 
     //override fun getItemCount_todo(): Int = list.size
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as StatisticsCalendarViewHolder).binding
@@ -240,17 +247,15 @@ var onTotaltime : (MutableList<String>)->Unit) :
         var timeBox = mutableListOf<String>()
 
 
-
-
         val setCellColors = TodoViewModel().getCurrentDay(day.toString())
         setCellColors.observe(activity) { it ->
             // when there is to do in current day
             //println("======================> ${it.size}")
-            if(position == itemCount-1){
+
+            if(position == itemCount-1) {
                 onPieChart(pieList)
-                onLineChart(lineList)
-                onBarChart(barList)
                 onTotaltime(totalList)
+                usingDB()
             }
 
             if (it.size == 0)
@@ -267,20 +272,25 @@ var onTotaltime : (MutableList<String>)->Unit) :
                         basicTimer.add(it[i].basicTimer)
                         pomodoro.add(it[i].pomodoro)
                         timeBox.add(it[i].timeBox)
-                    }
-                    //pieList add
-                    //if(it[i].categoryNum != 0) {
-                    //}
-                    pieList.add(it[i].categoryNum)
-                    //lineList add
-                    lineList.add(it[i].pomodoro)
-                    //barList add
-                    barList.add(it[i].basicTimer)
-                    //totalList(timebox) add
-                    totalList.add(it[i].timeBox)
-                }
-                Log.d("soo", "barListsize == ${barList.size}")
 
+                        //totalList(timebox) add
+                        if(it[i].timeBox != "0") {
+                            totalList.add(it[i].timeBox)
+                        }
+
+                        if (it[i].basicTimer != "0") {
+                            totalBasic += it[i].basicTimer.split(":")[0].toInt() * 3600 +
+                                    it[i].basicTimer.split(":")[1].toInt() * 60 +
+                                    it[i].basicTimer.split(":")[2].toInt()
+                        }
+
+                        if (it[i].pomodoro != "0") {
+                            totalPomodoro += it[i].pomodoro.split("회")[0].toInt()
+                        }
+                    }
+
+                    pieList.add(it[i].categoryNum)
+                }
                         /*
                         for (i in 0 until it.size) {
                             title.add(it[i].title)
@@ -371,13 +381,57 @@ var onTotaltime : (MutableList<String>)->Unit) :
                     binding.cellRoot.setBackgroundColor(Color.parseColor("#FF0000FF"))
                 }
             }
-
-
         }
 
     }
 
     override fun getItemCount(): Int = days.size
 
+    fun update(newList: MutableList<Todo>) {
+        this.list = newList
+        //notifyDataSetChanged()
+    }
+
+    //send to StatisticMain
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun usingDB() {
+        //DB 전체 이용
+        for (idx in 0 .. list.size-1){
+            Log.d("s00","list[$idx] / ${list.size}= ${list[idx].date}")
+
+            if(list[idx].date == CalendarUtil.today.toString() ||
+                list[idx].date == CalendarUtil.today.minusDays(1).toString() ||
+                list[idx].date == CalendarUtil.today.minusDays(2).toString() ||
+                list[idx].date == CalendarUtil.today.minusDays(3).toString() ||
+                list[idx].date == CalendarUtil.today.minusDays(4).toString() ||
+                list[idx].date == CalendarUtil.today.minusDays(5).toString() ||
+                list[idx].date == CalendarUtil.today.minusDays(6).toString()) {
+
+                val startDate = SimpleDateFormat("yyyy-MM-dd").parse(list[idx].date).time
+                var todayDate = Calendar.getInstance().time.time
+
+
+                Log.d("s00","today-start $startDate = ${(todayDate-startDate)/(24*60*60*1000)}")
+                val dayValue : Int = ((todayDate-startDate)/(24*60*60*1000)).toInt()
+
+                if(!list[idx].isTimer) continue
+
+                //lineList add
+                //lineList.add(list[idx].pomodoro)
+                lineList.set(dayValue,list[idx].pomodoro)
+                //barList add
+                //barList.add(list[idx].basicTimer)
+                barList.set(dayValue,list[idx].basicTimer)
+
+                //Log.d("s00","list[idx].date = ${list[idx].date} ${list[idx].basicTimer}, ${list[idx].pomodoro}")
+            }
+        }
+        lineList.set(0,totalPomodoro.toString())
+        barList.set(0, totalBasic.toString())
+
+        onLineChart(lineList)
+        onBarChart(barList)
+
+    }
 
 }

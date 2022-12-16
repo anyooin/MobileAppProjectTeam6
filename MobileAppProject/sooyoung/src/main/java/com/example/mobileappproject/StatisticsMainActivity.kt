@@ -17,6 +17,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileappproject.*
@@ -90,16 +91,6 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         val binding = ActivityStatisticsMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
-
-
-        //room data access
-      //  todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
-       // todoViewModel.readAllData.observe(this) {
-        //    timerTodoAdapter.update(it)
-        //}
-
         //Toolbar setting
         setSupportActionBar(binding.toolbar)
         toggle = ActionBarDrawerToggle(this, binding.statisticsdrawer, R.string.menu_item_open, R.string.menu_item_clos)
@@ -172,19 +163,19 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
     }
 
+
+
     //bar chart
     private fun printBarChart(basicList: MutableList<String>) {
         //bar chart
         var barChart: BarChart = findViewById(R.id.barChart)// barChart 생성
 
-        Log.d("soo","basicList.size == ${basicList.size}")
-
         // 최근 추가 항목(날짜) 부터 7일치
         val entries = ArrayList<BarEntry>()
 
         val value_str_to_float:Array<Float> = Array(7, { 0f })
-        for(i in 0..basicList.size-1){
-            if(i > 6) {//7
+        for(i in 1..basicList.size-1){
+            if(i >= 7) {//7
                 break
             }
             if(basicList[i] == "0"){
@@ -197,7 +188,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             }
         }
 
-        var total_basic: Int = 0
+        /*var total_basic: Int = 0
         for(i in 0..basicList.size-1){
             Log.d("check_1","basicList.size == ${basicList.size}")
 
@@ -211,11 +202,11 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
                         basicList[i].split(":")[1].toInt() * 60 +
                         basicList[i].split(":")[2].toInt())
             }
-        }
+        }*/
 
-        var h = total_basic / 3600
-        var m = (total_basic - h * 3600) / 60
-        var s = (total_basic - h * 3600 - m * 60)
+        var h = basicList[0].toInt() / 3600
+        var m = (basicList[0].toInt() - h * 3600) / 60
+        var s = (basicList[0].toInt() - h * 3600 - m * 60)
 
         var h_string: String
         if(h < 10){
@@ -241,7 +232,6 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             s_string = (s).toString()
         }
 
-
         var total_basic_string = h_string + ":" + m_string + ":" + s_string
 
         var basic_total = findViewById(R.id.BasicTotal) as TextView
@@ -256,39 +246,39 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         //entries.add(BarEntry(7.2f,value_str_to_float[0]))
 
 
-        for(idx in 0..basicList.size-1){
-            if(idx > 6){//7
+        for(idx in 1..basicList.size-1){
+            if(idx >= 7){//7
                 break
             }
-            val num = idx.toFloat() + (0.2).toFloat()
-            entries.add(BarEntry(num, value_str_to_float[idx])) //확인 위해서 초 단위로 넣어둠, 변경 필요!
+            entries.add(BarEntry(idx.toFloat(), value_str_to_float[idx])) //확인 위해서 초 단위로 넣어둠, 변경 필요!
         }
 
         for(idx in basicList.size..7) {/*idx in size-1..size-7idx in size-1..6*/
-            basicList.add("0")
+            entries.add(BarEntry(idx.toFloat(), 0f))
+            basicList.add("00:00:00")
         }
 
         //bar chart용 값들
         var d_day_total = findViewById(R.id.D_day_total) as TextView
-        d_day_total.setText(basicList[6])
+        d_day_total.setText(basicList[1])
 
         var d1_total = findViewById(R.id.D1_total) as TextView
-        d1_total.setText(basicList[5])
+        d1_total.setText(basicList[2])
 
         var d2_total = findViewById(R.id.D2_total) as TextView
-        d2_total.setText(basicList[4])
+        d2_total.setText(basicList[3])
 
         var d3_total = findViewById(R.id.D3_total) as TextView
-        d3_total.setText(basicList[3])
+        d3_total.setText(basicList[4])
 
         var d4_total = findViewById(R.id.D4_total) as TextView
-        d4_total.setText(basicList[2])
+        d4_total.setText(basicList[5])
 
         var d5_total = findViewById(R.id.D5_total) as TextView
-        d5_total.setText(basicList[1])
+        d5_total.setText(basicList[6])
 
         var d6_total = findViewById(R.id.D6_total) as TextView
-        d6_total.setText(basicList[0])
+        d6_total.setText(basicList[7])
 
         barChart.run {
             description.isEnabled = false // 차트 옆에 별도로 표기되는 description을 안보이게 설정 (false)
@@ -347,6 +337,8 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         }
     }
 
+
+
     //line chart
     private fun printLineChart(pomodoroList: MutableList<String>) {
 
@@ -357,7 +349,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         //entry 배열 생성
         var entriesLine: ArrayList<Entry> = ArrayList()
 
-        if(pomodoroList.size == 0){
+        if(pomodoroList.size <= 1){
             entriesLine.add(Entry(1F, 0F))
             val dataset: LineDataSet = LineDataSet(entriesLine, "항목 없음")
 
@@ -394,23 +386,21 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             //entriesLine.add(Entry(6F, pomodoroList[1].toFloat()))
             //entriesLine.add(Entry(7F, pomodoroList[0].toFloat()))
 
-            for(idx in 0..pomodoroList.size-1){
-                if(idx > 7){
+            for(idx in 1..pomodoroList.size-1){
+                if(idx >= 7){
                     break
                 }
                 var num : Float = pomodoroList[idx].split("회")[0].toFloat()
                 entriesLine.add(Entry(idx.toFloat(), num))
             }
-
-            var total_pomodoro = 0
-            for(idx in 0..pomodoroList.size-1){
-                total_pomodoro += pomodoroList[idx].split("회")[0].toInt()
+            for (idx in pomodoroList.size..7) {
+                entriesLine.add(Entry(idx.toFloat(), 0F))
             }
 
-            var pomodoro_total = findViewById(R.id.PomodoroTotal) as TextView
-            pomodoro_total.setText(total_pomodoro.toString())
-
-
+            /*var total_pomodoro = 0
+            for(idx in 0..pomodoroList.size-1){
+                total_pomodoro += pomodoroList[idx].split("회")[0].toInt()
+            }*/
 
             // 그래프 구현을 위한 LineDataSet 생성
             var dataset: LineDataSet = LineDataSet(entriesLine, "포모도로 횟수")
@@ -424,7 +414,12 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
             lineChart.animateXY(10, 10)
         }
+        lineChart.run {
+            description.isEnabled = false
+        }
 
+        var pomodoro_total = findViewById(R.id.PomodoroTotal) as TextView
+        pomodoro_total.setText(pomodoroList[0])
 
 /*
         //entry 배열 초기값
@@ -441,6 +436,8 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
  */
     }
+
+
 
     //pie chart
     private fun printPieChart(categoryList : MutableList<Int>) {
@@ -615,6 +612,13 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         val calendarAdapter = StatisticsCalendarAdapter(daysInMonth, this@StatisticsMainActivity, applicationContext,
             onPieChart = { printPieChart(it)}, onLineChart = { printLineChart(it)}, onBarChart = { printBarChart(it)}, onTotaltime = { printTotalTimeBox(it)})
         val layoutManager = GridLayoutManager(applicationContext, 7)
+
+        //room data access
+        todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
+        todoViewModel.readAllData.observe(this) {
+            calendarAdapter.update(it)
+        }
+
         calendar.layoutManager = layoutManager
         calendar.adapter = calendarAdapter
 
