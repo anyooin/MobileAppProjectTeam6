@@ -412,15 +412,13 @@ var onTotaltime : (MutableList<String>)->Unit) :
 
 
                 Log.d("s00","today-start $startDate = ${(todayDate-startDate)/(24*60*60*1000)}")
-                val dayValue : Int = ((todayDate-startDate)/(24*60*60*1000)).toInt()
+                val dayValue : Int = 7-((todayDate-startDate)/(24*60*60*1000)).toInt()
 
                 if(!list[idx].isTimer) continue
 
                 //lineList add
-                //lineList.add(list[idx].pomodoro)
                 lineList.set(dayValue,list[idx].pomodoro)
                 //barList add
-                //barList.add(list[idx].basicTimer)
                 barList.set(dayValue,list[idx].basicTimer)
 
                 //Log.d("s00","list[idx].date = ${list[idx].date} ${list[idx].basicTimer}, ${list[idx].pomodoro}")

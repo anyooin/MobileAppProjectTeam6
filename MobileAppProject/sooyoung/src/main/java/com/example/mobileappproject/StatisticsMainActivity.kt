@@ -31,7 +31,6 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.navigation.NavigationView
 import java.time.LocalDate
 import java.time.YearMonth
@@ -255,30 +254,30 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
         for(idx in basicList.size..7) {/*idx in size-1..size-7idx in size-1..6*/
             entries.add(BarEntry(idx.toFloat(), 0f))
-            basicList.add("00:00:00")
+            basicList.add("0")
         }
 
         //bar chart용 값들
         var d_day_total = findViewById(R.id.D_day_total) as TextView
-        d_day_total.setText(basicList[1])
+        d_day_total.setText(basicList[7])
 
         var d1_total = findViewById(R.id.D1_total) as TextView
-        d1_total.setText(basicList[2])
+        d1_total.setText(basicList[6])
 
         var d2_total = findViewById(R.id.D2_total) as TextView
-        d2_total.setText(basicList[3])
+        d2_total.setText(basicList[5])
 
         var d3_total = findViewById(R.id.D3_total) as TextView
         d3_total.setText(basicList[4])
 
         var d4_total = findViewById(R.id.D4_total) as TextView
-        d4_total.setText(basicList[5])
+        d4_total.setText(basicList[3])
 
         var d5_total = findViewById(R.id.D5_total) as TextView
-        d5_total.setText(basicList[6])
+        d5_total.setText(basicList[2])
 
         var d6_total = findViewById(R.id.D6_total) as TextView
-        d6_total.setText(basicList[7])
+        d6_total.setText(basicList[1])
 
         barChart.run {
             description.isEnabled = false // 차트 옆에 별도로 표기되는 description을 안보이게 설정 (false)
@@ -323,7 +322,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         }
 
         var set = BarDataSet(entries,"DataSet") // 데이터셋 초기화
-        set.color = ContextCompat.getColor(applicationContext!!, com.google.android.material.R.color.design_default_color_primary_dark) // 바 그래프 색 설정
+        set.color = ContextCompat.getColor(applicationContext!!, R.color.light_blue) // 바 그래프 색 설정
 
         val dataSet :ArrayList<IBarDataSet> = ArrayList()
         dataSet.add(set)
@@ -413,9 +412,32 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             lineChart.data = dataLine
 
             lineChart.animateXY(10, 10)
+            dataset.lineWidth = 5f
+            dataset.setColor(R.color.light_blue)
         }
+
         lineChart.run {
             description.isEnabled = false
+            setTouchEnabled(false)
+
+            class XAxisFormatter : ValueFormatter() {
+                private val position = arrayOf("6","5","4","3","2","1","D-DAY")
+                override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+                    return position.getOrNull(value.toInt()-1) ?: value.toString()
+                }
+            }
+
+            val lineXAxis = lineChart.xAxis
+            lineXAxis.run {
+                lineXAxis.axisMinimum = 1f
+                valueFormatter = XAxisFormatter() // X축 라벨값(밑에 표시되는 글자) 바꿔주기 위해 설정
+            }
+
+            val lineYAxis = lineChart.axisLeft
+            lineYAxis.run {
+                granularity = 1f // 1 단위만큼 간격 두기
+                lineYAxis.axisMinimum = 0f
+            }
         }
 
         var pomodoro_total = findViewById(R.id.PomodoroTotal) as TextView
