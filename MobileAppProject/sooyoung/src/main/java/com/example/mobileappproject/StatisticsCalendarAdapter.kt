@@ -417,15 +417,72 @@ var onTotaltime : (MutableList<String>)->Unit) :
                 if(!list[idx].isTimer) continue
 
                 //lineList add
-                lineList.set(dayValue,list[idx].pomodoro)
+                if(lineList[dayValue] == "0"){
+                    lineList.set(dayValue,list[idx].pomodoro)
+                }
+                else{
+                    lineList.set(dayValue, (lineList[dayValue].toInt() + list[idx].pomodoro.toInt()).toString())
+                }
+
                 //barList add
-                barList.set(dayValue,list[idx].basicTimer)
+                if(barList[dayValue] == "0" || list[idx].basicTimer == "0" || list[idx].basicTimer == "00:00:00"){
+                    barList.set(dayValue,list[idx].basicTimer)
+                }
+                else{
+                    var h1 = barList[dayValue].split(":")[0]
+                    var m1 = barList[dayValue].split(":")[1]
+                    var s1 = barList[dayValue].split(":")[2]
+                    var time1 = h1.toInt() * 3600 + m1.toInt() * 60 + s1.toInt()
+
+                    var h2 = list[idx].basicTimer.split(":")[0]
+                    var m2 = list[idx].basicTimer.split(":")[1]
+                    var s2 = list[idx].basicTimer.split(":")[2]
+                    var time2 = h2.toInt() * 3600 + m2.toInt() * 60 + s2.toInt()
+
+                    var time = time1 + time2
+
+                    var h = time / 3600
+                    var m = (time - h * 3600) / 60
+                    var s = (time - h * 3600 - m * 60)
+
+                    var h_string: String
+                    if(h < 10){
+                        h_string = "0" + (h).toString()
+                    }
+                    else{
+                        h_string = (h).toString()
+                    }
+
+                    var m_string: String
+                    if(m < 10){
+                        m_string = "0" + (m).toString()
+                    }
+                    else{
+                        m_string = (m).toString()
+                    }
+
+                    var s_string: String
+                    if(s < 10){
+                        s_string = "0" + (s).toString()
+                    }
+                    else{
+                        s_string = (s).toString()
+                    }
+
+                    var total_time_string = h_string + ":" + m_string + ":" + s_string
+                    barList.set(dayValue,total_time_string)
+                }
+
+                Log.d("Ye0n", "list[idx].basicTimer == ${list[idx].basicTimer}")
+
 
                 //Log.d("s00","list[idx].date = ${list[idx].date} ${list[idx].basicTimer}, ${list[idx].pomodoro}")
             }
         }
         lineList.set(0,totalPomodoro.toString())
         barList.set(0, totalBasic.toString())
+
+        //Log.d("ye0n", "barList_size == ${barList.size}")
 
         onLineChart(lineList)
         onBarChart(barList)
