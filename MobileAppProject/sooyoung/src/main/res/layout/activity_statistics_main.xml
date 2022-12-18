@@ -156,22 +156,32 @@
                             android:text="Statistics"
                             android:textSize="30dp"></TextView>-->
 
+            <View
+                android:background="@color/light_blue"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="총 시간"
+                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="16sp">
 
             </TextView>
 
+            <View
+                android:background="@color/light_blue"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:orientation="horizontal">
                 <!--app:layout_constraintTop_toBottomOf = "@id/"-->
 
                 <TextView
@@ -217,8 +227,8 @@
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="12sp">
-
                 </TextView>
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -251,13 +261,19 @@
             </LinearLayout>
 
 
+            <View
+                android:background="@color/light_blue"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginTop="50dp"
                 app:layout_constraintRight_toLeftOf="@id/pieChart">
+
+                <!--android:layout_marginTop="50dp"-->
+
 
                 <LinearLayout
                     android:layout_width="200dp"
@@ -272,9 +288,9 @@
                         >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+
                             android:text="카테고리"
                             android:textAlignment="center"
                             android:textColor="@color/black"
@@ -284,10 +300,10 @@
                         </TextView>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="      횟수      "
+
+                            android:text="횟수"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -303,9 +319,9 @@
                         >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+
                             android:text=" 미선택"
                             android:textAlignment="center"
                             android:textColor="@color/black"
@@ -316,10 +332,10 @@
 
                         <TextView
                             android:id="@+id/nonDesignate_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="NonDesignate_total"
+
+                            android:hint="NonDesig_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -335,9 +351,9 @@
                         >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+
                             android:text="공부 "
                             android:textAlignment="center"
                             android:textColor="@color/black"
@@ -348,10 +364,10 @@
 
                         <TextView
                             android:id="@+id/Study_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="   Study_total        "
+                            android:hint="Study_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -366,10 +382,10 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="운동 "
+
+                            android:text="운동"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp">
@@ -379,10 +395,10 @@
 
                         <TextView
                             android:id="@+id/Workout_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Workout_total      "
+                            android:hint="Workout_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -397,9 +413,9 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+
                             android:text="회의 "
                             android:textAlignment="center"
                             android:textColor="@color/black"
@@ -410,10 +426,10 @@
 
                         <TextView
                             android:id="@+id/Meeting_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Meeting_total      "
+                            android:hint="Meeting_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -428,10 +444,10 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="약속 "
+
+                            android:text="약속"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp">
@@ -441,10 +457,10 @@
 
                         <TextView
                             android:id="@+id/Promise_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Promise_total      "
+                            android:hint="Promise_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
@@ -466,16 +482,27 @@
 
             </LinearLayout>
 
+            <View
+                android:background="@color/light_blue"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="7일 포모도로 횟수"
+                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="16sp">
 
             </TextView>
+
+            <View
+                android:background="@color/light_blue"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -489,17 +516,27 @@
 
             </LinearLayout>
 
+            <View
+                android:background="@color/light_blue"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="7일 타이머"
+                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="16sp">
 
             </TextView>
+
+            <View
+                android:background="@color/light_blue"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

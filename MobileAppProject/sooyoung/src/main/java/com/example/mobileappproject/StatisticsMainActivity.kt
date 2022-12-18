@@ -441,7 +441,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         }
 
         var pomodoro_total = findViewById(R.id.PomodoroTotal) as TextView
-        pomodoro_total.setText(pomodoroList[0])
+        pomodoro_total.setText(pomodoroList[0]+"회")
 
 /*
         //entry 배열 초기값
@@ -567,7 +567,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         val timebox_total = findViewById(R.id.TimeboxTotal) as TextView
         var total_timebox = 0
 
-        timebox_total.setText((timeBoxList.size).toString())
+        timebox_total.setText((timeBoxList.size).toString()+"회")
         /*if(timeBoxList.size == 0) {
             timebox_total.setText("0")
         }
