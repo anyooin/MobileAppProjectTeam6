@@ -410,7 +410,7 @@ class StatisticsCalendarAdapter(private val days: MutableList<LocalDate?>, priva
 
 
                 Log.d("s00","today-start $startDate = ${(todayDate-startDate)/(24*60*60*1000)}")
-                val dayValue : Int = 7-((todayDate-startDate)/(24*60*60*1000)).toInt()
+                val dayValue : Int = 6-((todayDate-startDate)/(24*60*60*1000)).toInt()
 
                 if(!list[idx].isTimer) continue
 

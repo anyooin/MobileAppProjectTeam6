@@ -6,8 +6,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,16 +18,27 @@
             android:id="@+id/toolbar"
             android:background="@color/light_blue"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Todo Timer"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:textColor="@color/white" />
+
+        </androidx.appcompat.widget.Toolbar>
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp">
+            android:layout_height="300dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:gravity="center">
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -38,14 +48,14 @@
                     android:layout_marginRight="10dp"
                     android:text="basicTimer"
                     android:textColor="#FFFFFF"
-                    android:background="@drawable/timer_selected_button" />
+                    android:background="@drawable/day_cell_select" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/pomodoro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/timer_button"
+                    android:background="@drawable/day_cell_today"
                     android:textColor="#ffffff"
                     android:text="pomodoro" />
 
@@ -55,13 +65,14 @@
                     android:layout_height="wrap_content"
                     android:text="timeBox"
                     android:textColor="#ffffff"
-                    android:background="@drawable/timer_button"/>
+                    android:background="@drawable/day_cell_today"/>
             </LinearLayout>
 
             <Chronometer
                 android:id="@+id/chronometer"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
+                android:layout_marginTop="40dp"
                 android:format="%s"
                 android:gravity="center"
                 android:textSize="70sp"
@@ -74,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="120dp"
                 android:text="00:"
                 android:textColor="@color/black"
                 android:textSize="70sp"
@@ -87,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="160dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="120dp"
                 android:text="00:"
                 android:textColor="@color/black"
                 android:textSize="70sp"
@@ -100,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="260dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="120dp"
                 android:text="00"
                 android:textColor="@color/black"
                 android:textSize="70sp"
@@ -115,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginLeft="100dp"
-                android:layout_marginTop="180dp"
+                android:layout_marginTop="220dp"
                 android:max="10800"
                 android:thumb="@drawable/ic_thumb"
                 app:tickMark="@drawable/drawable_tick_mark"
@@ -131,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="120dp"
                 android:text="03:"
                 android:textColor="#000000"
                 android:textSize="70sp"
@@ -144,7 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="160dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="120dp"
                 android:text="00:"
                 android:textColor="@color/black"
                 android:textSize="70sp"
@@ -157,7 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="260dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="120dp"
                 android:text="00"
                 android:textColor="@color/black"
                 android:textSize="70sp"
@@ -171,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginLeft="100dp"
-                android:layout_marginTop="160dp"
+                android:layout_marginTop="200dp"
                 android:max="10800"
                 android:thumb="@drawable/ic_thumb"
                 app:tickMark="@drawable/drawable_tick_mark"
@@ -182,35 +193,28 @@
                 android:id="@+id/basictimerBtn"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:layout_marginTop="175dp"
-                android:gravity="center"
-                >
+                android:layout_marginTop="220dp"
+                android:gravity="center">
 
                 <Button
                     android:id="@+id/basictimerstartBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
-                    android:text="start" />
+                    android:background="@drawable/timer_start" />
 
                 <Button
                     android:id="@+id/basictimerstopBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
-                    android:text="stop" />
+                    android:background="@drawable/timer_stop" />
 
                 <Button
                     android:id="@+id/basictimerresetBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
-                    android:text="reset" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/timer_reset" />
             </LinearLayout>
 
             <!-- POMODORO용 start, stop, reset 버튼-->
@@ -218,26 +222,22 @@
                 android:id="@+id/pomodoroBtn"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:layout_marginTop="175dp"
+                android:layout_marginTop="220dp"
                 android:gravity="center"
                 android:visibility="invisible" >
 
                 <Button
                     android:id="@+id/pomodorostartBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
-                    android:text="start" />
+                    android:background="@drawable/timer_start" />
 
                 <Button
                     android:id="@+id/pomodororesetBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
-                    android:text="reset" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/timer_reset" />
             </LinearLayout>
 
             <!-- TIMEBOX용 start, stop, reset 버튼-->
@@ -245,56 +245,49 @@
                 android:id="@+id/timeboxBtn"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:layout_marginTop="175dp"
+                android:layout_marginTop="220dp"
                 android:gravity="center"
                 android:visibility="invisible" >
 
                 <Button
                     android:id="@+id/timeboxstartBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
-                    android:text="start" />
+                    android:background="@drawable/timer_start" />
 
                 <Button
                     android:id="@+id/timeboxstopBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="10dp"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
-                    android:text="stop" />
+                    android:background="@drawable/timer_stop" />
 
                 <Button
                     android:id="@+id/timeboxresetBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#000000"
-                    android:text="reset"
-                    />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/timer_reset" />
             </LinearLayout>
         </FrameLayout>
 
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginLeft="70dp"
+                android:layout_marginLeft="90dp"
                 android:gravity="center_horizontal">
 
                 <TextView
                     android:id="@+id/recordH"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingRight="5dp"
                     android:text="00:"
                     android:textSize="40sp"
                     android:textStyle="bold" />
@@ -304,7 +297,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="00:"
-                    android:paddingRight="5dp"
                     android:textStyle="bold"
                     android:textSize="40sp"/>
                 <TextView
@@ -321,9 +313,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="init"
+                android:text="초기화"
                 android:backgroundTint="#ffffff"/>
-
 
         </LinearLayout>
 
@@ -337,7 +328,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
                 <Button
                     android:id="@+id/dateSelectButton"
@@ -345,7 +337,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="#000000"
                     android:textColor="#ffffff"
-                    android:text="select Day"/>
+                    android:text="날짜 선택"/>
 
                 <Button
                     android:id="@+id/selectNoneday"
@@ -355,30 +347,30 @@
                     android:minHeight="0dp"
                     android:outlineProvider="none"
                     android:padding="0dp"
-                    android:text="ALL list"
+                    android:text="모든날짜"
                     android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/CurrentSelectedDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="bold"
+                    android:text="SelectedDate = None" />
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/CurrentSelectedDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:textStyle="bold"
-                android:text="SelectedDate = None" />
-
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2sp"
-                android:background="#000000"/>
+                android:layout_height="2dp"
+                android:background="#5282FF"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/selectRecyclerView"
                 tools:listitem="@layout/activity_timer_list_todo_popup"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
         </LinearLayout>
     </LinearLayout>
