@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:background="@color/light_blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Todo Timer"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:textColor="@color/white" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <TextView
+            android:layout_gravity="center"
+            android:textSize="50sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#000080"
+            android:text="Team6" />
+
+        <TextView
+            android:paddingTop="30dp"
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="2020117813 김연재" />
+        <TextView
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="2020113120 안유인" />
+        <TextView
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="2020112328 이수영" />
+        <TextView
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="2020111177 카드리딘" />
+
+        <TextView
+            android:gravity="center"
+            android:layout_width="270sp"
+            android:layout_height="wrap_content"
+            android:text="@string/explanationApp"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:layout_marginTop="40sp"
+            android:lines="2"
+            />
+
+
+    </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/menu_list"
+        app:headerLayout="@layout/header" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

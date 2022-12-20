@@ -671,7 +671,11 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
                 val StatisticsIntent = Intent(this, StatisticsMainActivity::class.java)
                 startActivity(StatisticsIntent)
             }
-            R.id.menu_item4-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
+            R.id.menu_item4-> {
+                Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
+                val settingIntent = Intent(this, SettingActivity::class.java)
+                startActivity(settingIntent)
+            }
         }
         return false
     }

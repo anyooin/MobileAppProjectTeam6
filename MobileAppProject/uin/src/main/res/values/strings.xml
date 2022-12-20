@@ -1,4 +1,6 @@
 <resources>
+    <string name="explanationApp">투두리스트와 타이머를 활용해 생활을 기록해보세요</string>
+
     <string name="app_name">Todo Timer</string>
     <string name="drawer_opened">DrawerOpened</string>
     <string name="drawer_closed">DrawerClosed</string>

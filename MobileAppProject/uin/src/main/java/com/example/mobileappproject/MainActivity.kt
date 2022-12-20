@@ -340,7 +340,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val statisticsIntent = Intent(this, StatisticsMainActivity::class.java)
                 startActivity(statisticsIntent)
             }
-            R.id.menu_item4-> Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
+            R.id.menu_item4-> {
+                Toast.makeText(this,"Settings 실행", Toast.LENGTH_SHORT).show()
+                val settingIntent = Intent(this, SettingActivity::class.java)
+                startActivity(settingIntent)
+            }
             R.id.switch_menu-> {
                 Toast.makeText(this, "Switch ON/Off", Toast.LENGTH_SHORT).show()
             }
