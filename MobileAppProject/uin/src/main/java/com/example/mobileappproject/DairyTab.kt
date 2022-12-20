@@ -19,7 +19,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.util.Locale.filter
 
 
 class DairyTab(private var position: Int, private var dayInMonth: MutableList<LocalDate?>, private val mainActivity: Activity, private val RESULT_OK: Int, private val searchView: androidx.appcompat.widget.SearchView): Fragment() {
@@ -28,6 +27,8 @@ class DairyTab(private var position: Int, private var dayInMonth: MutableList<Lo
     lateinit var binding: FragmentDairyTabBinding
     lateinit var diaryViewModel: DiaryViewModel
     lateinit var diaryAdapter: DiaryAdapter
+    lateinit var diaryItem: RecyclerView
+    lateinit var filteredList: MutableList<Diary>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +38,7 @@ class DairyTab(private var position: Int, private var dayInMonth: MutableList<Lo
         binding = FragmentDairyTabBinding.inflate(inflater, container, false)
 
         val addButton = binding.addDiaryItem
-        val diaryItems = binding.DiaryListContext
+        diaryItem = binding.DiaryListContext
 
         addButton.setOnClickListener {
             Log.d("qadridin", "add button in diary page clicked ")
@@ -45,13 +46,14 @@ class DairyTab(private var position: Int, private var dayInMonth: MutableList<Lo
                 putExtra("type", "ADD")
             }
             requestActivity.launch(intent)
+            setDiaryItems(diaryItem)
         }
         //
-        setDiaryItems(diaryItems)
+        setDiaryItems(diaryItem)
         return binding.root
     }
 
-    private fun setDiaryItems(diaryItems: RecyclerView)
+    fun setDiaryItems(diaryItems: RecyclerView)
     {
         diaryViewModel = ViewModelProvider(this)[DiaryViewModel::class.java]
         println("diary view model")
@@ -71,16 +73,15 @@ class DairyTab(private var position: Int, private var dayInMonth: MutableList<Lo
                 Toast.makeText(mainActivity, "$itemId", Toast.LENGTH_SHORT).show()
                 CoroutineScope(Dispatchers.IO).launch {
                     val diary = diaryViewModel.getOne(itemId)
-
                     val intent = Intent(mainActivity, WritingDiaryPageActivity::class.java).apply {
                         putExtra("type", "EDIT")
                         putExtra("item", diary)
                     }
                     requestActivity.launch(intent)
                 }
+                setDiaryItems(diaryItems)
             }
         })
-        searchView.setOnCloseListener { true }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -91,6 +92,10 @@ class DairyTab(private var position: Int, private var dayInMonth: MutableList<Lo
 
             override fun onQueryTextSubmit(msg: String): Boolean {
                 // filter(msg)
+                searchView.setQuery("", false)
+                searchView.clearFocus()
+                searchView.onActionViewCollapsed()
+                filter(msg)
                 return false
             }
         })
@@ -100,7 +105,7 @@ class DairyTab(private var position: Int, private var dayInMonth: MutableList<Lo
 
     private fun filter(text: String)
     {
-        val filteredList: MutableList<Diary> = mutableListOf()
+        filteredList = mutableListOf()
         diaryViewModel.diaryInCurrentDayList.observe(viewLifecycleOwner) {
             for (item in it) {
                 if ((item.title.toLowerCase().contains(text.toLowerCase())) || (item.content.toLowerCase().contains(text.toLowerCase()))){
@@ -111,7 +116,9 @@ class DairyTab(private var position: Int, private var dayInMonth: MutableList<Lo
                 Toast.makeText(mainActivity, "No Such Todo Found In This Date..", Toast.LENGTH_SHORT).show()
             }
             else {
-                diaryAdapter.filterList(filteredList)
+                diaryAdapter.update(filteredList)
+                diaryItem.layoutManager = LinearLayoutManager(mainActivity)
+                diaryItem.adapter = diaryAdapter
             }
         }
     }

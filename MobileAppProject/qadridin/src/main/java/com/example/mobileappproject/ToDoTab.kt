@@ -167,8 +167,8 @@ class ToDoTab(private var position: Int, private var dayInMonth: MutableList<Loc
             }
             else {
                  todoAdapter.update(filteredList)
-                 toDoListContext.layoutManager = LinearLayoutManager(mainActivity)
-                 toDoListContext.adapter = todoAdapter
+               //  toDoListContext.layoutManager = LinearLayoutManager(mainActivity)
+                // toDoListContext.adapter = todoAdapter
             }
         }
 
