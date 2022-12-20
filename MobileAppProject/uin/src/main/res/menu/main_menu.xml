@@ -2,26 +2,9 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_search"
-        android:title="search"
-        app:showAsAction="always"
-        android:icon="@android:drawable/ic_menu_search"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" >
-
-        <menu>
-            <group>
-                <item
-                    android:id="@+id/item_list"
-                    android:title="list"
-                    app:showAsAction="ifRoom"
-                    />
-            </group>
-        </menu>
-
+        android:id="@+id/menu_etc"
+        android:title="etc" >
     </item>
 
-    <item
-        android:id="@+id/menu_etc"
-        android:title="etc" />
 
 </menu>

@@ -318,16 +318,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
 
-        val menuItem = menu?.findItem(R.id.menu_search)
-        val searchView = menuItem?.actionView as SearchView
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(newText: String?): Boolean = true
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                Log.d("kkang", "searched word: $query")
-                return true
-            }
-        })
         return true
     }
 

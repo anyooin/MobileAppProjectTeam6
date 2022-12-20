@@ -636,16 +636,6 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
-        val menuItem = menu?.findItem(R.id.menu_search)
-        val searchView = menuItem?.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextChange(p0: String?): Boolean {
-                return true
-            }
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                return true
-            }
-        })
         return super.onCreateOptionsMenu(menu)
     }
 
