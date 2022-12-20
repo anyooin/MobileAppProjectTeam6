@@ -127,9 +127,10 @@ class ToDoTab(private var position: Int, private var dayInMonth: MutableList<Loc
                     }
                     requestActivity.launch(intent)
                 }
-
+                println("====================== after back without save")
                 setPopWindowAttr(toDoListContext)
             }
+
         })
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
