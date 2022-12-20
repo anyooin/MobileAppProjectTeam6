@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(binding.toolbar)
         toggle = ActionBarDrawerToggle(this, binding.drawer, R.string.menu_item_open, R.string.menu_item_clos)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         toggle.syncState()
 
         //navigation
@@ -173,11 +174,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val date = selectMonthYear.text.toString().split(" ")
             println("date ==== ${date[0]}")
 
-            drawerLayout.background = when (date[0]) {
-                "12월", "1월", "2월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "3월", "4월", "5월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "6월", "7월", "8월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "9월", "10월", "11월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+            drawerLayout.background = when (date[1]) {
+                "12월", "01월", "02월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03월", "04월", "05월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "06월", "07월", "08월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "09월", "10월", "11월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
                 else -> {
                     null
                 }

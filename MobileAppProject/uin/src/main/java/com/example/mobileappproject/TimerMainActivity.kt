@@ -104,6 +104,7 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.string.drawer_closed
         )
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // 드로어를 꺼낼 홈 버튼 활성화
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         toggle.syncState()
 
         // 네비게이션 드로어 생성
@@ -395,7 +396,7 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
         var checkScreen = 0
         timerTodoAdapter.setItemClickListener(object: timerTodoListAdapter.ItemClickListener{
             override fun onClick(preView: View?, view: View, timeArray:Array<String>) {
-                preView?.setBackgroundColor(Color.parseColor("#000000"))
+                preView?.setBackgroundResource(R.drawable.day_cell_today)
                 if (preView != null) {
                     if((preView.equals(view) && (checkScreen%2 == 1))) {
                         //view.setBackgroundColor(Color.parseColor("#000000"))

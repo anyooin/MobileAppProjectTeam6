@@ -27,6 +27,15 @@
                 android:layout_height="wrap_content"
                 android:background="@color/light_blue">
 
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Todo Timer"
+                    android:layout_gravity="center"
+                    android:textSize="20sp"
+                    android:textColor="@color/white" />
+
             </androidx.appcompat.widget.Toolbar>
 
             <!-- Year Month text -->

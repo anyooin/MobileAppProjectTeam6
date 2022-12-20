@@ -10,36 +10,28 @@
 
     <TextView
         android:id="@+id/cellDayText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:textColor="@color/black"
         android:visibility="visible"
         android:textSize="20sp"
-        android:layout_marginStart="26.57dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintVertical_bias="0.25" >
+        android:text="12"
+        android:gravity="center" >
 
     </TextView>
 
     <TextView
         android:id="@+id/StatisticsBasicTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/light_gray"
         android:visibility="visible"
         android:textSize="12sp"
-        android:layout_marginStart="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintVertical_bias="0.25" >
+        android:gravity="center"/>
 
-    </TextView>
-
+<!--
     <TextView
         android:id="@+id/StatisticsPomodoroTime"
         android:layout_width="wrap_content"
@@ -47,14 +39,7 @@
         android:textColor="@color/black"
         android:visibility="visible"
         android:textSize="12sp"
-        android:layout_marginStart="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintVertical_bias="0.25" >
-
-    </TextView>
+        android:layout_marginStart="20dp"/>
 
     <TextView
         android:id="@+id/StatisticsTimeBoxTime"
@@ -63,48 +48,7 @@
         android:textColor="@color/black"
         android:visibility="visible"
         android:textSize="12sp"
-        android:layout_marginStart="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintVertical_bias="0.25" >
-
-    </TextView>
-
-    <TextView
-        android:id="@+id/todoTitle1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:visibility="visible"
-        android:textSize="12sp"
-        android:layout_marginStart="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintVertical_bias="0.25" >
-
-    </TextView>
-
-    <TextView
-        android:id="@+id/todoTitle2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:visibility="visible"
-        android:textSize="12sp"
-        android:layout_marginStart="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintVertical_bias="0.25" >
-
-    </TextView>
-
-
-
+        android:layout_marginStart="20dp" />
+        -->
 
 </LinearLayout>

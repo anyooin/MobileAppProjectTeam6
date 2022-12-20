@@ -18,14 +18,25 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/light_blue" />
+                android:background="@color/light_blue" >
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Todo Timer"
+                    android:layout_gravity="center"
+                    android:textSize="20sp"
+                    android:textColor="@color/white" />
+
+            </androidx.appcompat.widget.Toolbar>
 
             <!-- Year Month text -->
             <LinearLayout
@@ -156,21 +167,34 @@
                             android:text="Statistics"
                             android:textSize="30dp"></TextView>-->
 
+            <View
+                android:background="@color/light_blue"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="10dp"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:text="총 시간"
+                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="16sp">
+                android:textSize="16sp"/>
 
-            </TextView>
+            <View
+                android:background="@color/light_blue"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
                 <!--app:layout_constraintTop_toBottomOf = "@id/"-->
 
                 <TextView
@@ -189,12 +213,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="basic_total"
+                    android:hint="00:00:00"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="12sp">
-
-                </TextView>
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -203,21 +225,17 @@
                     android:text="포모도로"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="12sp">
-
-                </TextView>
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:id="@+id/PomodoroTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="pomodoro_total"
+                    android:hint="0회"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="12sp">
-
-                </TextView>
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -226,37 +244,36 @@
                     android:text="타임박스"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="12sp">
-
-                </TextView>
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:id="@+id/TimeboxTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="timebox_total"
+                    android:hint="0회"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="12sp">
-
-                </TextView>
-
-
-
-
-
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
 
+            <View
+                android:background="@color/light_blue"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginTop="50dp"
                 app:layout_constraintRight_toLeftOf="@id/pieChart">
+
+                <!--android:layout_marginTop="50dp"-->
+
 
                 <LinearLayout
                     android:layout_width="200dp"
@@ -267,96 +284,78 @@
                     <LinearLayout
                         android:layout_width="200dp"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        >
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:text="카테고리"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="16sp">
-
-
-                        </TextView>
+                            android:textStyle="bold"
+                            android:textSize="16sp"/>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="      횟수      "
+                            android:text="횟수"
                             android:textAlignment="center"
                             android:textColor="@color/black"
+                            android:textStyle="bold"
                             android:textSize="16sp"
-                            app:layout_constraintRight_toRightOf="parent">
+                            app:layout_constraintRight_toRightOf="parent"/>
 
-                        </TextView>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="200dp"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        >
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text=" 미선택"
+                            android:text="미선택"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="16sp">
-
-
-                        </TextView>
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:id="@+id/nonDesignate_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="NonDesignate_total"
+                            android:hint="NonDesig_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            app:layout_constraintRight_toRightOf="parent">
+                            app:layout_constraintRight_toRightOf="parent"/>
 
-                        </TextView>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="200dp"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        >
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="공부 "
+                            android:text="공부"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="16sp">
-
-
-                        </TextView>
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:id="@+id/Study_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="   Study_total        "
+                            android:hint="Study_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            app:layout_constraintRight_toRightOf="parent">
+                            app:layout_constraintRight_toRightOf="parent"/>
 
-                        </TextView>
                     </LinearLayout>
 
                     <LinearLayout
@@ -365,29 +364,24 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="운동 "
+                            android:text="운동"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="16sp">
-
-
-                        </TextView>
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:id="@+id/Workout_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Workout_total      "
+                            android:hint="Workout_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            app:layout_constraintRight_toRightOf="parent">
+                            app:layout_constraintRight_toRightOf="parent"/>
 
-                        </TextView>
                     </LinearLayout>
 
                     <LinearLayout
@@ -396,29 +390,24 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="회의 "
+                            android:text="회의"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="16sp">
-
-
-                        </TextView>
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:id="@+id/Meeting_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Meeting_total      "
+                            android:hint="Meeting_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            app:layout_constraintRight_toRightOf="parent">
+                            app:layout_constraintRight_toRightOf="parent"/>
 
-                        </TextView>
                     </LinearLayout>
 
                     <LinearLayout
@@ -427,33 +416,25 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="약속 "
+                            android:text="약속"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="16sp">
-
-
-                        </TextView>
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:id="@+id/Promise_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Promise_total      "
+                            android:hint="Promise_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            app:layout_constraintRight_toRightOf="parent">
+                            app:layout_constraintRight_toRightOf="parent"/>
 
-                        </TextView>
                     </LinearLayout>
-
-
-
 
                 </LinearLayout>
 
@@ -461,20 +442,35 @@
                     android:id="@+id/pieChart"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:layout_gravity="right"/>
+                    android:layout_gravity="end"/>
 
             </LinearLayout>
+
+            <View
+                android:background="@color/light_blue"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="10dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:text="7일 포모도로 횟수"
+                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="16sp">
 
             </TextView>
+
+            <View
+                android:background="@color/light_blue"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="10dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -488,24 +484,34 @@
 
             </LinearLayout>
 
+            <View
+                android:background="@color/light_blue"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="10dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:text="7일 타이머"
+                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="16sp">
+                android:textSize="16sp"/>
 
-            </TextView>
+            <View
+                android:background="@color/light_blue"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_height="2dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                >
-
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="140dp"
@@ -517,226 +523,190 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="D-6"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="16sp">
-
-
-                        </TextView>
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:id="@+id/D6_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.5"
                             android:hint="D6_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            app:layout_constraintRight_toRightOf="parent">
+                            app:layout_constraintRight_toRightOf="parent"/>
 
-                        </TextView>
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="D-5"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="16sp">
-
-
-                        </TextView>
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:id="@+id/D5_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.5"
                             android:hint="D5_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            app:layout_constraintRight_toRightOf="parent">
+                            app:layout_constraintRight_toRightOf="parent"/>
 
-                        </TextView>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="D-4"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="16sp">
-
-
-                        </TextView>
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:id="@+id/D4_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.5"
                             android:hint="D4_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            app:layout_constraintRight_toRightOf="parent">
+                            app:layout_constraintRight_toRightOf="parent"/>
 
-                        </TextView>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="D-3"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="16sp">
-
-
-                        </TextView>
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:id="@+id/D3_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.5"
                             android:hint="D3_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            app:layout_constraintRight_toRightOf="parent">
+                            app:layout_constraintRight_toRightOf="parent"/>
 
-                        </TextView>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="D-2"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="16sp">
-
-
-                        </TextView>
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:id="@+id/D2_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.5"
                             android:hint="D2_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            app:layout_constraintRight_toRightOf="parent">
+                            app:layout_constraintRight_toRightOf="parent"/>
 
-                        </TextView>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="D-1"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="16sp">
-
-
-                        </TextView>
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:id="@+id/D1_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.5"
                             android:hint="D1_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            app:layout_constraintRight_toRightOf="parent">
+                            app:layout_constraintRight_toRightOf="parent"/>
 
-                        </TextView>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="D-day"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="16sp">
-
-
-                        </TextView>
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:id="@+id/D_day_total"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.5"
                             android:hint="D_day_total"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            app:layout_constraintRight_toRightOf="parent">
+                            app:layout_constraintRight_toRightOf="parent"/>
 
-                        </TextView>
                     </LinearLayout>
 
 
@@ -746,7 +716,7 @@
                     android:id="@+id/barChart"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:layout_gravity="right" />
+                    android:layout_gravity="end" />
 
                 <!--
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -755,23 +725,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 -->
 
-
             </LinearLayout>
 
-
-
-
-
-
-
-
-
-
-
         </LinearLayout>
-
-
-
 
     </ScrollView>
 
