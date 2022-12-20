@@ -5,17 +5,112 @@
     android:layout_height="200dp"
     android:background="@color/light_blue"
     android:gravity="center"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/header_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginTop="75dp"
         android:text="Todo Timer"
+        android:layout_marginStart="35dp"
         android:textSize="30dp"
         android:textColor="@color/white"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/total_todo_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/todo_total_list" />
+
+            <TextView
+                android:id="@+id/total_todo_text"
+                android:layout_width="50dp"
+                android:textAlignment="center"
+                android:layout_height="match_parent"
+                android:text="num" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/num_of_done_todo_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/checked_todo" />
+
+            <TextView
+                android:id="@+id/num_of_todo_done_text"
+                android:layout_width="50dp"
+                android:textAlignment="center"
+                android:layout_height="match_parent"
+                android:text="num" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/num_of_done_remained_icon"
+                android:layout_width="30dp"
+                android:scaleType="fitXY"
+                android:layout_height="30dp"
+                android:src="@drawable/todo_unchecked" />
+
+            <TextView
+                android:id="@+id/num_of_todo_remained_text"
+                android:layout_width="50dp"
+                android:textAlignment="center"
+                android:layout_height="match_parent"
+                android:text="num" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/total_diary_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/diary_totals" />
+
+            <TextView
+                android:id="@+id/total_diary_text"
+                android:layout_width="50dp"
+                android:textAlignment="center"
+                android:layout_height="match_parent"
+                android:text="num" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

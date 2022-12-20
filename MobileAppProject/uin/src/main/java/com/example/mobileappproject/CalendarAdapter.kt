@@ -1,5 +1,6 @@
 package com.example.mobileappproject
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
@@ -8,15 +9,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import android.widget.TextView
+import androidx.core.view.get
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileappproject.R
 import com.example.mobileappproject.databinding.DaysCellBinding
 import com.example.mobileappproject.CalendarUtil
+import com.google.android.material.navigation.NavigationView
 import java.time.LocalDate
 
 
-class CalendarAdapter(private val days: MutableList<LocalDate?>, private var activity: LifecycleOwner) :
+class CalendarAdapter(private val days: MutableList<LocalDate?>, private var activity: LifecycleOwner, private var navigationView: NavigationView) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var selectPos = -1  //선택한 날짜 위치
 
@@ -42,6 +46,7 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>, private var act
         return CalendarViewHolder(DaysCellBinding.bind(view))
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as CalendarViewHolder).binding
 
@@ -101,6 +106,13 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>, private var act
             }
         }
 
+
+
+        val navViewTotalTodo = navigationView.getHeaderView(0).findViewById<TextView>(R.id.total_todo_text)
+        val navViewDone = navigationView.getHeaderView(0).findViewById<TextView>(R.id.num_of_todo_done_text)
+        val navViewRemained = navigationView.getHeaderView(0).findViewById<TextView>(R.id.num_of_todo_remained_text)
+        val navViewTotalDiary = navigationView.getHeaderView(0).findViewById<TextView>(R.id.total_diary_text)
+
         //set to do list title for day
         val todo = TodoViewModel().getCurrentDay(day.toString())
         todo.observe(activity) {
@@ -117,6 +129,30 @@ class CalendarAdapter(private val days: MutableList<LocalDate?>, private var act
                 binding.todoCount.text = ""
             }
         }
+
+
+        TodoViewModel().readAllData.observe(activity) {
+            var checked = 0
+            var nonChecked = 0
+            var total = 0
+            for (i in it){
+                if(!i.isChecked) {
+                    nonChecked += 1
+                }
+                else if (i.isChecked) {
+                    checked += 1
+                }
+            }
+            total = checked + nonChecked
+            navViewTotalTodo.text = total.toString() + " 개"
+            navViewRemained.text = nonChecked.toString() + " 개"
+            navViewDone.text = checked.toString() + " 개"
+        }
+
+        DiaryViewModel().diaryItemsList.observe(activity) {
+            navViewTotalDiary.text = it.size.toString() + " 개"
+        }
+
     }
 
     override fun getItemCount(): Int = days.size

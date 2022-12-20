@@ -225,6 +225,20 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header"
-        app:menu="@menu/menu_list" />
+        app:menu="@menu/menu_list">
+
+        <Button
+            android:layout_marginTop="650dp"
+            android:layout_width="match_parent"
+            android:background="@color/light_blue"
+            android:layout_height="wrap_content"
+            />
+
+
+    </com.google.android.material.navigation.NavigationView>
+
+
+
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
