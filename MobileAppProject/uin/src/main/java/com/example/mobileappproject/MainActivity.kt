@@ -233,11 +233,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             //println("firstOfMonth =- ${firstOfMonth}")
             println("dayOfWeek == ${dayOfWeek}")
             val daysInMonthArray: MutableList<LocalDate?> = mutableListOf()
-//            val loopRange = if (dayOfWeek < 7 && daysInMonth + dayOfWeek > 35) 1..42
-//            else if (dayOfWeek == 7 && daysInMonth + dayOfWeek > 35) 8..42
-//            else 1..35
-            val loopRange = if (dayOfWeek == 7 && daysInMonth + dayOfWeek > 35) 8..42
-            else 1..42
+            val loopRange = if (dayOfWeek < 7 && daysInMonth + dayOfWeek > 35) 1..42
+            else if (dayOfWeek == 7 && daysInMonth + dayOfWeek > 35) 8..42
+            else 1..35
+           // val loopRange = if (dayOfWeek == 7 && daysInMonth + dayOfWeek > 35) 8..42
+       //     else 1..42
             for (i in loopRange) {
                 if(i <= dayOfWeek && dayOfWeek != 0) {
                     daysInMonthArray.add(LocalDate.of(CalendarUtil.selectedDate.year,

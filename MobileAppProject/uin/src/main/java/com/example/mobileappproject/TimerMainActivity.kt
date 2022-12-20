@@ -133,10 +133,10 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
         val date = CalendarUtil.today.toString().split("-")
         if (switchOffOn == 1) {
             binding.drawerLayout.background = when (date[1]) {
-                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "03", "04", "05" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "06", "07", "08" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "09", "10", "11" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "12", "01", "02" -> resources.getDrawable(R.drawable.frame_winter)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.frame_spring)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.frame_summer)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.frame_autumn)
                 else -> {
                     null
                 }
@@ -436,10 +436,10 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
             val date = CalendarUtil.today.toString().split("-")
             drawerLayout.background = when (date[1]) {
-                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "03", "04", "05" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "06", "07", "08" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "09", "10", "11" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "12", "01", "02" -> resources.getDrawable(R.drawable.frame_winter)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.frame_spring)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.frame_summer)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.frame_autumn)
                 else -> {
                     null
                 }

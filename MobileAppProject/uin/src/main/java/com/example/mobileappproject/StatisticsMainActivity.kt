@@ -564,6 +564,7 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
      */
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun setMonthView() {
         monthYear.text = monthYearFromDate(CalendarUtil.selectedDate)
         val daysInMonth = daysInMonthArray(CalendarUtil.selectedDate)
@@ -589,10 +590,10 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             println("date ==== ${date[0]}")
 
             drawerLayout.background = when (date[1]) {
-                "12월", "01월", "02월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "03월", "04월", "05월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "06월", "07월", "08월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "09월", "10월", "11월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "12월", "01월", "02월" -> resources.getDrawable(R.drawable.frame_winter)
+                "03월", "04월", "05월" -> resources.getDrawable(R.drawable.frame_spring)
+                "06월", "07월", "08월" -> resources.getDrawable(R.drawable.frame_summer)
+                "09월", "10월", "11월" -> resources.getDrawable(R.drawable.frame_autumn)
                 else -> {
                     null
                 }
@@ -681,10 +682,10 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
             navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
             val date = CalendarUtil.today.toString().split("-")
             drawerLayout.background = when (date[1]) {
-                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "03", "04", "05" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "06", "07", "08" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "09", "10", "11" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "12", "01", "02" -> resources.getDrawable(R.drawable.frame_winter)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.frame_spring)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.frame_summer)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.frame_autumn)
                 else -> {
                     null
                 }
