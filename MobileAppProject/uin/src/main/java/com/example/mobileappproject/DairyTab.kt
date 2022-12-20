@@ -113,7 +113,7 @@ class DairyTab(private var position: Int, private var dayInMonth: MutableList<Lo
                 }
             }
             if (filteredList.isEmpty()) {
-                Toast.makeText(mainActivity, "No Such Todo Found In This Date..", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(mainActivity, "No Such Todo Found In This Date..", Toast.LENGTH_SHORT).show()
             }
             else {
                 diaryAdapter.update(filteredList)

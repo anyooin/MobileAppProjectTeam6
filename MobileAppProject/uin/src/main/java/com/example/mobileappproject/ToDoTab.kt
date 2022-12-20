@@ -164,7 +164,7 @@ class ToDoTab(private var position: Int, private var dayInMonth: MutableList<Loc
                 }
             }
             if (filteredList.isEmpty()) {
-                Toast.makeText(mainActivity, "No Such Todo Found In This Date..", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(mainActivity, "No Such Todo Found In This Date..", Toast.LENGTH_SHORT).show()
             }
             else {
                 todoAdapter.update(filteredList)
