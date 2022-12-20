@@ -53,28 +53,10 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
     private val statisticsList = mutableListOf<Todo>()
 
-    var statistics_basic: Long = 0
-    var statistics_pomodoro: Long = 1
-    var statistics_timebox: Long = 2
+
     var statistics_nonDesignate: Long = 3
     var statistics_study: Long = 4
-    var statistics_workout: Long = 5
     var statistics_meeting: Long = 6
-    var statistics_promise: Long = 7
-    var d_day_basic: Long = 11
-    var d1_basic: Long = 22
-    var d2_basic: Long = 33
-    var d3_basic: Long = 44
-    var d4_basic: Long = 55
-    var d5_basic: Long = 66
-    var d6_basic: Long = 77
-    var d_day_pomodoro: Long = 1
-    var d1_pomodoro: Long = 2
-    var d2_pomodoro: Long = 3
-    var d3_pomodoro: Long = 4
-    var d4_pomodoro: Long = 5
-    var d5_pomodoro: Long = 6
-    var d6_pomodoro: Long = 7
 
     //linechart
     /*
@@ -84,10 +66,12 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
      */
 
+    lateinit private var binding : ActivityStatisticsMainBinding
+
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityStatisticsMainBinding.inflate(layoutInflater)
+        binding = ActivityStatisticsMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         //Toolbar setting
@@ -173,36 +157,22 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         // 최근 추가 항목(날짜) 부터 7일치
         val entries = ArrayList<BarEntry>()
 
-        val value_str_to_float:Array<Float> = Array(7, { 0f })
+        val value_str_to_float:Array<Float> = Array(8, { 0f })
         for(i in 1..basicList.size-1){
-            if(i >= 7) {//7
+            if(i > 7) {//7
                 break
             }
             if(basicList[i] == "0"){
                 value_str_to_float[i] = 0f
             }
             else {
+                Log.d("soo","basicList[$i], = ${basicList[i]}")
                 value_str_to_float[i] = basicList[i].split(":")[0].toFloat() * 3600 +
                         basicList[i].split(":")[1].toFloat() * 60 +
                         basicList[i].split(":")[2].toFloat()
             }
         }
 
-        /*var total_basic: Int = 0
-        for(i in 0..basicList.size-1){
-            Log.d("check_1","basicList.size == ${basicList.size}")
-
-            if(basicList[i] == "0")
-            {
-                total_basic += 0
-            }
-
-            else{
-                total_basic += (basicList[i].split(":")[0].toInt() * 3600 +
-                        basicList[i].split(":")[1].toInt() * 60 +
-                        basicList[i].split(":")[2].toInt())
-            }
-        }*/
 
         var h = basicList[0].toInt() / 3600
         var m = (basicList[0].toInt() - h * 3600) / 60
@@ -237,17 +207,9 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         var basic_total = findViewById(R.id.BasicTotal) as TextView
         basic_total.setText(total_basic_string)
 
-        //entries.add(BarEntry(1.2f,value_str_to_float[6]))
-        //entries.add(BarEntry(2.2f,value_str_to_float[5]))
-        //entries.add(BarEntry(3.2f,value_str_to_float[4]))
-        //entries.add(BarEntry(4.2f,value_str_to_float[3]))
-        //entries.add(BarEntry(5.2f,value_str_to_float[2]))
-        //entries.add(BarEntry(6.2f,value_str_to_float[1]))
-        //entries.add(BarEntry(7.2f,value_str_to_float[0]))
-
 
         for(idx in 1..basicList.size-1){
-            if(idx >= 7){//7
+            if(idx > 7){//7
                 break
             }
             entries.add(BarEntry(idx.toFloat(), value_str_to_float[idx])) //확인 위해서 초 단위로 넣어둠, 변경 필요!
@@ -364,30 +326,8 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
         }
 
         else{
-            /*
-            var d6_pomo = 0
-            var d5_pomo = 0
-            var d4_pomo = 0
-            var d3_pomo = 0
-            var d2_pomo = 0
-            var d1_pomo = 0
-            var d_dat_pomo = 0
-            for(i in 0 .. 6){
-
-            }
-             */
-            // 최근 추가 항목(날짜) 부터 7일치
-            //entry 배열 초기값
-            //entriesLine.add(Entry(1F, pomodoroList[6].toFloat()))
-            //entriesLine.add(Entry(2F, pomodoroList[5].toFloat()))
-            //entriesLine.add(Entry(3F, pomodoroList[4].toFloat()))
-            //entriesLine.add(Entry(4F, pomodoroList[3].toFloat()))
-            //entriesLine.add(Entry(5F, pomodoroList[2].toFloat()))
-            //entriesLine.add(Entry(6F, pomodoroList[1].toFloat()))
-            //entriesLine.add(Entry(7F, pomodoroList[0].toFloat()))
-
             for(idx in 1..pomodoroList.size-1){
-                if(idx >= 7){
+                if(idx > 7){
                     break
                 }
                 var num : Float = pomodoroList[idx].split("회")[0].toFloat()
@@ -397,10 +337,6 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
                 entriesLine.add(Entry(idx.toFloat(), 0F))
             }
 
-            /*var total_pomodoro = 0
-            for(idx in 0..pomodoroList.size-1){
-                total_pomodoro += pomodoroList[idx].split("회")[0].toInt()
-            }*/
 
             // 그래프 구현을 위한 LineDataSet 생성
             var dataset: LineDataSet = LineDataSet(entriesLine, "포모도로 횟수")
@@ -644,6 +580,26 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
         calendar.layoutManager = layoutManager
         calendar.adapter = calendarAdapter
+
+        //background frame
+        if (switchOffOn == 1) {
+            //  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            println("Here in switch is checked =====================================")
+            val date = monthYear.text.toString().split(" ")
+            println("date ==== ${date[0]}")
+
+            drawerLayout.background = when (date[1]) {
+                "12월", "01월", "02월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03월", "04월", "05월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "06월", "07월", "08월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "09월", "10월", "11월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            binding.statisticsdrawer.background = null
+        }
     }
     /*
         private fun statisticsValues(statisticsArray: Array<Long>) {

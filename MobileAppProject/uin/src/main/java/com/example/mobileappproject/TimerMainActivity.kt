@@ -387,13 +387,14 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         timerTodoAdapter = timerTodoListAdapter(this,
             onShowDB = { showTimerDB(it) },
-            onSelectTimer = {selectTimerDB(it)})
+            onSelectTimer = {selectTimerDB(it)},
+            onClick = {clickTimer(it)})
         binding.selectRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.selectRecyclerView.adapter = timerTodoAdapter
         binding.selectRecyclerView.addItemDecoration(DividerItemDecoration(this,
             LinearLayoutManager.VERTICAL))
 
-        var checkScreen = 0
+        /*var checkScreen = 0
         timerTodoAdapter.setItemClickListener(object: timerTodoListAdapter.ItemClickListener{
             override fun onClick(preView: View?, view: View, timeArray:Array<String>) {
                 preView?.setBackgroundResource(R.drawable.day_cell_today)
@@ -419,8 +420,15 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
                 Log.d("soo","todoID = $todoID")
                 settingRecord(todoID, type, timeArray)
             }
-        })
+        })*/
     }
+
+    private fun clickTimer(timeArray : Array<String>) {
+        todoID = timeArray[0].toLong()
+        Log.d("soo","todoID = $todoID")
+        settingRecord(todoID, type, timeArray)
+    }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     fun setBackgroundFrame()
     {
@@ -573,7 +581,7 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         if(type == 0) //pomodoro 인 경우
         {
-            successPomo += 1
+            successPomo = binding.recordH.text.split("회")[0].toInt()+1
             binding.recordH.text = "%d회 성공".format(successPomo)
             binding.recordM.text = ""
             binding.recordS.text = ""

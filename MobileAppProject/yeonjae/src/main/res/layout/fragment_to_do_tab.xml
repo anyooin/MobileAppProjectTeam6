@@ -2,8 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="330dp"
-    android:layout_height="400dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".ToDoTab">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="320dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
+        app:layout_constraintBottom_toBottomOf="parent">
 
     </androidx.recyclerview.widget.RecyclerView>
 
