@@ -6,7 +6,7 @@
 - 김연재 (yeonjae1220): Timer & Statistics part
 - 안유인 (anyooin): Calendar & Todo/Dairy part
 - 이수영 (s00y0ung): Timer & Statistics part
-- 카드리딘 (Qad00): Calend & Todo/Diary part
+- 카드리딘 (Qad00): Calendar & Todo/Diary part
 <br/>
 
 ## 사용한 언어 & 개발 도구
