@@ -12,7 +12,7 @@ class TodoViewModel: ViewModel() {
 
     private val todoRepository: TodoRepository = TodoRepository.get()
     init {
-        println("date in to do ViewModel $date")
+        //println("date in to do ViewModel $date")
         todoList = todoRepository.list(date)
         readAllData = todoRepository.readAllData()
     }

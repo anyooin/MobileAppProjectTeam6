@@ -23,13 +23,13 @@ class timerListTodoPopup(private val context: AppCompatActivity ) {
         dig.setContentView(binding.root) // 다이얼로그에 사용할 xml 파일을 불러옴
         dig.setCancelable(false)
 
-        dig.window!!.setLayout(800,500)
+        dig.window!!.setLayout(900,700)
 
 
         //부모 액티비티에서 전달받은 텍스트 세팅
-        binding.timertodoPopupBasic.text = "basic = %s".format(basic)
-        binding.timertodoPopupPomodoro.text = "pomodoro = %s".format(pomodoro)
-        binding.timertodoPopupTimebox.text = "timeBox = %s".format(timeBox)
+        binding.timertodoPopupBasic.text = "BasicTimer = %s".format(basic)
+        binding.timertodoPopupPomodoro.text = "Pomodoro = %s".format(pomodoro)
+        binding.timertodoPopupTimebox.text = "TimeBox = %s".format(timeBox)
 
         binding.timerPopupOk.setOnClickListener {
             dig.dismiss()

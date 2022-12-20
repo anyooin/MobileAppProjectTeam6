@@ -15,12 +15,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.mobileappproject.databinding.FragmentToDoTabBinding
-import com.example.mobileappproject.databinding.PopupWindowFragementBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,6 +36,8 @@ class ToDoTab(private var position: Int, private var dayInMonth: MutableList<Loc
     lateinit var binding: FragmentToDoTabBinding
     lateinit var todoViewModel: TodoViewModel
     lateinit var todoAdapter: TodoAdapter
+    lateinit var toDoListContext: RecyclerView
+    lateinit var filteredList: MutableList<Todo>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,16 +47,16 @@ class ToDoTab(private var position: Int, private var dayInMonth: MutableList<Loc
         binding = FragmentToDoTabBinding.inflate(inflater, container, false)
 
         val addButton = binding.addTodo
-        val toDoListContext = binding.toDoListContext
+        toDoListContext = binding.toDoListContext
 
         addButton.setOnClickListener {
             Log.d("qadridin", "clicked add button in popup Window")
-
             //Move to do list maker page
             val intent = Intent(mainActivity, TodoPageActivity::class.java).apply {
                 putExtra("type", "ADD")
             }
             requestActivity.launch(intent)
+            setPopWindowAttr(toDoListContext)
         }
 
         setPopWindowAttr(toDoListContext)
@@ -106,14 +108,16 @@ class ToDoTab(private var position: Int, private var dayInMonth: MutableList<Loc
                 CoroutineScope(Dispatchers.IO).launch {
                     val todo = todoViewModel.getOne(itemId)
                     todo.isChecked = !todo.isChecked
+                  //  filteredList = mutableListOf()
                     todoViewModel.update(todo)
                 }
+                setPopWindowAttr(toDoListContext)
             }
         })
 
         todoAdapter.setItemClickListener(object: TodoAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int, itemId: Long) {
-                Toast.makeText(mainActivity, "$itemId", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(mainActivity, "$itemId", Toast.LENGTH_SHORT).show()
                 CoroutineScope(Dispatchers.IO).launch {
                     val todo = todoViewModel.getOne(itemId)
 
@@ -123,6 +127,8 @@ class ToDoTab(private var position: Int, private var dayInMonth: MutableList<Loc
                     }
                     requestActivity.launch(intent)
                 }
+
+                setPopWindowAttr(toDoListContext)
             }
         })
 
@@ -134,19 +140,25 @@ class ToDoTab(private var position: Int, private var dayInMonth: MutableList<Loc
             }
 
             override fun onQueryTextSubmit(msg: String): Boolean {
-              //  filter(msg)
+                searchView.setQuery("", false)
+                searchView.clearFocus()
+                searchView.onActionViewCollapsed()
+                filter(msg)
                 return false
             }
+
         })
-        searchView.setOnCloseListener { true }
+
     }
+
 
     private fun filter(text: String)
     {
-        val filteredList: MutableList<Todo> = mutableListOf()
+        filteredList = mutableListOf()
         todoViewModel.todoList.observe(viewLifecycleOwner) {
             for (item in it) {
                 if ((item.title.toLowerCase().contains(text.toLowerCase())) || (item.content.toLowerCase().contains(text.toLowerCase()))){
+                  //  todoViewModel.update(item)
                     filteredList.add(item)
                 }
             }
@@ -154,10 +166,12 @@ class ToDoTab(private var position: Int, private var dayInMonth: MutableList<Loc
                 Toast.makeText(mainActivity, "No Such Todo Found In This Date..", Toast.LENGTH_SHORT).show()
             }
             else {
-                todoAdapter.filterList(filteredList)
+                 todoAdapter.update(filteredList)
+                 toDoListContext.layoutManager = LinearLayoutManager(mainActivity)
+                 toDoListContext.adapter = todoAdapter
             }
         }
-    }
 
+    }
 }
 

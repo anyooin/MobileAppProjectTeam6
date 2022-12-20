@@ -11,6 +11,7 @@ import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import yuku.ambilwarna.AmbilWarnaDialog
 
 
@@ -107,6 +108,7 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             uriString = if (binding.imageView.tag != null) binding.imageView.tag.toString() else R.drawable.image_empty.toString()
             // println("=====================>${binding.imageView.toString()}")
 
+
             if (type.equals("ADD")) {  //추가하기
                 if (title.isNotEmpty() && content.isNotEmpty()) {
                     val diary = Diary(0, title, content, date, uriString, mDefaultTittleTextColor, mDefaultTittleBackColor, mDefaultContentTextColor, mDefaultContentBackColor,  titleTextSize, contentTextSize, titleFont, contentFont)
@@ -181,7 +183,6 @@ class WritingDiaryPageActivity : AppCompatActivity() {
             activityResult.launch(intent)
         }
     }
-
 
     private val activityResult: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()){

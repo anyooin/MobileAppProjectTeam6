@@ -70,6 +70,7 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
     lateinit var timerTodoAdapter: timerTodoListAdapter
     lateinit var todoViewModel: TodoViewModel
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTimerMainBinding.inflate(layoutInflater)
@@ -127,6 +128,21 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
         navigationView.setNavigationItemSelectedListener(this) //navigation 리스너
         //navigation f
 
+        //background frame
+        val date = CalendarUtil.today.toString().split("-")
+        if (switchOffOn == 1) {
+            binding.drawerLayout.background = when (date[1]) {
+                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            binding.drawerLayout.background = null
+        }
 
         //seekbar event handler
         binding.pomodoroSeekBar.setOnSeekBarChangeListener(this)
@@ -149,9 +165,9 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             binding.timeboxSeekBar.visibility = View.INVISIBLE
             binding.chronometer.visibility = View.VISIBLE
 
-            binding.basicTimer.setBackgroundResource(R.drawable.timer_selected_button)
-            binding.pomodoro.setBackgroundResource(R.drawable.timer_button)
-            binding.timebox.setBackgroundResource(R.drawable.timer_button)
+            binding.basicTimer.setBackgroundResource(R.drawable.day_cell_select)
+            binding.pomodoro.setBackgroundResource(R.drawable.day_cell_today)
+            binding.timebox.setBackgroundResource(R.drawable.day_cell_today)
 
             binding.recordH.text = "%s:".format(timerModeRecord[0].split(":")[0])
             binding.recordM.text = "%s:".format(timerModeRecord[0].split(":")[1])
@@ -173,9 +189,9 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             binding.timeboxSeekBar.visibility = View.INVISIBLE
             binding.chronometer.visibility = View.INVISIBLE
 
-            binding.basicTimer.setBackgroundResource(R.drawable.timer_button)
-            binding.pomodoro.setBackgroundResource(R.drawable.timer_selected_button)
-            binding.timebox.setBackgroundResource(R.drawable.timer_button)
+            binding.basicTimer.setBackgroundResource(R.drawable.day_cell_today)
+            binding.pomodoro.setBackgroundResource(R.drawable.day_cell_select)
+            binding.timebox.setBackgroundResource(R.drawable.day_cell_today)
 
             updateRemainTime(60 * 30 * 1000L)
             updateSeekBar(60 * 30 * 1000L, pomodoroSeekBar)
@@ -200,9 +216,9 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
             binding.timeboxSeekBar.visibility = View.VISIBLE
             binding.chronometer.visibility = View.INVISIBLE
 
-            binding.basicTimer.setBackgroundResource(R.drawable.timer_button)
-            binding.pomodoro.setBackgroundResource(R.drawable.timer_button)
-            binding.timebox.setBackgroundResource(R.drawable.timer_selected_button)
+            binding.basicTimer.setBackgroundResource(R.drawable.day_cell_today)
+            binding.pomodoro.setBackgroundResource(R.drawable.day_cell_today)
+            binding.timebox.setBackgroundResource(R.drawable.day_cell_select)
 
             val hourToken = timeBoxremainHourTextView.text.split(":")[0].toInt()
             val minToken = timeBoxremainMinutesTextView.text.split(":")[0].toInt()
@@ -374,7 +390,7 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
         binding.selectRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.selectRecyclerView.adapter = timerTodoAdapter
         binding.selectRecyclerView.addItemDecoration(DividerItemDecoration(this,
-        LinearLayoutManager.VERTICAL))
+            LinearLayoutManager.VERTICAL))
 
         var checkScreen = 0
         timerTodoAdapter.setItemClickListener(object: timerTodoListAdapter.ItemClickListener{
@@ -382,17 +398,20 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
                 preView?.setBackgroundColor(Color.parseColor("#000000"))
                 if (preView != null) {
                     if((preView.equals(view) && (checkScreen%2 == 1))) {
-                        view.setBackgroundColor(Color.parseColor("#000000"))
+                        //view.setBackgroundColor(Color.parseColor("#000000"))
+                        view.setBackgroundResource(R.drawable.day_cell_today)
                         checkScreen = 0
                         todoID = -1
                     }
                     else{
-                        view.setBackgroundColor(Color.parseColor("#D0A4ED"))
+                        //view.setBackgroundColor(Color.parseColor("#D0A4ED"))
+                        view.setBackgroundResource(R.drawable.day_cell_select)
                         checkScreen = 1
                     }
                 }
                 else {
-                    view.setBackgroundColor(Color.parseColor("#D0A4ED"))
+                    //view.setBackgroundColor(Color.parseColor("#D0A4ED"))
+                    view.setBackgroundResource(R.drawable.day_cell_select)
                     checkScreen = 1
                 }
 
@@ -400,6 +419,26 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
                 settingRecord(todoID, type, timeArray)
             }
         })
+    }
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun setBackgroundFrame()
+    {
+        if (switchOffOn == 1) {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
+            val date = CalendarUtil.today.toString().split("-")
+            drawerLayout.background = when (date[1]) {
+                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03", "04", "05" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "06", "07", "08" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "09", "10", "11" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = false
+            drawerLayout.background= null
+        }
     }
 
     private fun settingRecord(id : Long, type : Int, timearray : Array<String>) {
@@ -552,27 +591,6 @@ class TimerMainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSel
         soundPool.autoPause()
         bellSoundId?.let {soundId->
             soundPool.play(soundId, 1F,1F,0,0,1F)
-        }
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    fun setBackgroundFrame()
-    {
-        if (switchOffOn == 1) {
-            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = true
-            val date = CalendarUtil.today.toString().split("-")
-            drawerLayout.background = when (date[1]) {
-                "12", "01", "02" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
-                "03", "04", "05" -> resources.getDrawable(R.drawable.spring1_removebg_preview)
-                "06", "07", "08" -> resources.getDrawable(R.drawable.summer1_removebg_preview)
-                "09", "10", "11" -> resources.getDrawable(R.drawable.autumn1)
-                else -> {
-                    null
-                }
-            }
-        } else {
-            navigationView.menu.findItem(R.id.switch_menu).actionView.findViewById<SwitchCompat>(R.id.switchField).isChecked = false
-            drawerLayout.background= null
         }
     }
 

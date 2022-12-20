@@ -37,7 +37,7 @@ class DairyTab(private var position: Int, private var dayInMonth: MutableList<Lo
         binding = FragmentDairyTabBinding.inflate(inflater, container, false)
 
         val addButton = binding.addDiaryItem
-         val diaryItems = binding.DiaryListContext
+        val diaryItems = binding.DiaryListContext
 
         addButton.setOnClickListener {
             Log.d("qadridin", "add button in diary page clicked ")
@@ -90,7 +90,7 @@ class DairyTab(private var position: Int, private var dayInMonth: MutableList<Lo
             }
 
             override fun onQueryTextSubmit(msg: String): Boolean {
-                // filter(msg)
+                filter(msg)
                 return false
             }
         })

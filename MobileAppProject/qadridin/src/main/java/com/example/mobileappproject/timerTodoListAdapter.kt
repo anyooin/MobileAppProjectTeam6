@@ -10,13 +10,14 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileappproject.databinding.ActivityTimerListTodoPopupBinding
+import com.example.mobileappproject.timerTodoListAdapter.TimerListViewHolder
 import kotlinx.coroutines.NonDisposableHandle.parent
 
 class timerTodoListAdapter(
     val context: Context,
     val onShowDB: (Array<String>) -> Unit,
     val onSelectTimer : (Long) -> Unit
-) : RecyclerView.Adapter<timerTodoListAdapter.TimerListViewHolder>(){
+) : RecyclerView.Adapter<TimerListViewHolder>(){
 
     private var list = mutableListOf<Todo>()
     var preView: View? = null
@@ -25,13 +26,17 @@ class timerTodoListAdapter(
         var title = itemView.findViewById<TextView>(R.id.timertodoTitle)
         var startTime = itemView.findViewById<TextView>(R.id.timertodoTime)
         var content = itemView.findViewById<TextView>(R.id.timertodoContent)
-        var date = itemView.findViewById<TextView>(R.id.timertodoDate)
+        var category = itemView.findViewById<TextView>(R.id.timertodoCategoty)
 
         fun onBind(TodoT:String, TodoS:String, TodoE:String,TodoC:String, TodoD: String) {
-            title.text = "title = ${TodoT}              "
-            startTime.text = "time = ${TodoS} ~ ${TodoE}"
-            content.text = "context = ${TodoC}"
-            date.text = "date = ${TodoD}"
+            title.text = "${TodoT}              "
+            if(TodoS == "시작시간" || TodoE == "종료시간"){
+                startTime.text = "하루종일"
+            }else {
+                startTime.text = "${TodoS} ~ ${TodoE}"
+            }
+            content.text = "${TodoC}"
+            category.text = "${TodoD}"
         }
     }
 
@@ -58,7 +63,11 @@ class timerTodoListAdapter(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
-            holder.onBind(to.title, to.startTime, to.endTime, to.content, to.date)
+            //val items: Array<String> = resources.getStringArray(R.array.category_list) 왜 오류나지
+            val items = arrayOf("지정안함", "공부", "운동", "회의", "약속")
+
+            items[to.categoryNum]
+            holder.onBind(to.title, to.startTime, to.endTime, to.content, items[to.categoryNum])
         }
         else{
             // 선택된 date가 아닌 경우
