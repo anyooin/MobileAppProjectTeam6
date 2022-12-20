@@ -53,28 +53,10 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
     private val statisticsList = mutableListOf<Todo>()
 
-    var statistics_basic: Long = 0
-    var statistics_pomodoro: Long = 1
-    var statistics_timebox: Long = 2
+
     var statistics_nonDesignate: Long = 3
     var statistics_study: Long = 4
-    var statistics_workout: Long = 5
     var statistics_meeting: Long = 6
-    var statistics_promise: Long = 7
-    var d_day_basic: Long = 11
-    var d1_basic: Long = 22
-    var d2_basic: Long = 33
-    var d3_basic: Long = 44
-    var d4_basic: Long = 55
-    var d5_basic: Long = 66
-    var d6_basic: Long = 77
-    var d_day_pomodoro: Long = 1
-    var d1_pomodoro: Long = 2
-    var d2_pomodoro: Long = 3
-    var d3_pomodoro: Long = 4
-    var d4_pomodoro: Long = 5
-    var d5_pomodoro: Long = 6
-    var d6_pomodoro: Long = 7
 
     //linechart
     /*
@@ -84,10 +66,12 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
      */
 
+    lateinit private var binding : ActivityStatisticsMainBinding
+
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityStatisticsMainBinding.inflate(layoutInflater)
+        binding = ActivityStatisticsMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         //Toolbar setting
@@ -596,6 +580,26 @@ class StatisticsMainActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
         calendar.layoutManager = layoutManager
         calendar.adapter = calendarAdapter
+
+        //background frame
+        if (switchOffOn == 1) {
+            //  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            println("Here in switch is checked =====================================")
+            val date = monthYear.text.toString().split(" ")
+            println("date ==== ${date[0]}")
+
+            drawerLayout.background = when (date[1]) {
+                "12월", "01월", "02월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "03월", "04월", "05월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "06월", "07월", "08월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                "09월", "10월", "11월" -> resources.getDrawable(R.drawable.winter1_removebg_preview)
+                else -> {
+                    null
+                }
+            }
+        } else {
+            binding.statisticsdrawer.background = null
+        }
     }
     /*
         private fun statisticsValues(statisticsArray: Array<Long>) {

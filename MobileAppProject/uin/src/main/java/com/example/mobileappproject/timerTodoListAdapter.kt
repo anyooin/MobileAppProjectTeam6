@@ -16,11 +16,13 @@ import kotlinx.coroutines.NonDisposableHandle.parent
 class timerTodoListAdapter(
     val context: Context,
     val onShowDB: (Array<String>) -> Unit,
-    val onSelectTimer : (Long) -> Unit
+    val onSelectTimer : (Long) -> Unit,
+    val onClick : (Array<String>) -> Unit
 ) : RecyclerView.Adapter<TimerListViewHolder>(){
 
     private var list = mutableListOf<Todo>()
     var preView: View? = null
+    private var preId : String = "-1"
 
     inner class TimerListViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         var title = itemView.findViewById<TextView>(R.id.timertodoTitle)
@@ -86,8 +88,23 @@ class timerTodoListAdapter(
             val to = list[position]
             val timeArray = arrayOf(to.id.toString(), to.basicTimer, to.pomodoro, to.timeBox)
 
+
+            if(preId == to.id.toString()) {
+                //it.setBackgroundColor(Color.parseColor("#000000"))
+                it.setBackgroundResource(R.drawable.day_cell_today)
+                timeArray[0] = "-1"
+                preId = "-1"
+            }
+            else {
+                //preView?.setBackgroundColor(Color.parseColor("#000000"))
+
+                preView?.setBackgroundResource(R.drawable.day_cell_today)
+                //it.setBackgroundColor(Color.parseColor("#D0A4ED"))
+                it.setBackgroundResource(R.drawable.day_cell_select)
+                preId = to.id.toString()
+            }
+            onClick(timeArray)
             onSelectTimer(list[position].id)
-            itemClickListener.onClick(preView, it, timeArray)
             preView = it
         }
     }
@@ -98,14 +115,5 @@ class timerTodoListAdapter(
     }
     fun updating(){
         notifyDataSetChanged()
-    }
-
-    interface ItemClickListener {
-        fun onClick(preView: View?, view: View, timearray: Array<String>)
-    }
-    private lateinit var itemClickListener : ItemClickListener
-
-    fun setItemClickListener(itemClickListener: ItemClickListener) {
-        this.itemClickListener = itemClickListener
     }
 }
